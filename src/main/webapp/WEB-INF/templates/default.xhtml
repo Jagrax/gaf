@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core" xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+<f:view contentType="text/html">
+    <h:head>
+        <meta charset="utf-8"/>
+        <meta http-equiv="x-ua-compatible" content="IE=edge"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=yes"/>
+        <meta name="apple-mobile-web-app-capable" content="yes"/>
+        <meta name="mobile-web-app-capable" content="yes"/>
+        <h:outputStylesheet library="css" name="screen.css"/>
+        <ui:insert name="head"/>
+    </h:head>
+    <h:body styleClass="skin-green sidebar-mini">
+        <div class="wrapper">
+            <div id="loader" class="load-bar" style="display:none">
+                <div class="bar"/>
+                <div class="bar"/>
+                <div class="bar"/>
+            </div>
+
+            <header class="main-header">
+                <a href="#{request.contextPath}/" class="logo">
+                    <!--<span class="logo-mini"><ui:insert name="logo-mini"/></span>-->
+                    <span class="logo-lg"><ui:insert name="logo-lg"/></span>
+                    <span class="logo"><ui:insert name="logo"/></span>
+                </a>
+                <nav class="navbar navbar-static-top">
+                    <a href="#" class="sidebar-toggle" data-toggle="offcanvas"><span class="sr-only"/></a>
+                    <div class="navbar-custom-menu">
+                        <ui:include src="/includes/top-bar.xhtml"/>
+                    </div>
+                </nav>
+            </header>
+
+            <aside id="sidebar" class="main-sidebar slideout-menu">
+                <div>
+                    <ui:insert name="menu-begin"/>
+                    <section class="sidebar">
+                        <ui:include src="/includes/menu.xhtml"/>
+                    </section>
+                    <ui:insert name="menu-end"/>
+                </div>
+            </aside>
+
+            <div id="content" class="content-wrapper">
+                <section class="content-header">
+                    <h1>
+                        <ui:insert name="title"/>
+                        <small><ui:insert name="description"/></small>
+                    </h1>
+                    <ui:insert name="content-header"/>
+                </section>
+                <section class="content">
+                    <ui:fragment>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <p:messages id="messages" closable="true" globalOnly="true" autoUpdate="true"
+                                            showDetail="true" severity="error,fatal" escape="false"/>
+                                <!-- we need two messages because info-messages are hidden by javascript  -->
+                                <p:messages id="info-messages" closable="true" autoUpdate="true" showDetail="true"
+                                            severity="info,warn" escape="false"/>
+                                <p:tooltip/> <!-- exception messages with type tooltip -->
+                            </div>
+                        </div>
+                    </ui:fragment>
+                    <ui:insert name="body"/>
+                </section>
+            </div>
+
+            <footer class="main-footer">
+                <div class="text-right"><i>#{resources['gaf.version']}</i></div>
+
+                <script type="text/javascript">
+                    if(isMobile()) {
+                        $('a.ui-link').click(function() {
+                            $(this).prop('disabled', true);
+                            showBar();
+                        });
+                    }
+                </script>
+            </footer>
+
+            <div id="scrollTop" class="ripplelink" onclick="window.scrollTo(0,0)"
+                 style="display:none;position: fixed; bottom: 10px; right: 20px; width: 34px; height: 34px; color: rgb(238, 238, 238); line-height: 34px; text-align: center; background-color: rgb(34, 45, 50); cursor: pointer; border-radius: 50%; z-index: 99999; opacity: 0.7;">
+                <i class="fa fa-chevron-up" style="position:relative;top: -2px"/>
+            </div>
+        </div>
+
+        <script type="text/javascript">
+            if (isMobile()) {
+                window.onscroll = activateScrollToTop;
+            }
+        </script>
+
+        <script type="text/javascript">
+            $(window).scroll(function () {
+                if (isMobile()) {
+                    var minScrollTimeNav = 300;
+                    var now = new Date().getTime();
+                    if (!scrollTimerNav) {
+                        if (now - lastScrollFireTimeNav > (3 * minScrollTimeNav)) {
+                            activateAutoShowNavbarOnScrollUp();   // fire immediately on first scroll
+                            lastScrollFireTimeNav = now;
+                        }
+                        scrollTimerNav = setTimeout(function() {
+                            scrollTimerNav = null;
+                            lastScrollFireTimeNav = new Date().getTime();
+                            activateAutoShowNavbarOnScrollUp();
+                        }, minScrollTimeNav);
+                    }
+                }
+            });
+        </script>
+
+        <h:outputScript target="head" library="js" name="admin-lte.min.js"/>
+        <h:outputScript target="head" library="js" name="adminslide.js"/>
+        <h:outputScript target="head" library="js" name="admintemplate.js"/>
+        <h:outputScript target="head" library="js" name="bootstrap.min.js"/>
+        <h:outputScript target="head" library="js" name="slideout.min.js"/>
+    </h:body>
+</f:view>
+</html>

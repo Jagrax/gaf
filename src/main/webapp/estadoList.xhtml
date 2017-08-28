@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/templates/default.xhtml">
+
+    <ui:define name="head">
+        <title>GAF - Estados</title>
+    </ui:define>
+
+    <ui:define name="logo">
+        <b>GAF</b>
+    </ui:define>
+
+    <ui:define name="title">
+        Estados
+    </ui:define>
+
+    <ui:define name="description">
+        Clasificación de estados
+    </ui:define>
+
+    <ui:define name="body">
+        <h:form>
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                    <p:dataTable widgetVar="estadosTable" var="e" value="#{estadoList.estados}" reflow="true">
+                        <p:column headerText="Estado">#{e.name}</p:column>
+                        <p:column headerText="Color">#{e.color}</p:column>
+                        <p:column headerText="Pertenece a">#{e.entity}</p:column>
+                    </p:dataTable>
+                </div>
+            </div>
+        </h:form>
+    </ui:define>
+
+</ui:composition>

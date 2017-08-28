@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/templates/default.xhtml">
+
+    <ui:define name="head">
+        <title>GAF - Cortes</title>
+    </ui:define>
+
+    <ui:define name="logo">
+        <b>GAF</b>
+    </ui:define>
+
+    <ui:define name="title">
+        Cortes
+    </ui:define>
+
+    <ui:define name="description">
+        Alta, Baja y Modificación de cortes
+    </ui:define>
+
+    <ui:define name="body">
+        <h:form>
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                    <p:commandButton action="corteForm?faces-redirect=true" icon="fa fa-plus" value="Agregar" styleClass="btn-success"/>
+
+                    <p:separator/>
+
+                    <ui:repeat value="#{corteList.cortes}" var="c">
+                        <p:panel header="#{corteList.generateCorteLabelForPanel(c)}" toggleable="true" collapsed="true">
+                            <p:link value="Editar" outcome="corteForm.jsf">
+                                <f:param name="id" value="#{c.id}"/>
+                            </p:link>#{c}
+                        </p:panel>
+                        <p:spacer height="5"/>
+                    </ui:repeat>
+                </div>
+            </div>
+        </h:form>
+    </ui:define>
+
+</ui:composition>
