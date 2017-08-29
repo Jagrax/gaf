@@ -1,5 +1,8 @@
 package gaf.entity;
 
+import gaf.service.TallerService;
+
+import javax.ejb.EJB;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
@@ -133,7 +136,7 @@ public class Talle implements Serializable {
                 ", clothesDelivered=" + clothesDelivered +
                 ", firstDueDate=" + firstDueDate +
                 ", secondDueDate=" + secondDueDate +
-                ", comments='" + comments + '\'' +
+                ", comments='" + comments + "'" +
                 ", estadoId=" + estadoId +
                 ", tallerId=" + tallerId +
                 ", corteId=" + corteId +

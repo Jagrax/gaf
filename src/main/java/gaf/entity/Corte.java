@@ -31,11 +31,9 @@ public class Corte implements Serializable {
     @Column(name = "due_date")
     private Date dueDate;
 
-    @NotNull
     @Column(name = "from_size")
     private Double fromSize;
 
-    @NotNull
     @Column(name = "to_size")
     private Double toSize;
 

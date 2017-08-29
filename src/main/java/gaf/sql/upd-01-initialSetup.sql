@@ -38,8 +38,8 @@ CREATE TABLE CORTES (
   clothes_quantity INT NOT NULL,
   creation_date DATE NOT NULL,
   due_date DATE NOT NULL,
-  from_size DOUBLE NOT NULL,
-  to_size DOUBLE NOT NULL,
+  from_size DOUBLE,
+  to_size DOUBLE,
   hoja_de_corte VARCHAR(255),
   estado INT NOT NULL,
   comments VARCHAR(255),
@@ -49,7 +49,7 @@ CREATE TABLE CORTES (
 
 CREATE TABLE TALLE (
   id INT NOT NULL AUTO_INCREMENT,
-  size INT NOT NULL,
+  size INT,
   quantity INT NOT NULL,
   clothes_delivered INT NOT NULL,
   first_due_date DATE NOT NULL,

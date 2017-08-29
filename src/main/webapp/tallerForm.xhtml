@@ -62,52 +62,25 @@
                     <p:separator/>
 
                     <div class="ui-g ui-fluid">
-                        <div class="ui-g-12">
-                            <p:outputLabel for="id" value="ID"/>
-                        </div>
-                        <div class="ui-g-12">
-                            <p:inputText id="id" value="#{tallerForm.taller.id}"
-                                         readonly="true" styleClass="form-control"/>
-                        </div>
-                        <div class="ui-g-12">
-                            <p:outputLabel value="Nombre del taller" for="tallerName"/>
-                        </div>
-                        <div class="ui-g-12">
-                            <p:inputText id="tallerName" value="#{tallerForm.taller.name}" required="true"/>
-                        </div>
-                        <div class="ui-g-12">
-                            <p:outputLabel value="Dirección" for="tallerAddress"/>
-                        </div>
-                        <div class="ui-g-12">
-                            <p:inputText id="tallerAddress" value="#{tallerForm.taller.address}" required="true"/>
-                        </div>
-                        <div class="ui-g-12">
-                            <p:outputLabel value="Estado" for="tallerEstado"/>
-                        </div>
-                        <div class="ui-g-12">
+                        <div class="ui-g-6"><p:outputLabel value="Nombre del taller" for="tallerName"/></div>
+                        <div class="ui-g-6"><p:outputLabel value="Dirección" for="tallerAddress"/></div>
+                        <div class="ui-g-6"><p:inputText id="tallerName" value="#{tallerForm.taller.name}" required="true"/></div>
+                        <div class="ui-g-6"><p:inputText id="tallerAddress" value="#{tallerForm.taller.address}" required="true"/></div>
+
+                        <div class="ui-g-6"><p:outputLabel value="Estado" for="tallerEstado"/></div>
+                        <div class="ui-g-6"><p:outputLabel value="Cantidad de empleados" for="quantityEmployees"/></div>
+                        <div class="ui-g-6">
                             <p:selectOneMenu id="tallerEstado" value="#{tallerForm.taller.estadoId}">
                                 <f:selectItem itemLabel="Seleccione un estado" itemValue="#{null}" />
                                 <f:selectItems value="#{commonController.lstTalleresEstados}" var="e" itemLabel="#{e.name}" itemValue="#{e.id}"/>
                             </p:selectOneMenu>
                         </div>
-                        <div class="ui-g-12">
-                            <p:outputLabel value="Teléfono #1" for="primaryPhone"/>
-                        </div>
-                        <div class="ui-g-12">
-                            <p:inputText id="primaryPhone" value="#{tallerForm.taller.primaryPhone}" required="true"/>
-                        </div>
-                        <div class="ui-g-12">
-                            <p:outputLabel value="Teléfono #2" for="secondaryPhone"/>
-                        </div>
-                        <div class="ui-g-12">
-                            <p:inputText id="secondaryPhone" value="#{tallerForm.taller.secondaryPhone}"/>
-                        </div>
-                        <div class="ui-g-12">
-                            <p:outputLabel value="Cantidad de empleados" for="quantityEmployees"/>
-                        </div>
-                        <div class="ui-g-12">
-                            <p:inputText id="quantityEmployees" value="#{tallerForm.taller.employeesQuantity}"/>
-                        </div>
+                        <div class="ui-g-6"><p:inputNumber id="quantityEmployees" value="#{tallerForm.taller.employeesQuantity}" decimalPlaces="0"/></div>
+
+                        <div class="ui-g-6"><p:outputLabel value="Teléfono #1" for="primaryPhone"/></div>
+                        <div class="ui-g-6"><p:outputLabel value="Teléfono #2" for="secondaryPhone"/></div>
+                        <div class="ui-g-6"><p:inputText id="primaryPhone" value="#{tallerForm.taller.primaryPhone}" required="true"/></div>
+                        <div class="ui-g-6"><p:inputText id="secondaryPhone" value="#{tallerForm.taller.secondaryPhone}"/></div>
                     </div>
                 </div>
             </div>

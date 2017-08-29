@@ -1,7 +1,13 @@
 package gaf.controller;
 
+import gaf.entity.Corte;
 import gaf.entity.Estado;
+import gaf.entity.Talle;
+import gaf.entity.Taller;
+import gaf.service.CorteService;
 import gaf.service.EstadoService;
+import gaf.service.TalleService;
+import gaf.service.TallerService;
 import gaf.util.Estados;
 
 import javax.annotation.PostConstruct;
@@ -15,6 +21,9 @@ import java.util.List;
 @ManagedBean(name = "commonController")
 public class CommonController {
 
+    @EJB private CorteService corteService;
+    @EJB private TallerService tallerService;
+    @EJB private TalleService talleService;
     @EJB private EstadoService estadoService;
     private List<Estado> lstAllEstados;
     private List<Estado> lstTalleresEstados;
@@ -115,4 +124,8 @@ public class CommonController {
     public List<Integer> getLstClothesSizes() {
         return lstClothesSizes;
     }
+
+    public Corte getCorteById(Integer id) {return corteService.findById(id);}
+    public Taller getTallerById(Integer id) {return tallerService.findById(id);}
+    public Talle getTalleById(Integer id) {return talleService.findById(id);}
 }

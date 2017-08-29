@@ -1,7 +1,9 @@
 package gaf.controller;
 
 import gaf.entity.Corte;
+import gaf.entity.Talle;
 import gaf.service.CorteService;
+import gaf.service.TalleService;
 import gaf.util.Utils;
 
 import javax.annotation.PostConstruct;
@@ -19,6 +21,9 @@ public class CorteListController {
 
     @EJB
     private CorteService corteService;
+
+    @EJB
+    private TalleService talleService;
 
     @PostConstruct
     public void init() {
@@ -38,5 +43,9 @@ public class CorteListController {
         if (corte.getPrice() != null) label += "|$" + corte.getPrice();
         label += "|Cant. de prendas: " + corte.getClothesQuantity();
         return label;
+    }
+
+    public List<Talle> getTallesOfCorte(Integer id) {
+        return talleService.findTallesFromCorte(id);
     }
 }
