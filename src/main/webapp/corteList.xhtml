@@ -58,7 +58,7 @@
                                         </h:outputText>
                                     </div>
                                     <div class="col-sm-2 hidden-xs text-center">#{talle.comments}</div>
-                                    <div class="col-sm-2 col-xs-4 text-center">#{commonController.getEstado(talle.estadoId).name}</div>
+                                    <div class="col-sm-2 col-xs-4 text-center">#{commonController.estadoById(talle.estadoId).name}</div>
                                 </div>
                             </ui:repeat>
                         </p:panel>

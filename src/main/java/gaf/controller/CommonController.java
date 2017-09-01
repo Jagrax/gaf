@@ -64,51 +64,6 @@ public class CommonController {
         }
     }
 
-    /**
-     * Devuelve un object Estado correspondiente al id
-     */
-    public Estado getEstado(Integer id) {
-        return estadoService.find(id);
-    }
-
-    /**
-     * Devuelve los estilos para generar una caja con los colores
-     * correspondientes al estado del taller/corte
-     */
-    public String getStyleClassForEstado(Integer idEstado) {
-        Estado e = estadoService.find(idEstado);
-        if (e != null) {
-            String styleClass;
-            switch (e.getColor()) {
-                case "blue": {
-                    styleClass = "bg-primary text-white text-center";
-                    break;
-                }
-                case "green": {
-                    styleClass = "bg-success text-white text-center";
-                    break;
-                }
-                case "yellow": {
-                    styleClass = "bg-yellow text-center";
-                    break;
-                }
-                case "orange": {
-                    styleClass = "bg-warning text-white text-center";
-                    break;
-                }
-                case "red": {
-                    styleClass = "bg-danger text-white text-center";
-                    break;
-                }
-                default: {
-                    styleClass = "text-center";
-                }
-            }
-            return styleClass;
-        }
-        return "";
-    }
-
     public List<Estado> getLstAllEstados() {
         return lstAllEstados;
     }
@@ -125,7 +80,12 @@ public class CommonController {
         return lstClothesSizes;
     }
 
+    // ----- GETTERS DE ENTITDADES POR ID -----
+
     public Corte getCorteById(Integer id) {return corteService.findById(id);}
+    public Estado getEstadoById(Integer id) {
+        return estadoService.findById(id);
+    }
     public Taller getTallerById(Integer id) {return tallerService.findById(id);}
     public Talle getTalleById(Integer id) {return talleService.findById(id);}
 }

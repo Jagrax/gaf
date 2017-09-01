@@ -23,7 +23,7 @@ public class EstadoService {
         return result;
     }
 
-    public Estado find(Integer estadoId) {
+    public Estado findById(Integer estadoId) {
         return em.find(Estado.class, estadoId);
     }
 }
