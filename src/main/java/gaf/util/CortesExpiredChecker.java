@@ -8,7 +8,7 @@ import java.util.Date;
 @Singleton
 public class CortesExpiredChecker {
 
-    @Schedule(second = "*", minute = "*", hour = "*/24", persistent = false)
+    @Schedule(second = "00", minute = "30", hour = "00", persistent = false)
     public void doWork() {
         Date currentTime = new Date();
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy.MM.dd G 'at' HH:mm:ss z");

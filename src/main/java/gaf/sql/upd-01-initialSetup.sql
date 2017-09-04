@@ -41,13 +41,13 @@ CREATE TABLE CORTES (
   from_size DOUBLE,
   to_size DOUBLE,
   hoja_de_corte VARCHAR(255),
-  estado INT NOT NULL,
   comments VARCHAR(255),
+  estado INT NOT NULL,
   PRIMARY KEY (id),
   FOREIGN KEY (estado) REFERENCES Estados(id)
 );
 
-CREATE TABLE TALLE (
+CREATE TABLE TALLES (
   id INT NOT NULL AUTO_INCREMENT,
   size INT,
   quantity INT NOT NULL,

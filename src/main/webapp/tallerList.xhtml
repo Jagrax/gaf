@@ -71,7 +71,7 @@
                         <p:column headerText="Cant. Empleados">#{t.employeesQuantity}</p:column>
                         <p:column headerText="Teléfono #1">#{t.primaryPhone}</p:column>
                         <p:column headerText="Teléfono #2">#{t.secondaryPhone}</p:column>
-                        <p:column headerText="Estado">#{commonController.estadoById(t.estadoId).name}</p:column>
+                        <p:column headerText="Estado">#{commonController.getEstadoById(t.estadoId).name}</p:column>
                     </p:dataTable>
                 </div>
             </div>

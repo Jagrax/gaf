@@ -42,7 +42,11 @@ public class CorteService {
     }
 
     public Corte findById(Integer id) {
-        return em.find(Corte.class, id);
+        if (id != null) {
+            return em.find(Corte.class, id);
+        } else {
+            return null;
+        }
     }
 
     public void update(Corte corte) {

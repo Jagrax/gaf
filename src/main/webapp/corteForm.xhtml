@@ -29,7 +29,7 @@
             <div class="box box-primary">
                 <div class="box-header with-border">
                     <div id="main-buttons" class="hidden-sm hidden-xs">
-                        <p:commandButton value="Siguiente" action="#{corteForm.generateTalles}" update="@form" icon="fa fa-check" styleClass="btn-success"/>
+                        <p:commandButton value="#{corteForm.btnLabel}" action="#{corteForm.generateTalles}" update="@form" icon="fa fa-check" styleClass="btn-success"/>
                         <p:spacer width="5" rendered="#{corteForm.isNew()}"/>
                         <p:commandButton value="Limpiar campos" action="#{corteForm.clear}" process="@this"
                                          icon="fa fa-refresh" styleClass="btn-primary"
@@ -49,7 +49,7 @@
                                          process="@this"
                                          icon="fa fa-close"/>
                     </div>
-                    <p:splitButton value="Guardar" action="#{corteForm.save}" update="@form"
+                    <p:splitButton value="#{corteForm.btnLabel}" action="#{corteForm.generateTalles}" update="@form"
                                    icon="fa fa-check"
                                    styleClass="hidden-md hidden-lg btn-success">
                         <p:menuitem value="Limpiar campos" action="#{corteForm.clear}"
@@ -92,50 +92,58 @@
                         </div>
                         <div class="ui-g-6"><p:inputText id="hojaDeCorte" value="#{corteForm.corte.hojaDeCorte}"/></div>
 
-                        <div class="ui-g-4"><p:outputLabel for="tallesQuantity" value="Cantidad de talles"/></div>
-                        <div class="ui-g-4"><p:outputLabel for="fromSize" value="Desde el talle"/></div>
-                        <div class="ui-g-4"><p:outputLabel for="toSize" value="Hasta el talle"/></div>
+                        <div class="ui-g-4"><p:outputLabel for="multiProyect" value="¿Cuántos proyectos va a tener?"/></div>
+                        <h:panelGroup layout="block" rendered="#{not corteForm.multiProyect}" styleClass="ui-g-8"><p:outputLabel for="tallesQuantity" value="Cantidad de talles"/></h:panelGroup>
+                        <h:panelGroup layout="block" rendered="#{corteForm.multiProyect}" styleClass="ui-g-4"><p:outputLabel for="fromSize" value="Desde el talle"/></h:panelGroup>
+                        <h:panelGroup layout="block" rendered="#{corteForm.multiProyect}" styleClass="ui-g-4"><p:outputLabel for="toSize" value="Hasta el talle"/></h:panelGroup>
 
-                        <div class="ui-g-4"><p:inputNumber id="tallesQuantity" value="#{corteForm.cantTalles}" decimalPlaces="0" required="true"/></div>
-                        <div class="ui-g-4"><p:inputNumber id="fromSize" value="#{corteForm.corte.fromSize}" decimalPlaces="0"/></div>
-                        <div class="ui-g-4"><p:inputNumber id="toSize" value="#{corteForm.corte.toSize}" decimalPlaces="0"/></div>
+                        <div class="ui-g-4">
+                            <p:selectOneRadio id="multiProyect" value="#{corteForm.multiProyect}">
+                                <p:ajax update="@form" />
+                                <f:selectItem itemLabel="Un solo proyecto" itemValue="false" />
+                                <f:selectItem itemLabel="Varios" itemValue="true" />
+                            </p:selectOneRadio>
+                        </div>
+                        <h:panelGroup layout="block" rendered="#{not corteForm.multiProyect}" styleClass="ui-g-8"><p:inputNumber id="tallesQuantity" value="#{corteForm.cantTalles}" decimalPlaces="0" required="true"/></h:panelGroup>
+                        <h:panelGroup layout="block" rendered="#{corteForm.multiProyect}" styleClass="ui-g-4"><p:inputNumber id="fromSize" value="#{corteForm.corte.fromSize}" decimalPlaces="0" required="true"/></h:panelGroup>
+                        <h:panelGroup layout="block" rendered="#{corteForm.multiProyect}" styleClass="ui-g-4"><p:inputNumber id="toSize" value="#{corteForm.corte.toSize}" decimalPlaces="0" required="true"/></h:panelGroup>
 
                         <div class="ui-g-12"><p:outputLabel for="comments" value="Comentarios"/></div>
                         <div class="ui-g-12"><p:inputTextarea id="comments" value="#{corteForm.corte.comments}" rows="3"/></div>
 
                         <p:dataTable value="#{corteForm.talles}" var="talle" rendered="#{not empty corteForm.talles or corteForm.talles.size() > 0}" reflow="true">
-                            <p:column headerText="Talle">
+                            <p:column headerText="Talle" width="10%">
                                 <p:inputNumber id="talle#{talle.id}Size" value="#{talle.size}" required="true" decimalPlaces="0"/>
                             </p:column>
 
-                            <p:column headerText="Cantidad">
+                            <p:column headerText="Cantidad" width="10%">
                                 <p:inputNumber id="talle#{talle.id}Quantity" value="#{talle.quantity}" required="true"
                                                decimalPlaces="0" thousandSeparator="." decimalSeparator=","/>
                             </p:column>
 
-                            <p:column headerText="Cantidad entregada">
+                            <p:column headerText="Cantidad entregada" width="10%">
                                 <p:inputNumber id="talle#{talle.id}ClothesDelivered" value="#{talle.clothesDelivered}" required="true"
                                                thousandSeparator="." decimalPlaces="0" decimalSeparator=","/>
                             </p:column>
 
-                            <p:column headerText="Primer F. de Vencimiento">
+                            <p:column headerText="Primer F. de Vencimiento" width="10%">
                                 <p:calendar id="talle#{talle.id}FirstDueDate" value="#{talle.firstDueDate}" required="true"
                                             pattern="dd/MM/yyyy" mask="true"/>
                             </p:column>
 
-                            <p:column headerText="Segunda F. de Vencimiento">
+                            <p:column headerText="Segunda F. de Vencimiento" width="10%">
                                 <p:calendar id="talle#{talle.id}SecondDueDate" value="#{talle.secondDueDate}" required="true"
                                             pattern="dd/MM/yyyy" mask="true"/>
                             </p:column>
 
-                            <p:column headerText="Comentarios"><p:inputText id="talle#{talle.id}Comments" value="#{talle.comments}"/></p:column>
-                            <p:column headerText="Estado">
+                            <p:column headerText="Comentarios" width="10%"><p:inputText id="talle#{talle.id}Comments" value="#{talle.comments}"/></p:column>
+                            <p:column headerText="Estado" width="20%">
                                 <p:selectOneMenu id="talle#{talle.id}Estado" value="#{talle.estadoId}" required="true">
                                     <f:selectItem itemLabel="Seleccione un estado" itemValue="#{null}" />
                                     <f:selectItems value="#{commonController.lstCortesAllEstados}" var="e" itemLabel="#{e.name}" itemValue="#{e.id}"/>
                                 </p:selectOneMenu>
                             </p:column>
-                            <p:column headerText="Taller">
+                            <p:column headerText="Taller" width="20%">
                                 <p:selectOneMenu id="talle#{talle.id}Taller" value="#{talle.tallerId}">
                                     <f:selectItem itemLabel="Seleccione un taller" itemValue="#{null}" />
                                     <f:selectItems value="#{corteController.lstTalleresDisponibles}" var="t" itemLabel="#{t.name}" itemValue="#{t.id}"/>

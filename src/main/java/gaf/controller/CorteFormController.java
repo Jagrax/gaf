@@ -2,17 +2,25 @@ package gaf.controller;
 
 import gaf.entity.Corte;
 import gaf.entity.Talle;
+import gaf.entity.Taller;
 import gaf.service.CorteService;
 import gaf.service.TalleService;
+import gaf.service.TallerService;
+import gaf.util.Estados;
+import org.apache.commons.lang3.StringUtils;
 import org.omnifaces.util.Faces;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 import static gaf.util.Utils.addDetailMessage;
 
@@ -22,11 +30,14 @@ public class CorteFormController {
 
     @EJB private CorteService corteService;
     @EJB private TalleService talleService;
+    @EJB private TallerService tallerService;
 
     private Integer id;
     private Corte corte;
     private List<Talle> talles;
     private int cantTalles;
+
+    private boolean isMultiProyect;
 
     @PostConstruct
     public void init() {
@@ -40,6 +51,7 @@ public class CorteFormController {
             corte = new Corte();
             talles = new ArrayList<>();
         }
+        isMultiProyect = false;
     }
 
     public Integer getId() {
@@ -72,6 +84,14 @@ public class CorteFormController {
 
     public void setCantTalles(int cantTalles) {
         this.cantTalles = cantTalles;
+    }
+
+    public boolean isMultiProyect() {
+        return isMultiProyect;
+    }
+
+    public void setMultiProyect(boolean multiProyect) {
+        isMultiProyect = multiProyect;
     }
 
     public void remove() throws IOException {
@@ -114,9 +134,22 @@ public class CorteFormController {
             }
             msg = "El corte " + corte.getName() + " se actualizó correctamente";
         }
+        updateTalleresStatus();
         addDetailMessage(msg);
         Faces.getFlash().setKeepMessages(true);
         Faces.redirect("corteList.xhtml");
+    }
+
+    private void updateTalleresStatus() {
+        for (Talle talle : talles) {
+            if (talle.getEstadoId().equals(Estados.CORTE_EN_PRODUCCION.getId())) {
+                Taller taller = tallerService.findById(talle.getTallerId());
+                if (!taller.getEstadoId().equals(Estados.TALLER_EN_PRODUCCION.getId())) {
+                    taller.setEstadoId(Estados.TALLER_EN_PRODUCCION.getId());
+                    tallerService.update(taller);
+                }
+            }
+        }
     }
 
     public void clear() {
@@ -132,27 +165,28 @@ public class CorteFormController {
 
     public void generateTalles() throws IOException {
         calcularCantTalles();
-        if (talles.size() == 0) {
-            if (cantTalles != 0 && corte.getFromSize() == null && corte.getToSize() == null) {
-                // Si no especifique desde/hasta que talle, voy a crea un solo talle (proyecto) que se le va a asignar a 1 taller
-                Talle talle = new Talle();
-                talle.setCorteId(corte.getId());
-                talle.setSecondDueDate(corte.getDueDate());
-                talle.setClothesDelivered(0);
-                talle.setQuantity(corte.getClothesQuantity());
-                talles.add(talle);
-            } else {
-                for (int n = 0; n < cantTalles; n++) {
+        if (isValidaData()) {
+            if (talles.size() == 0) {
+                if (isMultiProyect) {
+                    // Tengo que calcular la cantidad de proyectos a generar
+                    for (Integer n = corte.getFromSize().intValue(); n <= corte.getToSize(); n += 2) {
+                        Talle talle = new Talle();
+                        talle.setQuantity(cantTalles);
+                        talle.setClothesDelivered(0);
+                        talle.setSize(n);
+                        talle.setCorteId(corte.getId());
+                        talles.add(talle);
+                    }
+                } else {
                     Talle talle = new Talle();
-                    talle.setCorteId(corte.getId());
-                    talle.setSecondDueDate(corte.getDueDate());
+                    talle.setQuantity(cantTalles);
                     talle.setClothesDelivered(0);
-                    talle.setQuantity(Math.round(corte.getClothesQuantity() / cantTalles));
+                    talle.setCorteId(corte.getId());
                     talles.add(talle);
                 }
+            } else {
+                save();
             }
-        } else {
-            save();
         }
     }
 
@@ -171,5 +205,43 @@ public class CorteFormController {
         } else if (cantTalles == 0) {
             addDetailMessage("Los talles indicados no son validos");
         }
+    }
+
+    public String getBtnLabel() {
+        if (talles == null || talles.size() == 0) {
+            return "Generar talles";
+        } else {
+            return "Guardar";
+        }
+    }
+
+    private boolean isValidaData() {
+        boolean isValidData = true;
+
+        if (StringUtils.isEmpty(corte.getName())) {
+            addDetailMessage("corte.error.name", FacesMessage.SEVERITY_ERROR);
+            isValidData = false;
+        }
+
+        if (corte.getClothesQuantity() == null || corte.getClothesQuantity() == 0) {
+            addDetailMessage("corte.error.clothesQuantity", FacesMessage.SEVERITY_ERROR);
+            isValidData = false;
+        }
+
+        if (corte.getDueDate() == null || corte.getDueDate().before(new Date())) {
+            addDetailMessage("corte.error.dueDate", FacesMessage.SEVERITY_ERROR);
+            isValidData = false;
+        }
+
+        boolean isValidEstado = false;
+        for (Estados e : Estados.values()) {
+            if (Objects.equals(corte.getEstadoId(), e.getId())) isValidEstado = true;
+        }
+        if (!isValidEstado) {
+            addDetailMessage("corte.error.estado", FacesMessage.SEVERITY_ERROR);
+            isValidData = false;
+        }
+
+        return isValidData;
     }
 }

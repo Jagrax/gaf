@@ -29,27 +29,27 @@
                     <p:separator/>
 
                     <ui:repeat value="#{corteList.cortes}" var="c">
-                        <p:panel toggleable="#{not empty corteList.getTallesOfCorte(c.id)}" collapsed="true">
+                        <p:panel toggleable="#{not empty corteList.getTallesOfCorte(c.id)}" collapsed="true" styleClass="panel panel-primary">
                             <f:facet name="header">
-                                <p:link outcome="corteForm.jsf" styleClass="btn btn-primary">
-                                    <i class="fa fa-pencil-square-o"/>  Editar
-                                    <f:param name="id" value="#{c.id}"/>
-                                </p:link>
-                                #{corteList.generateCorteLabelForPanel(c)}
+                                    <p:link outcome="corteForm.jsf" styleClass="btn btn-primary">
+                                        <i class="fa fa-pencil-square-o"/>  Editar
+                                        <f:param name="id" value="#{c.id}"/>
+                                    </p:link>
+                                    #{corteList.generateCorteLabelForPanel(c)}
                             </f:facet>
                             <ui:fragment rendered="#{not empty corteList.getTallesOfCorte(c.id)}">
-                            <div class="row">
-                                <div class="col-sm-2 col-xs-4 text-center"><b>Taller</b></div>
-                                <div class="col-sm-2 col-xs-2 text-center"><b>Talle</b></div>
-                                <div class="col-sm-2 col-xs-2 text-center"><b>Cantidad</b></div>
-                                <div class="col-sm-2 hidden-xs text-center"><b>Vencimiento</b></div>
-                                <div class="col-sm-2 hidden-xs text-center"><b>Comentarios</b></div>
-                                <div class="col-sm-2 col-xs-4 text-center"><b>Estado</b></div>
-                            </div>
+                                <div class="row">
+                                    <div class="col-sm-2 col-xs-4 text-center"><b>Taller</b></div>
+                                    <div class="col-sm-2 col-xs-2 text-center"><b>Talle</b></div>
+                                    <div class="col-sm-2 col-xs-2 text-center"><b>Cantidad</b></div>
+                                    <div class="col-sm-2 hidden-xs text-center"><b>Vencimiento</b></div>
+                                    <div class="col-sm-2 hidden-xs text-center"><b>Comentarios</b></div>
+                                    <div class="col-sm-2 col-xs-4 text-center"><b>Estado</b></div>
+                                </div>
                             </ui:fragment>
                             <ui:repeat value="#{corteList.getTallesOfCorte(c.id)}" var="talle">
                                 <div class="row">
-                                    <div class="col-sm-2 col-xs-4">#{commonController.getTallerById(talle.tallerId).name}</div>
+                                    <div class="col-sm-2 col-xs-4"><h:outputText rendered="#{not empty talle.tallerId}" value="#{commonController.getTallerById(talle.tallerId).name}"/></div>
                                     <div class="col-sm-2 col-xs-2 text-center">#{talle.size}</div>
                                     <div class="col-sm-2 col-xs-2 text-center">#{talle.quantity}</div>
                                     <div class="col-sm-2 hidden-xs text-center">
@@ -58,7 +58,7 @@
                                         </h:outputText>
                                     </div>
                                     <div class="col-sm-2 hidden-xs text-center">#{talle.comments}</div>
-                                    <div class="col-sm-2 col-xs-4 text-center">#{commonController.estadoById(talle.estadoId).name}</div>
+                                    <div class="col-sm-2 col-xs-4 text-center">#{commonController.getEstadoById(talle.estadoId).name}</div>
                                 </div>
                             </ui:repeat>
                         </p:panel>
