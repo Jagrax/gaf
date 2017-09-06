@@ -146,7 +146,7 @@
                             <p:column headerText="Taller" width="20%">
                                 <p:selectOneMenu id="talle#{talle.id}Taller" value="#{talle.tallerId}">
                                     <f:selectItem itemLabel="Seleccione un taller" itemValue="#{null}" />
-                                    <f:selectItems value="#{corteController.lstTalleresDisponibles}" var="t" itemLabel="#{t.name}" itemValue="#{t.id}"/>
+                                    <f:selectItems value="#{commonController.lstAllTalleres}" var="t" itemLabel="#{t.name}" itemValue="#{t.id}"/>
                                 </p:selectOneMenu>
                             </p:column>
                         </p:dataTable>

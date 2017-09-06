@@ -25,7 +25,9 @@ public class CommonController {
     @EJB private TallerService tallerService;
     @EJB private TalleService talleService;
     @EJB private EstadoService estadoService;
+
     private List<Estado> lstAllEstados;
+    private List<Taller> lstAllTalleres;
     private List<Estado> lstTalleresEstados;
     private List<Estado> lstCortesAllEstados;
     private List<Integer> lstClothesSizes;
@@ -78,6 +80,15 @@ public class CommonController {
 
     public List<Integer> getLstClothesSizes() {
         return lstClothesSizes;
+    }
+
+    public List<Taller> getLstAllTalleres() {
+        if (lstAllTalleres == null) lstAllTalleres = tallerService.findAll();
+        return lstAllTalleres;
+    }
+
+    public void setLstAllTalleres(List<Taller> lstAllTalleres) {
+        this.lstAllTalleres = lstAllTalleres;
     }
 
     // ----- GETTERS DE ENTITDADES POR ID -----

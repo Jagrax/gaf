@@ -8,6 +8,7 @@ import gaf.service.TalleService;
 import gaf.service.TallerService;
 import gaf.util.Estados;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.log4j.Logger;
 import org.omnifaces.util.Faces;
 
 import javax.annotation.PostConstruct;
@@ -15,7 +16,6 @@ import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
-import javax.faces.context.FacesContext;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -27,6 +27,8 @@ import static gaf.util.Utils.addDetailMessage;
 @ViewScoped
 @ManagedBean(name = "corteForm")
 public class CorteFormController {
+
+    private static final Logger log = Logger.getLogger(CorteFormController.class);
 
     @EJB private CorteService corteService;
     @EJB private TalleService talleService;
@@ -51,7 +53,11 @@ public class CorteFormController {
             corte = new Corte();
             talles = new ArrayList<>();
         }
-        isMultiProyect = false;
+        if (corte.getFromSize() != null && corte.getToSize() != null) {
+            isMultiProyect = true;
+        } else {
+            isMultiProyect = false;
+        }
     }
 
     public Integer getId() {
@@ -113,6 +119,7 @@ public class CorteFormController {
     public void save() throws IOException {
         String msg;
         if (corte.getId() == null) {
+            log.info("Voy a crear un corte nuevo");
             // Creo el corte
             corteService.create(corte);
 
@@ -125,6 +132,7 @@ public class CorteFormController {
             }
             msg = "El corte " + corte.getName() + " se creó correctamente";
         } else {
+            log.info("Estoy editando el corte " + corte.getId());
             // Actualizo el corte
             corteService.update(corte);
 
@@ -171,7 +179,7 @@ public class CorteFormController {
                     // Tengo que calcular la cantidad de proyectos a generar
                     for (Integer n = corte.getFromSize().intValue(); n <= corte.getToSize(); n += 2) {
                         Talle talle = new Talle();
-                        talle.setQuantity(cantTalles);
+                        talle.setQuantity(corte.getClothesQuantity() / cantTalles);
                         talle.setClothesDelivered(0);
                         talle.setSize(n);
                         talle.setCorteId(corte.getId());
@@ -218,12 +226,13 @@ public class CorteFormController {
     private boolean isValidaData() {
         boolean isValidData = true;
 
+        // VALIDACION DE CORTES
         if (StringUtils.isEmpty(corte.getName())) {
             addDetailMessage("corte.error.name", FacesMessage.SEVERITY_ERROR);
             isValidData = false;
         }
 
-        if (corte.getClothesQuantity() == null || corte.getClothesQuantity() == 0) {
+        if (corte.getClothesQuantity() == null || corte.getClothesQuantity() < 1) {
             addDetailMessage("corte.error.clothesQuantity", FacesMessage.SEVERITY_ERROR);
             isValidData = false;
         }
@@ -240,6 +249,49 @@ public class CorteFormController {
         if (!isValidEstado) {
             addDetailMessage("corte.error.estado", FacesMessage.SEVERITY_ERROR);
             isValidData = false;
+        }
+
+        if (cantTalles < 1) {
+            addDetailMessage("corte.error.minTalles", FacesMessage.SEVERITY_ERROR);
+            isValidData = false;
+        }
+
+        if (isMultiProyect) {
+            if (corte.getFromSize() == null || corte.getFromSize() < 1) {
+                addDetailMessage("corte.error.fromSizeInvalid", FacesMessage.SEVERITY_ERROR);
+                isValidData = false;
+            }
+            if (corte.getToSize() == null || corte.getToSize() < 1) {
+                addDetailMessage("corte.error.toSizeInvalid", FacesMessage.SEVERITY_ERROR);
+                isValidData = false;
+            }
+        }
+
+        // VALIDACION DE PROYECTOS/TALLES
+        for (Talle talle : talles) {
+            isValidEstado = false;
+            for (Estados e : Estados.values()) {
+                if (Objects.equals(talle.getEstadoId(), e.getId())) isValidEstado = true;
+            }
+            if (!isValidEstado) {
+                addDetailMessage("talle.error.estado", FacesMessage.SEVERITY_ERROR);
+                isValidData = false;
+            }
+
+            if (talle.getFirstDueDate() == null || talle.getFirstDueDate().before(new Date())) {
+                addDetailMessage("talle.error.firstDueDate", FacesMessage.SEVERITY_ERROR);
+                isValidData = false;
+            }
+
+            if (talle.getSecondDueDate() == null || talle.getSecondDueDate().before(new Date())) {
+                addDetailMessage("talle.error.secondDueDate", FacesMessage.SEVERITY_ERROR);
+                isValidData = false;
+            }
+
+            if (talle.getEstadoId().equals(Estados.CORTE_EN_PRODUCCION.getId()) && talle.getTallerId() == null) {
+                addDetailMessage("talle.error.tallerNotSelected", FacesMessage.SEVERITY_ERROR);
+                isValidData = false;
+            }
         }
 
         return isValidData;
