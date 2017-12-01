@@ -49,7 +49,7 @@ CREATE TABLE CORTES (
 
 CREATE TABLE TALLES (
   id INT NOT NULL AUTO_INCREMENT,
-  size INT,
+  size VARCHAR(20),
   quantity INT NOT NULL,
   clothes_delivered INT NOT NULL,
   first_due_date DATE NOT NULL,

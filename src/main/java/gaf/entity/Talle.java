@@ -17,7 +17,7 @@ public class Talle implements Serializable {
     private Integer id;
 
     @NotNull
-    private Integer size;
+    private String size;
 
     @NotNull
     private Integer quantity;
@@ -55,11 +55,11 @@ public class Talle implements Serializable {
         this.id = id;
     }
 
-    public Integer getSize() {
+    public String getSize() {
         return size;
     }
 
-    public void setSize(Integer size) {
+    public void setSize(String size) {
         this.size = size;
     }
 

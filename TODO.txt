@@ -1,8 +1,8 @@
 CORRECIONES 25-09
-- Talle.size que sea alfa numerico (para poder poner en un futuro S, M, L ,XL, XXL, etc...)
+- (/) Talle.size que sea alfa numerico (para poder poner en un futuro S, M, L ,XL, XXL, etc...)
 - Agergar un calendario a modo popup que se abra desde el menu lateral que tenga (de momento) alguna marca en amarillo si la feha corresponde a la del primer vencimiento de algun proyecto y en rojo si corresponde a la fecha de segundo vencimiento de algun proyecto
-- Cuando switcheo entre proyectos uno o varios se resetea el form
+- Cuando switcheo entre proyectos uno o varios se resetea el form (Si va a ser un corte con un talle o varios)
 - La fecha de primer vencimiento y la de segundo vencimeinto son iguales para todos los proyectos del mismo corte
-- Estado por defecto de los proyectos PRODUCCION
+- (/) Estado por defecto de los proyectos PRODUCCION
 - Mover el boton Editar de CortesList a la derecha del + y el + hacerlo mas grande tipo boton
 - Agergar un nuevo boton en CortesList que te permita inidicar una cantidad X de prendas entregados o todas, esto es a modo acceso directo para los operarios, el admin va a hacer esto manual y automatico, el operario solo automatica.

@@ -1,6 +1,7 @@
 package gaf.controller;
 
 import gaf.entity.Corte;
+import gaf.entity.Estado;
 import gaf.entity.Talle;
 import gaf.entity.Taller;
 import gaf.service.CorteService;
@@ -181,8 +182,9 @@ public class CorteFormController {
                         Talle talle = new Talle();
                         talle.setQuantity(corte.getClothesQuantity() / cantTalles);
                         talle.setClothesDelivered(0);
-                        talle.setSize(n);
+                        talle.setSize(n.toString());
                         talle.setCorteId(corte.getId());
+                        talle.setEstadoId(Estados.CORTE_EN_PRODUCCION.getId());
                         talles.add(talle);
                     }
                 } else {
@@ -190,6 +192,7 @@ public class CorteFormController {
                     talle.setQuantity(cantTalles);
                     talle.setClothesDelivered(0);
                     talle.setCorteId(corte.getId());
+                    talle.setEstadoId(Estados.CORTE_EN_PRODUCCION.getId());
                     talles.add(talle);
                 }
             } else {
