@@ -93,20 +93,24 @@
                         <div class="ui-g-6"><p:inputText id="hojaDeCorte" value="#{corteForm.corte.hojaDeCorte}"/></div>
 
                         <div class="ui-g-4"><p:outputLabel for="multiProyect" value="¿Cuántos proyectos va a tener?"/></div>
-                        <h:panelGroup layout="block" rendered="#{not corteForm.multiProyect}" styleClass="ui-g-8"><p:outputLabel for="tallesQuantity" value="Cantidad de talles"/></h:panelGroup>
-                        <h:panelGroup layout="block" rendered="#{corteForm.multiProyect}" styleClass="ui-g-4"><p:outputLabel for="fromSize" value="Desde el talle"/></h:panelGroup>
-                        <h:panelGroup layout="block" rendered="#{corteForm.multiProyect}" styleClass="ui-g-4"><p:outputLabel for="toSize" value="Hasta el talle"/></h:panelGroup>
+                        <h:panelGroup id="labelsRow" styleClass="ui-g-8 no-padding">
+                            <h:panelGroup layout="block" rendered="#{not corteForm.multiProyect}" styleClass="ui-g-12"><p:outputLabel for="tallesQuantity" value="Cantidad de talles"/></h:panelGroup>
+                            <h:panelGroup layout="block" rendered="#{corteForm.multiProyect}" styleClass="ui-g-6"><p:outputLabel for="fromSize" value="Desde el talle"/></h:panelGroup>
+                            <h:panelGroup layout="block" rendered="#{corteForm.multiProyect}" styleClass="ui-g-6"><p:outputLabel for="toSize" value="Hasta el talle"/></h:panelGroup>
+                        </h:panelGroup>
 
                         <div class="ui-g-4">
                             <p:selectOneRadio id="multiProyect" value="#{corteForm.multiProyect}">
-                                <p:ajax update="@form" />
+                                <p:ajax update="labelsRow inputsRow" process="@this" partialSubmit="false"/>
                                 <f:selectItem itemLabel="Un solo proyecto" itemValue="false" />
                                 <f:selectItem itemLabel="Varios" itemValue="true" />
                             </p:selectOneRadio>
                         </div>
-                        <h:panelGroup layout="block" rendered="#{not corteForm.multiProyect}" styleClass="ui-g-8"><p:inputNumber id="tallesQuantity" value="#{corteForm.cantTalles}" decimalPlaces="0" required="true"/></h:panelGroup>
-                        <h:panelGroup layout="block" rendered="#{corteForm.multiProyect}" styleClass="ui-g-4"><p:inputNumber id="fromSize" value="#{corteForm.corte.fromSize}" decimalPlaces="0" required="true"/></h:panelGroup>
-                        <h:panelGroup layout="block" rendered="#{corteForm.multiProyect}" styleClass="ui-g-4"><p:inputNumber id="toSize" value="#{corteForm.corte.toSize}" decimalPlaces="0" required="true"/></h:panelGroup>
+                        <h:panelGroup id="inputsRow" styleClass="ui-g-8 no-padding">
+                            <h:panelGroup layout="block" rendered="#{not corteForm.multiProyect}" styleClass="ui-g-12"><p:inputNumber id="tallesQuantity" value="#{corteForm.cantTalles}" decimalPlaces="0" required="true"/></h:panelGroup>
+                            <h:panelGroup layout="block" rendered="#{corteForm.multiProyect}" styleClass="ui-g-6"><p:inputNumber id="fromSize" value="#{corteForm.corte.fromSize}" decimalPlaces="0" required="true"/></h:panelGroup>
+                            <h:panelGroup layout="block" rendered="#{corteForm.multiProyect}" styleClass="ui-g-6"><p:inputNumber id="toSize" value="#{corteForm.corte.toSize}" decimalPlaces="0" required="true"/></h:panelGroup>
+                        </h:panelGroup>
 
                         <div class="ui-g-12"><p:outputLabel for="comments" value="Comentarios"/></div>
                         <div class="ui-g-12"><p:inputTextarea id="comments" value="#{corteForm.corte.comments}" rows="3"/></div>

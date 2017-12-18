@@ -30,12 +30,12 @@
 
                     <ui:repeat value="#{corteList.cortes}" var="c">
                         <p:panel toggleable="#{not empty corteList.getTallesOfCorte(c.id)}" collapsed="true" styleClass="panel panel-primary">
-                            <f:facet name="header">
-                                    <p:link outcome="corteForm.jsf" styleClass="btn btn-primary">
-                                        <i class="fa fa-pencil-square-o"/>  Editar
-                                        <f:param name="id" value="#{c.id}"/>
-                                    </p:link>
-                                    #{corteList.generateCorteLabelForPanel(c)}
+                            <f:facet name="header">#{corteList.generateCorteLabelForPanel(c)}</f:facet>
+                            <f:facet name="actions">
+                                <p:link outcome="corteForm.jsf" styleClass="btn btn-primary" style="float: right">
+                                    <i class="fa fa-pencil-square-o"/>
+                                    <f:param name="id" value="#{c.id}"/>
+                                </p:link>
                             </f:facet>
                             <ui:fragment rendered="#{not empty corteList.getTallesOfCorte(c.id)}">
                                 <div class="row">
