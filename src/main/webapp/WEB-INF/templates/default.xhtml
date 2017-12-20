@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core" xmlns:ui="http://java.sun.com/jsf/facelets"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui" xmlns:fn="http://java.sun.com/jsp/jstl/functions">
 <f:view contentType="text/html">
     <h:head>
         <meta charset="utf-8"/>
@@ -67,6 +67,23 @@
                         </div>
                     </ui:fragment>
                     <ui:insert name="body"/>
+                    <script type="text/javascript">
+                        function markHolidaysAndReportedDays(date) {
+
+                            var fechasVencimientos = new Array(#{fn:join(commonController.getFechasVencimientos(), ',')});
+                            for (var i = 0; i &lt; fechasVencimientos.length; i++) {
+                                if(date.getTime() == new Date(fechasVencimientos[i]).getTime()) {
+                                    return [true, 'DueDate'];
+                                }
+                            }
+
+                            // Falta las fechas de segundo vencimiento
+                            return [true, ''];
+                        };
+                    </script>
+                    <p:dialog modal="true" resizable="false" widgetVar="gaf-calendar-dialog" showEffect="fade">
+                        <p:calendar id="gaf-calendar" mode="inline" beforeShowDay="markHolidaysAndReportedDays"/>
+                    </p:dialog>
                 </section>
             </div>
 

@@ -57,3 +57,15 @@ a#logout {
     background-color: #f2f2f2;
     margin-top: 0 !important;
 }
+
+.ui-datepicker td.reported-day a {
+    background-color: aqua;
+    font-weight: bold;
+}
+td.DueDate > a {
+    background: #f44336!important;
+    filter: none!important;
+    color: #fff!important;
+    transform: scale(.9)!important;
+    border-radius: 50%!important;
+}
