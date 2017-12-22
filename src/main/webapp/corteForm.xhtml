@@ -76,10 +76,14 @@
                         <div class="ui-g-4"><p:inputNumber id="price" value="#{corteForm.corte.price}" decimalPlaces="2" decimalSeparator="," thousandSeparator="." symbol="$"/></div>
 
                         <div class="ui-g-6"><p:outputLabel for="clothesQuantity" value="Cant. de prendas"/></div>
-                        <div class="ui-g-6"><p:outputLabel for="dueDate" value="Fecha de vencimiento"/></div>
+                        <div class="ui-g-2 ui-sm-6"><p:outputLabel for="firstDueDate" value="1er Fecha de vencimiento del/los proyecto(s)"/></div>
+                        <div class="ui-g-2 ui-sm-6"><p:outputLabel for="secondDueDate" value="2da Fecha de vencimiento del/los proyecto(s)"/></div>
+                        <div class="ui-g-2 ui-sm-6"><p:outputLabel for="dueDate" value="Fecha de vencimiento"/></div>
 
                         <div class="ui-g-6"><p:inputNumber id="clothesQuantity" value="#{corteForm.corte.clothesQuantity}" decimalPlaces="0" required="true"/></div>
-                        <div class="ui-g-6"><p:calendar id="dueDate" value="#{corteForm.corte.dueDate}" required="true" pattern="dd/MM/yyyy" mask="true"/></div>
+                        <div class="ui-g-2 ui-sm-6"><p:calendar id="firstDueDate" value="#{corteForm.firstDueDate}" required="true" pattern="dd/MM/yyyy" mask="true"/></div>
+                        <div class="ui-g-2 ui-sm-6"><p:calendar id="secondDueDate" value="#{corteForm.secondDueDate}" required="true" pattern="dd/MM/yyyy" mask="true"/></div>
+                        <div class="ui-g-2 ui-sm-6"><p:calendar id="dueDate" value="#{corteForm.corte.dueDate}" required="true" pattern="dd/MM/yyyy" mask="true"/></div>
 
                         <div class="ui-g-6"><p:outputLabel for="corteEstado" value="Estado"/></div>
                         <div class="ui-g-6"><p:outputLabel for="hojaDeCorte" value="Hoja de corte"/></div>
@@ -128,16 +132,6 @@
                             <p:column headerText="Cantidad entregada" width="10%">
                                 <p:inputNumber id="talle#{talle.id}ClothesDelivered" value="#{talle.clothesDelivered}" required="true"
                                                thousandSeparator="." decimalPlaces="0" decimalSeparator=","/>
-                            </p:column>
-
-                            <p:column headerText="Primer F. de Vencimiento" width="10%">
-                                <p:calendar id="talle#{talle.id}FirstDueDate" value="#{talle.firstDueDate}" required="true"
-                                            pattern="dd/MM/yyyy" mask="true"/>
-                            </p:column>
-
-                            <p:column headerText="Segunda F. de Vencimiento" width="10%">
-                                <p:calendar id="talle#{talle.id}SecondDueDate" value="#{talle.secondDueDate}" required="true"
-                                            pattern="dd/MM/yyyy" mask="true"/>
                             </p:column>
 
                             <p:column headerText="Comentarios" width="10%"><p:inputText id="talle#{talle.id}Comments" value="#{talle.comments}"/></p:column>

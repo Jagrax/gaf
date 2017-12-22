@@ -40,6 +40,9 @@ public class CorteFormController {
     private List<Talle> talles;
     private int cantTalles;
 
+    private Date firstDueDate;
+    private Date secondDueDate;
+
     private boolean isMultiProyect;
 
     @PostConstruct
@@ -50,6 +53,9 @@ public class CorteFormController {
         if (id != null) {
             corte = corteService.findById(id);
             talles = talleService.findTallesFromCorte(id);
+            Talle t = talleService.findTallesFromCorte(id).iterator().next();
+            firstDueDate = t.getFirstDueDate();
+            secondDueDate = t.getSecondDueDate();
         } else {
             corte = new Corte();
             talles = new ArrayList<>();
@@ -99,6 +105,22 @@ public class CorteFormController {
 
     public void setMultiProyect(boolean multiProyect) {
         isMultiProyect = multiProyect;
+    }
+
+    public Date getFirstDueDate() {
+        return firstDueDate;
+    }
+
+    public void setFirstDueDate(Date firstDueDate) {
+        this.firstDueDate = firstDueDate;
+    }
+
+    public Date getSecondDueDate() {
+        return secondDueDate;
+    }
+
+    public void setSecondDueDate(Date secondDueDate) {
+        this.secondDueDate = secondDueDate;
     }
 
     public void remove() throws IOException {
@@ -185,6 +207,8 @@ public class CorteFormController {
                         talle.setSize(n.toString());
                         talle.setCorteId(corte.getId());
                         talle.setEstadoId(Estados.CORTE_EN_PRODUCCION.getId());
+                        talle.setFirstDueDate(firstDueDate);
+                        talle.setSecondDueDate(secondDueDate);
                         talles.add(talle);
                     }
                 } else {
@@ -193,6 +217,8 @@ public class CorteFormController {
                     talle.setClothesDelivered(0);
                     talle.setCorteId(corte.getId());
                     talle.setEstadoId(Estados.CORTE_EN_PRODUCCION.getId());
+                    talle.setFirstDueDate(firstDueDate);
+                    talle.setSecondDueDate(secondDueDate);
                     talles.add(talle);
                 }
             } else {
