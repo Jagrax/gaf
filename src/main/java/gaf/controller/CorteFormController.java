@@ -52,14 +52,13 @@ public class CorteFormController {
         }
         if (id != null) {
             corte = corteService.findById(id);
-            talles = talleService.findTallesFromCorte(id);
             Talle t = talleService.findTallesFromCorte(id).iterator().next();
             firstDueDate = t.getFirstDueDate();
             secondDueDate = t.getSecondDueDate();
         } else {
             corte = new Corte();
-            talles = new ArrayList<>();
         }
+
         if (corte.getFromSize() != null && corte.getToSize() != null) {
             isMultiProyect = true;
         } else {
@@ -84,6 +83,13 @@ public class CorteFormController {
     }
 
     public List<Talle> getTalles() {
+        if (talles == null) {
+            if (id != null) {
+                talles = talleService.findTallesFromCorte(id);
+            } else {
+                talles = new ArrayList<>();
+            }
+        }
         return talles;
     }
 
