@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/templates/default.xhtml">
+
+    <ui:define name="head">
+        <title>GAF - Operadores</title>
+    </ui:define>
+
+    <ui:define name="logo">
+        <b>GAF</b>
+    </ui:define>
+
+    <ui:define name="title">
+        Operadores
+    </ui:define>
+
+    <ui:define name="description">
+        Listado de operadores de la plataforma
+    </ui:define>
+
+    <ui:define name="body">
+        <h:form>
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                    <div id="main-buttons" class="hidden-sm hidden-xs">
+                        <p:commandButton action="operadorForm?faces-redirect=true" icon="fa fa-plus"
+                                         value="Agregar" styleClass="btn-success"/>
+                    </div>
+
+                    <p:splitButton value="Agregar" action="operadorForm?faces-redirect=true"
+                                   icon="fa fa-plus"
+                                   styleClass="hidden-md hidden-lg btn-primary">
+                    </p:splitButton>
+
+                    <p:separator/>
+
+                    <p:dataTable widgetVar="operadoresTable" var="o" value="#{operadorList.operadores}" reflow="true">
+                        <p:column headerText="Usuario">
+                            <p:link value="#{o.username}" outcome="operadorForm.jsf">
+                                <f:param name="id" value="#{o.id}"/>
+                            </p:link>
+                        </p:column>
+                        <p:column headerText="Descripcion">#{o.descripcion}</p:column>
+                    </p:dataTable>
+                </div>
+            </div>
+
+            <p:confirmDialog global="true" showEffect="fade" hideEffect="fade" styleClass="box-danger">
+                <p:commandButton value="Si" type="button" styleClass="btn-primary ui-confirmdialog-yes"
+                                 icon="fa fa-check"/>
+                <p:commandButton value="No" type="button" styleClass="btn-danger ui-confirmdialog-no"
+                                 icon="fa fa-close"/>
+            </p:confirmDialog>
+
+        </h:form>
+    </ui:define>
+</ui:composition>

@@ -63,3 +63,11 @@ CREATE TABLE TALLES (
   FOREIGN KEY (taller) REFERENCES TALLERES(id),
   FOREIGN KEY (corte) REFERENCES CORTES(id)
 );
+
+create table operadores (
+  id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+  username VARCHAR(25) NOT NULL,
+  password VARCHAR(250) NULL,
+  salt VARCHAR(250) NULL,
+  descripcion VARCHAR(125) NULL
+);
