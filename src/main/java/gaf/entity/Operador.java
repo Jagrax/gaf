@@ -19,6 +19,8 @@ public class Operador implements Serializable {
     @NotNull
     private String password;
 
+    private String salt;
+
     private String descripcion;
 
     public Integer getId() {
@@ -45,6 +47,14 @@ public class Operador implements Serializable {
 
     public void setPassword(@NotNull String password) {
         this.password = password;
+    }
+
+    public String getSalt() {
+        return salt;
+    }
+
+    public void setSalt(String salt) {
+        this.salt = salt;
     }
 
     public String getDescripcion() {

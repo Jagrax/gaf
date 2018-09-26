@@ -60,36 +60,11 @@ public class OperadorFormController {
 
     public void save() throws IOException {
         String msg;
+        generatePassword();
         if (operador.getId() == null) {
-            String myPassword = operador.getPassword();
-
-            // Generate Salt. The generated value can be stored in DB.
-            String salt = PasswordUtils.getSalt(30);
-
-            // Protect user's password. The generated value can be stored in DB.
-            String mySecurePassword = PasswordUtils.generateSecurePassword(myPassword, salt);
-
-            // Print out protected password
-            System.out.println("My secure password = " + mySecurePassword);
-            operador.setPassword(mySecurePassword);
-            System.out.println("Salt value = " + salt);
-            operador.setDescripcion(salt + operador.getDescripcion());
             operadorService.create(operador);
             msg = "El operador " + operador.getUsername() + " se creó correctamente";
         } else {
-            String myPassword = operador.getPassword();
-
-            // Generate Salt. The generated value can be stored in DB.
-            String salt = PasswordUtils.getSalt(30);
-
-            // Protect user's password. The generated value can be stored in DB.
-            String mySecurePassword = PasswordUtils.generateSecurePassword(myPassword, salt);
-
-            // Print out protected password
-            System.out.println("My secure password = " + mySecurePassword);
-            operador.setPassword(mySecurePassword);
-            System.out.println("Salt value = " + salt);
-            operador.setDescripcion(salt + operador.getDescripcion());
             operadorService.update(operador);
             msg = "El operador " + operador.getUsername() + " se actualizó correctamente";
         }
@@ -105,5 +80,12 @@ public class OperadorFormController {
 
     public boolean isNew() {
         return operador == null || operador.getId() == null;
+    }
+
+    private void generatePassword() {
+        String salt = PasswordUtils.getSalt(30);
+        String mySecurePassword = PasswordUtils.generateSecurePassword(operador.getPassword(), salt);
+        operador.setPassword(mySecurePassword);
+        operador.setSalt(salt);
     }
 }

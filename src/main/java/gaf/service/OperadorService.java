@@ -1,6 +1,7 @@
 package gaf.service;
 
 import gaf.entity.Operador;
+import org.primefaces.util.CollectionUtils;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
@@ -45,5 +46,15 @@ public class OperadorService {
         } else {
             return new ArrayList<>();
         }
+    }
+
+    public Operador findByUsername(String username) {
+        TypedQuery<Operador> query = em.createQuery("select o from Operador o where o.username = :username", Operador.class);
+        query.setParameter("username", username);
+        List<Operador> result = query.getResultList();
+        if (result != null && result.size() > 0) {
+            return result.iterator().next();
+        }
+        return null;
     }
 }
