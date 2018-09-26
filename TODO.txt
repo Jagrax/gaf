@@ -6,3 +6,20 @@ CORRECIONES 25-09
 - (/) Estado por defecto de los proyectos PRODUCCION
 - (/) Mover el boton Editar de CortesList a la derecha del + y el + hacerlo mas grande tipo boton
 - Agergar un nuevo boton en CortesList que te permita inidicar una cantidad X de prendas entregados o todas, esto es a modo acceso directo para los operarios, el admin va a hacer esto manual y automatico, el operario solo automatica.
+
+26/09
+Pantalla principal: Dashboard
+- Listado de cortes ordenados por estados (not status in FINALIZADOS o bien STATUS in EN_PROCESO, EN_DEUDA, etc...)
+
+Reemplazar la pestaña de Estados por una que se llame Reposiciones:
+- Cortes en estado de deuda (por que le dieron para arreglar o porque tiene que haber una reposicion)
+
+Detalles de la empresa (Solo para admin):
+- Precios a los que le venden a las fabricas
+- Calculos de fecha para liquidaciones
+
+General:
+- Poner todo en español
+- Que deje guardar un corte sin especificar todos los datos (validar que datos son realmente necesarios para dar de alta el mismo)
+
+Adjuntar imagenes al corte desde un celular
