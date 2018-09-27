@@ -1,6 +1,7 @@
 package gaf.service;
 
 import gaf.entity.Operador;
+import gaf.util.PersistenceHelper;
 import org.primefaces.util.CollectionUtils;
 
 import javax.ejb.Stateless;
@@ -49,12 +50,6 @@ public class OperadorService {
     }
 
     public Operador findByUsername(String username) {
-        TypedQuery<Operador> query = em.createQuery("select o from Operador o where o.username = :username", Operador.class);
-        query.setParameter("username", username);
-        List<Operador> result = query.getResultList();
-        if (result != null && result.size() > 0) {
-            return result.iterator().next();
-        }
-        return null;
+        return (Operador) PersistenceHelper.forceSingleResult(em.createQuery("select o from Operador o where o.username = :username", Operador.class).setParameter("username", username).getResultList());
     }
 }

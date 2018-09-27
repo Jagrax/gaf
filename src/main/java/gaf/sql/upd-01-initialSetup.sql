@@ -71,3 +71,31 @@ create table operadores (
   salt VARCHAR(250) NULL,
   descripcion VARCHAR(125) NULL
 );
+
+CREATE TABLE RIGHT_INSTANCES (
+  type VARCHAR(20) NOT NULL,
+  tag VARCHAR(100) PRIMARY KEY NOT NULL,
+  description VARCHAR(200) NOT NULL
+);
+
+INSERT INTO RIGHT_INSTANCES (type, tag, description) VALUES ('ACCESO', 'GAF.CORTES', 'Acceso a la pantalla de cortes');
+INSERT INTO RIGHT_INSTANCES (type, tag, description) VALUES ('ACCESO', 'GAF.TALLERES', 'Acceso a la pantalla de talleres');
+INSERT INTO RIGHT_INSTANCES (type, tag, description) VALUES ('ACCESO', 'GAF.REPOSICIONES', 'Acceso a la pantalla de reposiciones');
+INSERT INTO RIGHT_INSTANCES (type, tag, description) VALUES ('ACCESO', 'GAF.DETALLES_EMPRESA', 'Acceso a la pantalla de detalles de la empresa');
+INSERT INTO RIGHT_INSTANCES (type, tag, description) VALUES ('PERFIL', 'ADMIN', 'Perfil con rol de administrador');
+INSERT INTO RIGHT_INSTANCES (type, tag, description) VALUES ('PERFIL', 'OPERARIO', 'Perfil con rol de operario');
+
+CREATE TABLE RIGHT_PROFILES (
+  profile_id VARCHAR(100) PRIMARY KEY NOT NULL,
+  type VARCHAR(20) NOT NULL,
+  tag VARCHAR (100) NOT NULL,
+  value VARCHAR(200) NOT NULL
+);
+
+INSERT INTO RIGHT_PROFILES (profile_id, type, tag, value) VALUES ('ADMIN'   , 'ACCESO', 'GAF.CORTES'            , 'TRUE');
+INSERT INTO RIGHT_PROFILES (profile_id, type, tag, value) VALUES ('ADMIN'   , 'ACCESO', 'GAF.TALLERES'          , 'TRUE');
+INSERT INTO RIGHT_PROFILES (profile_id, type, tag, value) VALUES ('ADMIN'   , 'ACCESO', 'GAF.REPOSICIONES'      , 'TRUE');
+INSERT INTO RIGHT_PROFILES (profile_id, type, tag, value) VALUES ('ADMIN'   , 'ACCESO', 'GAF.DETALLES_EMPRESA'  , 'TRUE');
+INSERT INTO RIGHT_PROFILES (profile_id, type, tag, value) VALUES ('OPERARIO', 'ACCESO', 'GAF.CORTES'            , 'TRUE');
+INSERT INTO RIGHT_PROFILES (profile_id, type, tag, value) VALUES ('OPERARIO', 'ACCESO', 'GAF.TALLERES'          , 'TRUE');
+
