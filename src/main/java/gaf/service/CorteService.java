@@ -5,6 +5,7 @@ import gaf.entity.Corte;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
+import javax.persistence.TypedQuery;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Logger;
@@ -38,7 +39,8 @@ public class CorteService {
     }
 
     public List<Corte> findAll() {
-        return em.createQuery("from Corte").getResultList();
+        TypedQuery<Corte> query = em.createQuery("SELECT C FROM Corte C", Corte.class);
+        return query.getResultList();
     }
 
     public Corte findById(Integer id) {
@@ -51,5 +53,10 @@ public class CorteService {
 
     public void update(Corte corte) {
         em.merge(corte);
+    }
+
+    public List<Corte> findByStatusNotFinished() {
+        TypedQuery<Corte> query = em.createQuery("SELECT c FROM Corte c WHERE c.estadoId IN (6, 7, 8)", Corte.class);
+        return query.getResultList();
     }
 }

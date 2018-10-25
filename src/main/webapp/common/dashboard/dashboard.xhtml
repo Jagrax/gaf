@@ -5,7 +5,7 @@
                 template="/WEB-INF/templates/default.xhtml">
 
     <ui:define name="head">
-        <title>GAF - Cortes</title>
+        <title>GAF - Dashboard</title>
     </ui:define>
 
     <ui:define name="logo">
@@ -17,26 +17,16 @@
     </ui:define>
 
     <ui:define name="description">
-        Alta, Baja y Modificación de cortes
+        Listado de cortes en proceso
     </ui:define>
 
     <ui:define name="body">
         <h:form>
             <div class="box box-primary">
                 <div class="box-header with-border">
-                    <p:commandButton action="corteForm?faces-redirect=true" icon="fa fa-plus" value="Agregar" styleClass="btn-success"/>
-
-                    <p:separator/>
-
-                    <ui:repeat value="#{corteList.cortes}" var="c">
-                        <p:panel toggleable="#{not empty corteList.getTallesOfCorte(c.id)}" collapsed="true" styleClass="panel panel-primary bg-#{corteList.getColorForCorte(c)}">
+                    <ui:repeat value="#{dashboardController.cortesInProcess}" var="c">
+                        <p:panel toggleable="#{not empty corteList.getTallesOfCorte(c.id)}" collapsed="true" styleClass="panel panel-primary">
                             <f:facet name="header">#{corteList.generateCorteLabelForPanel(c)}</f:facet>
-                            <f:facet name="actions">
-                                <p:link outcome="corteForm.jsf" styleClass="btn btn-primary" style="float: right">
-                                    <i class="fa fa-pencil-square-o"/>
-                                    <f:param name="id" value="#{c.id}"/>
-                                </p:link>
-                            </f:facet>
                             <ui:fragment rendered="#{not empty corteList.getTallesOfCorte(c.id)}">
                                 <div class="row">
                                     <div class="col-sm-2 col-xs-4 text-center"><b>Taller</b></div>

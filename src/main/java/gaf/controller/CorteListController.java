@@ -3,14 +3,13 @@ package gaf.controller;
 import gaf.entity.Corte;
 import gaf.entity.Talle;
 import gaf.service.CorteService;
+import gaf.service.EstadoService;
 import gaf.service.TalleService;
-import gaf.util.Utils;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
-import java.util.ArrayList;
 import java.util.List;
 
 @ViewScoped
@@ -24,6 +23,9 @@ public class CorteListController {
 
     @EJB
     private TalleService talleService;
+
+    @EJB
+    private EstadoService estadoService;
 
     @PostConstruct
     public void init() {
@@ -47,5 +49,9 @@ public class CorteListController {
 
     public List<Talle> getTallesOfCorte(Integer id) {
         return talleService.findTallesFromCorte(id);
+    }
+
+    public String getColorForCorte(Corte corte) {
+        return estadoService.findById(corte.getEstadoId()).getColor();
     }
 }

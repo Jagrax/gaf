@@ -69,3 +69,7 @@ td.DueDate > a {
     transform: scale(.9)!important;
     border-radius: 50%!important;
 }
+
+.ui-panel > .ui-panel-titlebar {
+    background-color: transparent !important;
+}
