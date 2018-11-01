@@ -8,15 +8,14 @@ CREATE TABLE ESTADOS (
 	PRIMARY KEY (id)
 );
 
-INSERT INTO ESTADOS (id, name, color, entity) VALUES (1, 'Arreglando', 'yellow', 'TALLER');
-INSERT INTO ESTADOS (id, name, color, entity) VALUES (2, 'Disponible', 'green', 'TALLER');
-INSERT INTO ESTADOS (id, name, color, entity) VALUES (3, 'En deuda', 'blue', 'TALLER');
-INSERT INTO ESTADOS (id, name, color, entity) VALUES (4, 'En produccion', 'orange', 'TALLER');
-INSERT INTO ESTADOS (id, name, color, entity) VALUES (5, 'No disponible', 'red', 'TALLER');
-INSERT INTO ESTADOS (id, name, color, entity) VALUES (6, 'Sin asignar', '', 'CORTE');
-INSERT INTO ESTADOS (id, name, color, entity) VALUES (7, 'En produccion', '', 'CORTE');
-INSERT INTO ESTADOS (id, name, color, entity) VALUES (8, 'Cerrado con deudas', '', 'CORTE');
-INSERT INTO ESTADOS (id, name, color, entity) VALUES (9, 'Finalizado', '', 'CORTE');
+INSERT INTO ESTADOS (id, name, color, entity) VALUES (1, 'Arreglando', 'navy', 'TALLER');
+INSERT INTO ESTADOS (id, name, color, entity) VALUES (2, 'Disponible', 'lime', 'TALLER');
+INSERT INTO ESTADOS (id, name, color, entity) VALUES (3, 'En produccion', 'blue', 'TALLER');
+INSERT INTO ESTADOS (id, name, color, entity) VALUES (4, 'No disponible', 'maroon', 'TALLER');
+INSERT INTO ESTADOS (id, name, color, entity) VALUES (5, 'Sin asignar', '', 'TALLER');
+INSERT INTO ESTADOS (id, name, color, entity) VALUES (6, 'En produccion', 'blue', 'CORTE');
+INSERT INTO ESTADOS (id, name, color, entity) VALUES (7, 'Cerrado con deudas', 'yellow', 'CORTE');
+INSERT INTO ESTADOS (id, name, color, entity) VALUES (8, 'Finalizado', 'olive', 'CORTE');
 
 CREATE TABLE TALLERES (
 	id INT NOT NULL AUTO_INCREMENT,

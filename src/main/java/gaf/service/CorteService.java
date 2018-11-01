@@ -38,9 +38,13 @@ public class CorteService {
         em.remove(em.contains(corte) ? corte : em.merge(corte));
     }
 
-    public List<Corte> findAll() {
-        TypedQuery<Corte> query = em.createQuery("SELECT C FROM Corte C", Corte.class);
+    public List<Corte> findAll(String orderBy) {
+        TypedQuery<Corte> query = em.createQuery("SELECT C FROM Corte C ORDER BY C.id " + orderBy, Corte.class);
         return query.getResultList();
+    }
+
+    public List<Corte> findAll() {
+        return findAll("DESC");
     }
 
     public Corte findById(Integer id) {
@@ -56,7 +60,7 @@ public class CorteService {
     }
 
     public List<Corte> findByStatusNotFinished() {
-        TypedQuery<Corte> query = em.createQuery("SELECT c FROM Corte c WHERE c.estadoId IN (6, 7, 8)", Corte.class);
+        TypedQuery<Corte> query = em.createQuery("SELECT c FROM Corte c WHERE c.estadoId IN (5, 6, 7)", Corte.class);
         return query.getResultList();
     }
 }

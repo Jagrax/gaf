@@ -29,8 +29,10 @@
                     <p:separator/>
 
                     <ui:repeat value="#{corteList.cortes}" var="c">
-                        <p:panel toggleable="#{not empty corteList.getTallesOfCorte(c.id)}" collapsed="true" styleClass="panel panel-primary bg-#{corteList.getColorForCorte(c)}">
-                            <f:facet name="header">#{corteList.generateCorteLabelForPanel(c)}</f:facet>
+                        <p:panel toggleable="#{not empty corteList.getTallesOfCorte(c.id)}" collapsed="true" styleClass="panel panel-primary">
+                            <f:facet name="header">
+                                <span class="status-ball bg-#{corteList.getColorForCorte(c)} bg-#{corteList.getColorForCorte(c)}-gradient" title="#{commonController.getEstadoById(c.estadoId).name}"/>#{corteList.generateCorteLabelForPanel(c)}
+                            </f:facet>
                             <f:facet name="actions">
                                 <p:link outcome="corteForm.jsf" styleClass="btn btn-primary" style="float: right">
                                     <i class="fa fa-pencil-square-o"/>

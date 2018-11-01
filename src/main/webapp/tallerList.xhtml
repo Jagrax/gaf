@@ -54,7 +54,7 @@
                     <p:dataTable widgetVar="talleresTable" var="t" value="#{tallerList.talleres}" rows="5"
                                  rowKey="#{t.id}" lazy="true" paginator="true" paginatorPosition="bottom" reflow="true"
                                  paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
-                                 selection="#{tallerList.talleresSeleccionados}">
+                                 selection="#{tallerList.talleresSeleccionados}" rendered="#{not empty tallerList.talleres}">
 
                         <p:ajax event="rowSelectCheckbox" update="@(.ui-button, .ui-confirm-dialog)"/>
                         <p:ajax event="rowUnselectCheckbox" update="@(.ui-button, .ui-confirm-dialog)"/>
@@ -71,7 +71,7 @@
                         <p:column headerText="Cant. Empleados">#{t.employeesQuantity}</p:column>
                         <p:column headerText="Teléfono #1">#{t.primaryPhone}</p:column>
                         <p:column headerText="Teléfono #2">#{t.secondaryPhone}</p:column>
-                        <p:column headerText="Estado">#{commonController.getEstadoById(t.estadoId).name}</p:column>
+                        <p:column headerText="Estado"><span class="status-ball bg-#{commonController.getEstadoById(t.estadoId).color} bg-#{commonController.getEstadoById(t.estadoId).color}-gradient" title="#{commonController.getEstadoById(t.estadoId).name}"/></p:column>
                     </p:dataTable>
                 </div>
             </div>

@@ -26,7 +26,7 @@
                 <div class="box-header with-border">
                     <p:dataTable widgetVar="estadosTable" var="e" value="#{estadoList.estados}" reflow="true">
                         <p:column headerText="Estado">#{e.name}</p:column>
-                        <p:column headerText="Color">#{e.color}</p:column>
+                        <p:column headerText="Color" styleClass="bg-#{e.color}"/>
                         <p:column headerText="Pertenece a">#{e.entity}</p:column>
                     </p:dataTable>
                 </div>

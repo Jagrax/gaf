@@ -1,7 +1,6 @@
 package gaf.controller;
 
 import gaf.entity.Corte;
-import gaf.entity.Estado;
 import gaf.entity.Talle;
 import gaf.entity.Taller;
 import gaf.service.CorteService;
@@ -139,7 +138,7 @@ public class CorteFormController {
             // Una vez eliminado los talles, recien ahora puedo eliminar el corte
             corteService.delete(corte);
 
-            addDetailMessage("El corte " + corte.getName() + " se eliminó correctamente");
+            addDetailMessage("corte.delete", null, corte.getName());
             Faces.getFlash().setKeepMessages(true);
             Faces.redirect("corteList.xhtml");
         }
@@ -159,7 +158,7 @@ public class CorteFormController {
 
                 talleService.create(t);
             }
-            msg = "El corte " + corte.getName() + " se creó correctamente";
+            msg = "corte.create";
         } else {
             log.info("Estoy editando el corte " + corte.getId());
             // Actualizo el corte
@@ -169,10 +168,10 @@ public class CorteFormController {
             for (Talle t : talles) {
                 talleService.update(t);
             }
-            msg = "El corte " + corte.getName() + " se actualizó correctamente";
+            msg = "corte.update";
         }
         updateTalleresStatus();
-        addDetailMessage(msg);
+        addDetailMessage(msg, null, corte.getName());
         Faces.getFlash().setKeepMessages(true);
         Faces.redirect("corteList.xhtml");
     }
@@ -243,10 +242,10 @@ public class CorteFormController {
                     cantTalles++;
                 }
             } else {
-                addDetailMessage("Los talles indicados no son validos. 'Desde el talle' es mas grande que 'Hasta el talle'");
+                addDetailMessage("corte.talles.fromTalleIsBiggerThanToTalle");
             }
         } else if (cantTalles == 0) {
-            addDetailMessage("Los talles indicados no son validos");
+            addDetailMessage("corte.talles.invalidTalles");
         }
     }
 

@@ -70,6 +70,15 @@ td.DueDate > a {
     border-radius: 50%!important;
 }
 
-.ui-panel > .ui-panel-titlebar {
-    background-color: transparent !important;
+.status-ball {
+    width: 2rem;
+    height: 2rem;
+    border-radius: 1rem;
+    display: inline-block;
+    margin-right: 1rem;
+}
+
+div.ui-panel .ui-panel-title {
+    display: inline-flex;
+    align-items: center;
 }

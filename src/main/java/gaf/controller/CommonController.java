@@ -15,11 +15,13 @@ import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.ResourceBundle;
 
 @ViewScoped
 @ManagedBean(name = "commonController")
@@ -129,5 +131,11 @@ public class CommonController {
 
 
         return result.toArray(new String[3]);
+    }
+
+    public boolean hasAccess(String accessKey) {
+        FacesContext context = FacesContext.getCurrentInstance();
+        ResourceBundle resource = ResourceBundle.getBundle("resources", context.getViewRoot().getLocale());
+        return Boolean.valueOf(resource.getString(accessKey));
     }
 }
