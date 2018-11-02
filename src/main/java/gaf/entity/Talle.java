@@ -16,21 +16,16 @@ public class Talle implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @NotNull
     private String size;
 
-    @NotNull
     private Integer quantity;
 
-    @NotNull
     @Column(name = "clothes_delivered")
     private Integer clothesDelivered;
 
-    @NotNull
     @Column(name = "first_due_date")
     private Date firstDueDate;
 
-    @NotNull
     @Column(name = "second_due_date")
     private Date secondDueDate;
 

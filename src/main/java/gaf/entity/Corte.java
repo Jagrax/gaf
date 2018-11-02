@@ -19,7 +19,6 @@ public class Corte implements Serializable {
 
     private Double price;
 
-    @NotNull
     @Column(name = "clothes_quantity")
     private Integer clothesQuantity;
 
@@ -27,7 +26,6 @@ public class Corte implements Serializable {
     @Column(name = "creation_date")
     private Date creationDate;
 
-    @NotNull
     @Column(name = "due_date")
     private Date dueDate;
 
