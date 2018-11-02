@@ -5,14 +5,14 @@
 
     <ul class="sidebar-menu">
         <li>
-            <p:link href="/common/dashboard/dashboard.jsf">
+            <p:link href="/common/dashboard/dashboard.jsf" rendered="#{commonController.hasAccess('access.dashboard')}">
                 <i class="fa fa-home"/>
                 <span>Inicio</span>
             </p:link>
         </li>
         <li class="header">General</li>
         <li>
-            <p:link href="/corteList.jsf">
+            <p:link href="/corteList.jsf" rendered="#{commonController.hasAccess('access.corteList')}">
                 <i class="fa fa-list"/>
                 <span>Cortes</span>
             </p:link>
@@ -24,13 +24,13 @@
             </p:link>
         </li>
         <li>
-            <p:link href="/tallerList.jsf">
+            <p:link href="/tallerList.jsf" rendered="#{commonController.hasAccess('access.tallerList')}">
                 <i class="fa fa-industry"/>
                 <span>Talleres</span>
             </p:link>
         </li>
         <li>
-            <p:link>
+            <p:link rendered="#{commonController.hasAccess('access.calendar')}">
                 <i class="fa fa-calendar"/>
                 <p:commandButton value="Calendario" actionListener="#{commonController.showCalendar}"/>
             </p:link>

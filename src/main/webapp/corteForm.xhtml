@@ -29,7 +29,7 @@
             <div class="box box-primary">
                 <div class="box-header with-border">
                     <div id="main-buttons" class="hidden-sm hidden-xs">
-                        <p:commandButton value="#{corteForm.btnLabel}" action="#{corteForm.generateTalles}" update="@form" icon="fa fa-check" styleClass="btn-success"/>
+                        <p:commandButton value="Guardar" action="#{corteForm.save}" update="@form" icon="fa fa-check" styleClass="btn-success"/>
                         <p:spacer width="5" rendered="#{corteForm.isNew()}"/>
                         <p:commandButton value="Limpiar campos" action="#{corteForm.clear}" process="@this"
                                          icon="fa fa-refresh" styleClass="btn-primary"
@@ -80,10 +80,10 @@
                         <div class="ui-g-2 ui-sm-6"><p:outputLabel for="secondDueDate" value="2da Fecha de vencimiento del/los proyecto(s)"/></div>
                         <div class="ui-g-2 ui-sm-6"><p:outputLabel for="dueDate" value="Fecha de vencimiento"/></div>
 
-                        <div class="ui-g-6"><p:inputNumber id="clothesQuantity" value="#{corteForm.corte.clothesQuantity}" decimalPlaces="0" required="true"/></div>
-                        <div class="ui-g-2 ui-sm-6"><p:calendar id="firstDueDate" value="#{corteForm.firstDueDate}" required="true" pattern="dd/MM/yyyy" mask="true"/></div>
-                        <div class="ui-g-2 ui-sm-6"><p:calendar id="secondDueDate" value="#{corteForm.secondDueDate}" required="true" pattern="dd/MM/yyyy" mask="true"/></div>
-                        <div class="ui-g-2 ui-sm-6"><p:calendar id="dueDate" value="#{corteForm.corte.dueDate}" required="true" pattern="dd/MM/yyyy" mask="true"/></div>
+                        <div class="ui-g-6"><p:inputNumber id="clothesQuantity" value="#{corteForm.corte.clothesQuantity}" decimalPlaces="0"/></div>
+                        <div class="ui-g-2 ui-sm-6"><p:calendar id="firstDueDate" value="#{corteForm.firstDueDate}" pattern="dd/MM/yyyy" mask="true"/></div>
+                        <div class="ui-g-2 ui-sm-6"><p:calendar id="secondDueDate" value="#{corteForm.secondDueDate}" pattern="dd/MM/yyyy" mask="true"/></div>
+                        <div class="ui-g-2 ui-sm-6"><p:calendar id="dueDate" value="#{corteForm.corte.dueDate}" pattern="dd/MM/yyyy" mask="true"/></div>
 
                         <div class="ui-g-6"><p:outputLabel for="corteEstado" value="Estado"/></div>
                         <div class="ui-g-6"><p:outputLabel for="hojaDeCorte" value="Hoja de corte"/></div>
@@ -110,11 +110,14 @@
                                 <f:selectItem itemLabel="Varios" itemValue="true" />
                             </p:selectOneRadio>
                         </div>
-                        <h:panelGroup id="inputsRow" styleClass="ui-g-8 no-padding">
+                        <h:panelGroup id="inputsRow" styleClass="ui-g-6 no-padding">
                             <h:panelGroup layout="block" rendered="#{not corteForm.multiProyect}" styleClass="ui-g-12"><p:inputNumber id="tallesQuantity" value="#{corteForm.cantTalles}" decimalPlaces="0" required="true"/></h:panelGroup>
                             <h:panelGroup layout="block" rendered="#{corteForm.multiProyect}" styleClass="ui-g-6"><p:inputNumber id="fromSize" value="#{corteForm.corte.fromSize}" decimalPlaces="0" required="true"/></h:panelGroup>
                             <h:panelGroup layout="block" rendered="#{corteForm.multiProyect}" styleClass="ui-g-6"><p:inputNumber id="toSize" value="#{corteForm.corte.toSize}" decimalPlaces="0" required="true"/></h:panelGroup>
                         </h:panelGroup>
+                        <div class="ui-g-2">
+                            <p:commandButton value="Generar talles" action="#{corteForm.generateTalles}" update="@form" icon="fa fa-check" styleClass="btn-success"/>
+                        </div>
 
                         <div class="ui-g-12"><p:outputLabel for="comments" value="Comentarios"/></div>
                         <div class="ui-g-12"><p:inputTextarea id="comments" value="#{corteForm.corte.comments}" rows="3"/></div>

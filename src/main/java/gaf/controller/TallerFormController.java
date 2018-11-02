@@ -51,7 +51,7 @@ public class TallerFormController {
     public void remove() throws IOException {
         if (taller != null && taller.getId() != null) {
             tallerService.delete(taller);
-            addDetailMessage("El taller " + taller.getName() + " se eliminó correctamente");
+            addDetailMessage("taller.delete", null, taller.getName());
             Faces.getFlash().setKeepMessages(true);
             Faces.redirect("tallerList.xhtml");
         }
@@ -61,12 +61,12 @@ public class TallerFormController {
         String msg;
         if (taller.getId() == null) {
             tallerService.create(taller);
-            msg = "El taller " + taller.getName() + " se creó correctamente";
+            msg = "taller.create";
         } else {
             tallerService.update(taller);
-            msg = "El taller " + taller.getName() + " se actualizó correctamente";
+            msg = "taller.update";
         }
-        addDetailMessage(msg);
+        addDetailMessage(msg, null, taller.getName());
         Faces.getFlash().setKeepMessages(true);
         Faces.redirect("tallerList.xhtml");
     }

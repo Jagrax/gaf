@@ -7,6 +7,8 @@ import gaf.service.CorteService;
 import gaf.service.TalleService;
 import gaf.service.TallerService;
 import gaf.util.Estados;
+import gaf.util.FrontendValidator;
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.omnifaces.util.Faces;
@@ -199,11 +201,45 @@ public class CorteFormController {
         return corte == null || corte.getId() == null;
     }
 
-    public void generateTalles() throws IOException {
+    public void mainAction() {
+        if (isValidFrontEndData()) {
+            // Primero miro que cara tiene el corte, si tiene varios talles o uno solo
+            int cantTalles = 0;
+            if (isMultiProyect) {
+                for (Integer n = corte.getFromSize().intValue(); n <= corte.getToSize(); n += 2) cantTalles++;
+            } else {
+                cantTalles = this.cantTalles;
+            }
+
+            // Si estoy creando uno nuevo, genero los talles
+            if (corte.getId() == null) {
+
+            } else {
+
+            }
+            log.info(corte);
+            log.info("Cantidad de talles a generar: " + cantTalles);
+        }
+    }
+
+    private boolean isValidFrontEndData() {
+        boolean isValidData = true;
+
+        if (StringUtils.isBlank(corte.getName())) {
+            addDetailMessage("corte.error.name", FacesMessage.SEVERITY_ERROR);
+            isValidData = false;
+        }
+
+        return isValidData;
+    }
+
+    public void generateTalles() {
+        log.info("Entrando a generarTalles()");
         calcularCantTalles();
         if (isValidaData()) {
-            if (talles.size() == 0) {
-                if (isMultiProyect) {
+            if (isMultiProyect) {
+                // Si no tengo talles aun, los genero desde cero
+                if (CollectionUtils.isEmpty(talles)) {
                     // Tengo que calcular la cantidad de proyectos a generar
                     for (Integer n = corte.getFromSize().intValue(); n <= corte.getToSize(); n += 2) {
                         Talle talle = new Talle();
@@ -211,23 +247,42 @@ public class CorteFormController {
                         talle.setClothesDelivered(0);
                         talle.setSize(n.toString());
                         talle.setCorteId(corte.getId());
-                        talle.setEstadoId(Estados.CORTE_EN_PRODUCCION.getId());
+                        talle.setEstadoId(corte.getEstadoId());
                         talle.setFirstDueDate(firstDueDate);
                         talle.setSecondDueDate(secondDueDate);
                         talles.add(talle);
                     }
                 } else {
-                    Talle talle = new Talle();
-                    talle.setQuantity(cantTalles);
-                    talle.setClothesDelivered(0);
-                    talle.setCorteId(corte.getId());
-                    talle.setEstadoId(Estados.CORTE_EN_PRODUCCION.getId());
-                    talle.setFirstDueDate(firstDueDate);
-                    talle.setSecondDueDate(secondDueDate);
-                    talles.add(talle);
+                    // Sino, tengo que ver cuantos tengo creados y calcular si tengo que crear nuevos o no
+                    int diff = talles.size() - cantTalles;
+                    if (diff > 0) {
+                        // Si la diferencia es mayor que cero, significa que por ejemplo el corte tiene 5 talles y el usuario edito para que tenga solo 3
+                    } else if (diff < 0) {
+                        // Si la diferencia es menor que cero, significa que tengo que generar los talles que me faltan (que serian una cantidad = a diff)
+                        for (int n = 0; n < Math.abs(diff); n++) {
+                            Talle talle = new Talle();
+                            talle.setQuantity(null);
+                            talle.setClothesDelivered(0);
+                            talle.setSize(null);
+                            talle.setCorteId(corte.getId());
+                            talle.setEstadoId(corte.getEstadoId());
+                            talle.setFirstDueDate(firstDueDate);
+                            talle.setSecondDueDate(secondDueDate);
+                            talles.add(talle);
+                        }
+                    } else {
+                        // Si la diferencia es 0, no tengo que hacer nada con los talles
+                    }
                 }
             } else {
-                save();
+                Talle talle = new Talle();
+                talle.setQuantity(cantTalles);
+                talle.setClothesDelivered(0);
+                talle.setCorteId(corte.getId());
+                talle.setEstadoId(corte.getEstadoId());
+                talle.setFirstDueDate(firstDueDate);
+                talle.setSecondDueDate(secondDueDate);
+                talles.add(talle);
             }
         }
     }
@@ -266,12 +321,17 @@ public class CorteFormController {
             isValidData = false;
         }
 
-        if (corte.getClothesQuantity() == null || corte.getClothesQuantity() < 1) {
+        if (corte.getPrice() != null && !(Double.compare(corte.getPrice(), 0d) > 0)) {
+            addDetailMessage("corte.error.price", FacesMessage.SEVERITY_ERROR);
+            isValidData = false;
+        }
+
+        if (corte.getClothesQuantity() != null && corte.getClothesQuantity() < 1) {
             addDetailMessage("corte.error.clothesQuantity", FacesMessage.SEVERITY_ERROR);
             isValidData = false;
         }
 
-        if (corte.getDueDate() == null || corte.getDueDate().before(new Date())) {
+        if (!FrontendValidator.areEachDateAfter(firstDueDate, secondDueDate, corte.getDueDate())) {
             addDetailMessage("corte.error.dueDate", FacesMessage.SEVERITY_ERROR);
             isValidData = false;
         }

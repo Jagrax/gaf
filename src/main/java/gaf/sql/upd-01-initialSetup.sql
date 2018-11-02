@@ -34,9 +34,9 @@ CREATE TABLE CORTES (
   id INT NOT NULL AUTO_INCREMENT,
   name VARCHAR(255) NOT NULL,
   price DOUBLE,
-  clothes_quantity INT NOT NULL,
+  clothes_quantity INT,
   creation_date DATE NOT NULL,
-  due_date DATE NOT NULL,
+  due_date DATE,
   from_size DOUBLE,
   to_size DOUBLE,
   hoja_de_corte VARCHAR(255),
@@ -49,10 +49,10 @@ CREATE TABLE CORTES (
 CREATE TABLE TALLES (
   id INT NOT NULL AUTO_INCREMENT,
   size VARCHAR(20),
-  quantity INT NOT NULL,
-  clothes_delivered INT NOT NULL,
-  first_due_date DATE NOT NULL,
-  second_due_date DATE NOT NULL,
+  quantity INT,
+  clothes_delivered INT,
+  first_due_date DATE,
+  second_due_date DATE,
   comments VARCHAR(500),
   estado INT NOT NULL,
   taller INT,
@@ -63,7 +63,7 @@ CREATE TABLE TALLES (
   FOREIGN KEY (corte) REFERENCES CORTES(id)
 );
 
-create table operadores (
+CREATE TABLE OPERADORES (
   id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
   username VARCHAR(25) NOT NULL,
   password VARCHAR(250) NULL,
