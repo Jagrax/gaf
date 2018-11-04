@@ -1,6 +1,7 @@
 package gaf.service;
 
 import gaf.entity.Corte;
+import gaf.util.Estados;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
@@ -60,7 +61,13 @@ public class CorteService {
     }
 
     public List<Corte> findByStatusNotFinished() {
+        String statusIds = Estados.CORTE_SIN_ASIGNAR.getId() + ", " + Estados.CORTE_EN_PRODUCCION.getId() + ", " + Estados.CORTE_CERRADO_CON_DEUDA.getId();
         TypedQuery<Corte> query = em.createQuery("SELECT c FROM Corte c WHERE c.estadoId IN (5, 6, 7)", Corte.class);
+        return query.getResultList();
+    }
+
+    public List<Corte> findByStatusCerradoConDeuda() {
+        TypedQuery<Corte> query = em.createQuery("SELECT c FROM Corte c WHERE c.estadoId = " + Estados.CORTE_CERRADO_CON_DEUDA.getId(), Corte.class);
         return query.getResultList();
     }
 }

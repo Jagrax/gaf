@@ -30,6 +30,12 @@
             </p:link>
         </li>
         <li>
+            <p:link href="/common/cortes/reposiciones.jsf" rendered="#{commonController.hasAccess('access.reposiciones')}">
+                <i class="fa fa-industry"/>
+                <span>Reposiciones</span>
+            </p:link>
+        </li>
+        <li>
             <p:link rendered="#{commonController.hasAccess('access.calendar')}">
                 <i class="fa fa-calendar"/>
                 <p:commandButton value="Calendario" actionListener="#{commonController.showCalendar}"/>
