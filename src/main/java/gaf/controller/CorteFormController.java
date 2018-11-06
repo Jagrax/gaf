@@ -1,24 +1,33 @@
 package gaf.controller;
 
+import gaf.entity.Attach;
 import gaf.entity.Corte;
 import gaf.entity.Talle;
 import gaf.entity.Taller;
+import gaf.service.AttachService;
 import gaf.service.CorteService;
 import gaf.service.TalleService;
 import gaf.service.TallerService;
 import gaf.util.Estados;
 import gaf.util.FrontendValidator;
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.omnifaces.util.Faces;
+import org.primefaces.event.FileUploadEvent;
+import org.primefaces.model.UploadedFile;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -32,6 +41,7 @@ public class CorteFormController {
 
     private static final Logger log = Logger.getLogger(CorteFormController.class);
 
+    @EJB private AttachService attachService;
     @EJB private CorteService corteService;
     @EJB private TalleService talleService;
     @EJB private TallerService tallerService;
@@ -389,5 +399,36 @@ public class CorteFormController {
         }
 
         return isValidData;
+    }
+
+    public void handleFileUpload(FileUploadEvent event) {
+        UploadedFile uploadedFile = event.getFile();
+        if (uploadedFile != null && uploadedFile.getFileName() != null) {
+            String fileUploadName = uploadedFile.getFileName();
+            try {
+                String attachPath = "C:/wildfly-14.0.1.Final/standalone/deployments/gaf/attachs/";
+                String fileUploadWithPath = FilenameUtils.concat(attachPath, fileUploadName);
+
+                log.info("Subiend el archivo [" + fileUploadName + "] a [" + fileUploadWithPath + "]");
+                InputStream inputStream = uploadedFile.getInputstream();
+                FileOutputStream outputStream = new FileOutputStream(fileUploadWithPath);
+                IOUtils.copy(inputStream, outputStream);
+                inputStream.close();
+                outputStream.close();
+
+                Attach attach = new Attach();
+                attach.setPath(attachPath);
+                attach.setFilename(fileUploadName);
+                attach.setCorteId(id);
+                attachService.create(attach);
+            } catch (IOException e) {
+                String message = "Error al procesar la carga del archivo [" + fileUploadName + "]";
+                addDetailMessage(message, FacesMessage.SEVERITY_FATAL);
+                log.error(message, e);
+            }
+
+            FacesMessage message = new FacesMessage("Listo!", "El archivo " + fileUploadName + " se cargo correctamente");
+            FacesContext.getCurrentInstance().addMessage(null, message);
+        }
     }
 }

@@ -9,10 +9,10 @@ CORRECIONES 25-09
 
 26/09
 Pantalla principal: Dashboard
-- Listado de cortes ordenados por estados (not status in FINALIZADOS o bien STATUS in EN_PROCESO, EN_DEUDA, etc...)
+- (/) Listado de cortes ordenados por estados (not status in FINALIZADOS o bien STATUS in EN_PROCESO, EN_DEUDA, etc...)
 
 Reemplazar la pestaña de Estados por una que se llame Reposiciones:
-- Cortes en estado de deuda (por que le dieron para arreglar o porque tiene que haber una reposicion)
+- (/) Cortes en estado de deuda (por que le dieron para arreglar o porque tiene que haber una reposicion)
 
 Detalles de la empresa (Solo para admin):
 - Precios a los que le venden a las fabricas
@@ -20,6 +20,14 @@ Detalles de la empresa (Solo para admin):
 
 General:
 - Poner todo en español
-- Que deje guardar un corte sin especificar todos los datos (validar que datos son realmente necesarios para dar de alta el mismo)
+- (/) Que deje guardar un corte sin especificar todos los datos (validar que datos son realmente necesarios para dar de alta el mismo)
 
 Adjuntar imagenes al corte desde un celular
+
++--------+----------------------------------------------------------------------------------------------------+----------+
+| TITULO | DETALLE                                                                                            |  ESTADO  |
++--------+----------------------------------------------------------------------------------------------------+----------+
+| GAF-01 | Detalles de la empresa: precios a los que venden a las fabricas y calculos de fechas para liquidar |PENDIENTE |
+| GAF-02 | Poder adjuntar imagenes desde el celular                                                           |PENDIENTE |
+| GAF-03 | Revisar que esten todos en español                                                                 |PENDIENTE |
++--------+----------------------------------------------------------------------------------------------------+----------+

@@ -23,13 +23,14 @@
             <f:event type="preRenderView" listener="#{corteForm.init}"/>
         </f:metadata>
 
-        <h:form id="form" prependId="false">
+        <h:form id="form" prependId="false" enctype="multipart/form-data">
             <p:focus rendered="#{empty corteForm.id}"/>
 
             <div class="box box-primary">
                 <div class="box-header with-border">
                     <div id="main-buttons" class="hidden-sm hidden-xs">
                         <p:commandButton value="Guardar" action="#{corteForm.save}" update="@form" icon="fa fa-check" styleClass="btn-success"/>
+
                         <p:spacer width="5" rendered="#{corteForm.isNew()}"/>
                         <p:commandButton value="Limpiar campos" action="#{corteForm.clear}" process="@this"
                                          icon="fa fa-refresh" styleClass="btn-primary"
@@ -48,6 +49,8 @@
                                          action="corteList?faces-redirect=true"
                                          process="@this"
                                          icon="fa fa-close"/>
+                        <p:fileUpload fileUploadListener="#{corteForm.handleFileUpload}" mode="advanced" rendered="#{corteForm.id != null}"
+                                      update="messages" auto="false" allowTypes="/(\.|\/)(gif|jpe?g|png)$/"/>
                     </div>
                     <p:splitButton value="#{corteForm.btnLabel}" action="#{corteForm.generateTalles}" update="@form"
                                    icon="fa fa-check"
