@@ -14,24 +14,18 @@ import java.util.logging.Logger;
 @Stateless
 public class CorteService {
 
-    @Inject
-    private Logger log;
-
-    @Inject
-    private EntityManager em;
-
-    @Inject
-    private TallerService tallerService;
+    @Inject private Logger log;
+    @Inject private EntityManager em;
 
     public void create(Corte corte) {
-        Date creationDate = new Date();
-        corte.setCreationDate(creationDate);
+        corte.setCreationDate(new Date());
 
         log.info("[CREATE] " + corte);
         em.persist(corte);
+    }
 
-        // Una vez que el corte fue dado de alta, tengo que poner al taller en estado 'En produccion'
-        //tallerService.updateEstado(corte.getTallerId(), );
+    public void update(Corte corte) {
+        em.merge(corte);
     }
 
     public void delete(Corte corte) {
@@ -39,35 +33,29 @@ public class CorteService {
         em.remove(em.contains(corte) ? corte : em.merge(corte));
     }
 
-    public List<Corte> findAll(String orderBy) {
-        TypedQuery<Corte> query = em.createQuery("SELECT C FROM Corte C ORDER BY C.id " + orderBy, Corte.class);
-        return query.getResultList();
-    }
-
     public List<Corte> findAll() {
         return findAll("DESC");
     }
 
-    public Corte findById(Integer id) {
-        if (id != null) {
-            return em.find(Corte.class, id);
-        } else {
-            return null;
-        }
+    public List<Corte> findAll(String orderBy) {
+        return em.createQuery("SELECT C FROM Corte C ORDER BY C.id " + orderBy, Corte.class).getResultList();
     }
 
-    public void update(Corte corte) {
-        em.merge(corte);
+    public Corte findById(Integer id) {
+        return em.find(Corte.class, id);
     }
 
     public List<Corte> findByStatusNotFinished() {
-        String statusIds = Estados.CORTE_SIN_ASIGNAR.getId() + ", " + Estados.CORTE_EN_PRODUCCION.getId() + ", " + Estados.CORTE_CERRADO_CON_DEUDA.getId();
-        TypedQuery<Corte> query = em.createQuery("SELECT c FROM Corte c WHERE c.estadoId IN (5, 6, 7)", Corte.class);
+        TypedQuery<Corte> query = em.createQuery("SELECT c FROM Corte c WHERE c.estadoId IN (:sinAsignar, :enProduccion, :cerradoConDeuda)", Corte.class);
+        query.setParameter("sinAsignar", Estados.CORTE_SIN_ASIGNAR.getId());
+        query.setParameter("enProduccion", Estados.CORTE_EN_PRODUCCION.getId());
+        query.setParameter("cerradoConDeuda", Estados.CORTE_CERRADO_CON_DEUDA.getId());
         return query.getResultList();
     }
 
     public List<Corte> findByStatusCerradoConDeuda() {
-        TypedQuery<Corte> query = em.createQuery("SELECT c FROM Corte c WHERE c.estadoId = " + Estados.CORTE_CERRADO_CON_DEUDA.getId(), Corte.class);
+        TypedQuery<Corte> query = em.createQuery("SELECT c FROM Corte c WHERE c.estadoId = :estadoId", Corte.class);
+        query.setParameter("estadoId", Estados.CORTE_CERRADO_CON_DEUDA.getId());
         return query.getResultList();
     }
 }

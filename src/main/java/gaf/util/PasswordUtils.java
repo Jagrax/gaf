@@ -24,7 +24,7 @@ public class PasswordUtils {
         return new String(returnValue);
     }
 
-    public static byte[] hash(char[] password, byte[] salt) {
+    private static byte[] hash(char[] password, byte[] salt) {
         PBEKeySpec spec = new PBEKeySpec(password, salt, ITERATIONS, KEY_LENGTH);
         Arrays.fill(password, Character.MIN_VALUE);
         try {
@@ -38,23 +38,15 @@ public class PasswordUtils {
     }
 
     public static String generateSecurePassword(String password, String salt) {
-        String returnValue = null;
         byte[] securePassword = hash(password.toCharArray(), salt.getBytes());
-
-        returnValue = Base64.getEncoder().encodeToString(securePassword);
-
-        return returnValue;
+        return Base64.getEncoder().encodeToString(securePassword);
     }
 
     public static boolean verifyUserPassword(String providedPassword, String securedPassword, String salt) {
-        boolean returnValue = false;
-
         // Generate New secure password with the same salt
         String newSecurePassword = generateSecurePassword(providedPassword, salt);
 
         // Check if two passwords are equal
-        returnValue = newSecurePassword.equalsIgnoreCase(securedPassword);
-
-        return returnValue;
+        return newSecurePassword.equalsIgnoreCase(securedPassword);
     }
 }

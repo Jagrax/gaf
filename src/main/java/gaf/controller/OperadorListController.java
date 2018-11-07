@@ -1,15 +1,12 @@
 package gaf.controller;
 
-import gaf.entity.Estado;
 import gaf.entity.Operador;
 import gaf.service.OperadorService;
-import gaf.util.Estados;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
-import java.util.ArrayList;
 import java.util.List;
 
 @ViewScoped

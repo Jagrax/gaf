@@ -3,7 +3,6 @@ package gaf.entity;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
-import java.util.Date;
 
 @SuppressWarnings("serial")
 @Entity

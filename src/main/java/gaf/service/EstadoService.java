@@ -11,19 +11,14 @@ import java.util.logging.Logger;
 @Stateless
 public class EstadoService {
 
-    @Inject
-    private Logger log;
-
-    @Inject
-    private EntityManager em;
-
-    public List<Estado> findAll() {
-        List result = em.createQuery("from Estado").getResultList();
-        log.info("Se encontraron " + result.size() + " estados.");
-        return result;
-    }
+    @Inject private EntityManager em;
 
     public Estado findById(Integer estadoId) {
         return em.find(Estado.class, estadoId);
+    }
+
+    @SuppressWarnings(value = "unused")
+    public List<Estado> findAll() {
+        return em.createQuery("SELECT E FROM Estado E", Estado.class).getResultList();
     }
 }
