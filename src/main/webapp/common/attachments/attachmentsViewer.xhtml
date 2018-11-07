@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:f="http://java.sun.com/jsf/core" xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/templates/defaultNoMenu.xhtml">
+
+    <ui:define name="head">
+        <title>GAF - Adjuntos de cortes</title>
+    </ui:define>
+
+    <ui:define name="logo">
+        <b>GAF</b>
+    </ui:define>
+
+    <ui:define name="title">
+        Adjuntos
+    </ui:define>
+
+    <ui:define name="body">
+        <f:metadata>
+            <f:viewParam name="id" value="#{attachmentsViewer.id}" converter="javax.faces.Integer"/>
+            <!-- use view action if you are in a Java EE 7 server: <f:viewAction action="#{corteForm.init()}"/>-->
+        </f:metadata>
+
+        <p:galleria value="#{attachmentsViewer.images}" var="img">
+            <p:graphicImage value="#{img}" stream="false" width="auto" height="100%"/>
+        </p:galleria>
+    </ui:define>
+</ui:composition>

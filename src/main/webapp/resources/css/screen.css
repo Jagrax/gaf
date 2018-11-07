@@ -82,3 +82,13 @@ div.ui-panel .ui-panel-title {
     display: inline-flex;
     align-items: center;
 }
+
+.ui-galleria,
+.ui-galleria-panel-wrapper,
+.ui-galleria-panel {
+    width: 100%!important;
+}
+
+.ui-galleria-panel {
+    text-align: center;
+}

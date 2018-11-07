@@ -1,6 +1,6 @@
 package gaf.controller;
 
-import gaf.entity.Attach;
+import gaf.entity.Attachment;
 import gaf.entity.Corte;
 import gaf.entity.Talle;
 import gaf.entity.Taller;
@@ -416,11 +416,11 @@ public class CorteFormController {
                 inputStream.close();
                 outputStream.close();
 
-                Attach attach = new Attach();
-                attach.setPath(attachPath);
-                attach.setFilename(fileUploadName);
-                attach.setCorteId(id);
-                attachService.create(attach);
+                Attachment attachment = new Attachment();
+                attachment.setPath(attachPath);
+                attachment.setFilename(fileUploadName);
+                attachment.setCorteId(id);
+                attachService.create(attachment);
             } catch (IOException e) {
                 String message = "Error al procesar la carga del archivo [" + fileUploadName + "]";
                 addDetailMessage(message, FacesMessage.SEVERITY_FATAL);

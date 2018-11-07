@@ -8,6 +8,7 @@ public class FrontendValidator {
         boolean first = true;
         Date a;
         for (Date date : dates) {
+            if (date == null) continue;
             a = date;
 
             if (first) {

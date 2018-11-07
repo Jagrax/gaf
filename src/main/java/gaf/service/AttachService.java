@@ -1,6 +1,6 @@
 package gaf.service;
 
-import gaf.entity.Attach;
+import gaf.entity.Attachment;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
@@ -18,23 +18,23 @@ public class AttachService {
     @Inject
     private EntityManager em;
 
-    public void create(Attach attach) {
-        log.info("[CREATE] " + attach);
-        em.persist(attach);
+    public void create(Attachment attachment) {
+        log.info("[CREATE] " + attachment);
+        em.persist(attachment);
     }
 
-    public void update(Attach attach) {
-        em.merge(attach);
+    public void update(Attachment attachment) {
+        em.merge(attachment);
     }
 
-    public void delete(Attach attach) {
-        log.info("[DELETE] " + attach);
-        em.remove(em.contains(attach) ? attach : em.merge(attach));
+    public void delete(Attachment attachment) {
+        log.info("[DELETE] " + attachment);
+        em.remove(em.contains(attachment) ? attachment : em.merge(attachment));
     }
 
     // Search methods
-    public List<Attach> findByCorteId(Integer corteId) {
-        TypedQuery<Attach> query = em.createQuery("SELECT ATT FROM Attach ATT WHERE ATT.corteId = :corteId", Attach.class);
+    public List<Attachment> findByCorteId(Integer corteId) {
+        TypedQuery<Attachment> query = em.createQuery("SELECT ATT FROM Attachment ATT WHERE ATT.corteId = :corteId", Attachment.class);
         query.setParameter("corteId", corteId);
         return query.getResultList();
     }
