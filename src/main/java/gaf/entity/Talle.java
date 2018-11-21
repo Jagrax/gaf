@@ -1,8 +1,5 @@
 package gaf.entity;
 
-import gaf.service.TallerService;
-
-import javax.ejb.EJB;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;

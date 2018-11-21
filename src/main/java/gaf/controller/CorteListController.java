@@ -6,7 +6,7 @@ import gaf.service.AttachService;
 import gaf.service.CorteService;
 import gaf.service.EstadoService;
 import gaf.service.TalleService;
-import org.primefaces.context.RequestContext;
+import org.apache.commons.collections4.CollectionUtils;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -19,7 +19,6 @@ import java.util.List;
 public class CorteListController {
 
     private List<Corte> cortes;
-    private Integer corteId; // Para los attach
 
     @EJB private AttachService attachService;
     @EJB private CorteService corteService;
@@ -39,18 +38,17 @@ public class CorteListController {
         this.cortes = cortes;
     }
 
-    public Integer getCorteId() {
-        return corteId;
-    }
-
-    public void setCorteId(Integer corteId) {
-        this.corteId = corteId;
-    }
-
     public String generateCorteLabelForPanel(Corte corte) {
         String label = corte.getName();
         if (corte.getPrice() != null) label += "|$" + corte.getPrice();
-        label += "|Cant. de prendas: " + corte.getClothesQuantity();
+        label += "|Cant. de prendas: ";
+        Integer clothesQuantity = corte.getClothesQuantity();
+        if (clothesQuantity == null) {
+            label += "No asignadas";
+        } else {
+            label += clothesQuantity;
+        }
+
         return label;
     }
 
@@ -62,31 +60,7 @@ public class CorteListController {
         return estadoService.findById(corte.getEstadoId()).getColor();
     }
 
-    public void getAttachsByCorteId(Corte corte) {
-        corteId = corte.getId();
-        /*
-        List<Attach> attachs = attachService.findByCorteId(corte.getId());
-        if (CollectionUtils.isNotEmpty(attachs)) {
-            images = new ArrayList<>();
-            for (Attach attach : attachs) {
-                try {
-                    String fileFullPath = attach.getPath() + attach.getFilename();
-                    System.out.println(fileFullPath);
-                    File file = new File(fileFullPath);
-                    if (file.exists()) {
-                        String contentType = new MimetypesFileTypeMap().getContentType(file);
-                        System.out.println(contentType);
-                        StreamedContent streamedContent = new DefaultStreamedContent(new FileInputStream(file), new MimetypesFileTypeMap().getContentType(file));
-                        System.out.println("streamedContent=" + streamedContent);
-                        images.add(streamedContent);
-                    }
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-        */
-        RequestContext context = RequestContext.getCurrentInstance();
-        context.execute("PF('dlg2').show();");
+    public boolean haveAttachments(Integer corteId) {
+        return CollectionUtils.isNotEmpty(attachService.findByCorteId(corteId));
     }
 }

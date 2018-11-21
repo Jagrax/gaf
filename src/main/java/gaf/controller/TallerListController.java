@@ -5,6 +5,7 @@ import gaf.service.TallerService;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import java.util.List;
@@ -42,16 +43,22 @@ public class TallerListController {
 
     public void delete() {
         int cantTalleres = 0;
+        String lastTallerName = null;
         for (Taller tallerSeleccionado : talleresSeleccionados) {
-            cantTalleres++;
-            tallerService.delete(tallerSeleccionado);
-            talleres.remove(tallerSeleccionado);
+            try {
+                tallerService.delete(tallerSeleccionado);
+                talleres.remove(tallerSeleccionado);
+                cantTalleres++;
+                lastTallerName = tallerSeleccionado.getName();
+            } catch (Exception e) {
+                addDetailMessage("taller.delete.error.foreignkey", FacesMessage.SEVERITY_WARN, tallerSeleccionado.getName());
+            }
         }
         talleresSeleccionados.clear();
         if (cantTalleres > 1) {
-            addDetailMessage("Se eliminaron " + cantTalleres + " talleres correctamente!");
-        } else {
-            addDetailMessage("El taller se eliminó correctamente!");
+            addDetailMessage("taller.delete.multiple", null, cantTalleres);
+        } else if (cantTalleres == 1) {
+            addDetailMessage("taller.delete", null, lastTallerName);
         }
     }
 }

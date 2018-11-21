@@ -6,7 +6,4 @@ import javax.faces.bean.ViewScoped;
 @ViewScoped
 @ManagedBean(name = "talleController")
 public class TalleController {
-
-
-
 }

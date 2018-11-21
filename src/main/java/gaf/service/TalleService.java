@@ -6,18 +6,14 @@ import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
 @Stateless
 public class TalleService {
 
-    @Inject
-    private Logger log;
-
-    @Inject
-    private EntityManager em;
+    @Inject private Logger log;
+    @Inject private EntityManager em;
 
     public void create(Talle talle) {
         log.info("[CREATE] " + talle);
@@ -33,6 +29,11 @@ public class TalleService {
         em.remove(em.contains(talle) ? talle : em.merge(talle));
     }
 
+    @SuppressWarnings(value = "unused")
+    public List<Talle> findAll() {
+        return em.createQuery("SELECT T FROM Talle T", Talle.class).getResultList();
+    }
+
     public Talle findById(Integer id) {
         return em.find(Talle.class, id);
     }
@@ -40,11 +41,6 @@ public class TalleService {
     public List<Talle> findTallesFromCorte(Integer id) {
         TypedQuery<Talle> query = em.createQuery("SELECT T FROM Talle T WHERE T.corteId = :corteId", Talle.class);
         query.setParameter("corteId", id);
-        List<Talle> result = query.getResultList();
-        if (result != null) {
-            return result;
-        } else {
-            return new ArrayList<>();
-        }
+        return query.getResultList();
     }
 }

@@ -3,12 +3,11 @@ package gaf.entity;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
-import java.util.Date;
 
 @SuppressWarnings("serial")
 @Entity
-@Table(name = "ATTACHS")
-public class Attach implements Serializable {
+@Table(name = "ATTACHMENTS")
+public class Attachment implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

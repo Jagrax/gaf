@@ -34,13 +34,16 @@
                                 <span class="status-ball bg-#{corteList.getColorForCorte(c)} bg-#{corteList.getColorForCorte(c)}-gradient" title="#{commonController.getEstadoById(c.estadoId).name}"/>#{corteList.generateCorteLabelForPanel(c)}
                             </f:facet>
                             <f:facet name="actions">
-                                <p:commandButton action="#{corteList.getAttachsByCorteId(c)}" process="@this"
-                                                 icon="fa fa-eye" styleClass="btn-primary"
-                                                 update="@form" rendered="#{corteForm.isNew()}"/>
-                                <p:link outcome="corteForm.jsf" styleClass="btn btn-primary" style="float: right">
+                                <p:link outcome="corteForm.jsf" styleClass="btn btn-primary" style="float: right" title="Editar corte">
                                     <i class="fa fa-pencil-square-o"/>
                                     <f:param name="id" value="#{c.id}"/>
                                 </p:link>
+                                <p:lightBox iframe="true" styleClass="btn btn-default" style="float: right" rendered="#{corteList.haveAttachments(c.id)}" width="700px" height="600px">
+                                    <h:outputLink value="common/attachments/attachmentsViewer.jsf" title="Ver adjunto del corte">
+                                        <f:param name="id" value="#{c.id}"/>
+                                        <i class="fa fa-eye"/>
+                                    </h:outputLink>
+                                </p:lightBox>
                             </f:facet>
                             <ui:fragment rendered="#{not empty corteList.getTallesOfCorte(c.id)}">
                                 <div class="row">
@@ -71,15 +74,7 @@
                     </ui:repeat>
                 </div>
             </div>
-
-            <p:dialog header="Adjuntos del corte" widgetVar="dlg2" modal="true" height="500" width="500" dynamic="true">
-                <p:carousel value="#{attachImages.image}" var="image" itemStyle="text-align:center" responsive="true">
-                    <f:param name="corteId" value="#{corteList.corteId}"/>
-                    <p:graphicImage value="#{image}"/>
-                </p:carousel>
-            </p:dialog>
         </h:form>
-
     </ui:define>
 
 </ui:composition>
