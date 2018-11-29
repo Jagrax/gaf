@@ -63,9 +63,12 @@ public class CorteFormController {
         }
         if (id != null) {
             corte = corteService.findById(id);
-            Talle t = talleService.findTallesFromCorte(id).iterator().next();
-            firstDueDate = t.getFirstDueDate();
-            secondDueDate = t.getSecondDueDate();
+            List<Talle> tallesFromCorte = talleService.findTallesFromCorte(id);
+            if (CollectionUtils.isNotEmpty(tallesFromCorte)) {
+                Talle t = tallesFromCorte.iterator().next();
+                firstDueDate = t.getFirstDueDate();
+                secondDueDate = t.getSecondDueDate();
+            }
         } else {
             corte = new Corte();
         }

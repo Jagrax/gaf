@@ -18,6 +18,12 @@
             </p:link>
         </li>
         <li>
+            <p:link href="/common/cortes/history.jsf" rendered="#{commonController.hasAccess('access.history')}">
+                <i class="fa fa-list"/>
+                <span>Historial</span>
+            </p:link>
+        </li>
+        <li>
             <p:link href="/estadoList.jsf" rendered="#{commonController.hasAccess('access.estadoList')}">
                 <i class="fa fa-tags"/>
                 <span>Estados</span>

@@ -7,11 +7,13 @@ import gaf.service.CorteService;
 import gaf.service.EstadoService;
 import gaf.service.TalleService;
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import java.util.ArrayList;
 import java.util.List;
 
 @ViewScoped
@@ -19,6 +21,7 @@ import java.util.List;
 public class CorteListController {
 
     private List<Corte> cortes;
+    private String corteName;
 
     @EJB private AttachService attachService;
     @EJB private CorteService corteService;
@@ -27,7 +30,15 @@ public class CorteListController {
 
     @PostConstruct
     public void init() {
-        cortes = corteService.findAll();
+        cortes = corteService.findAllNotFinished();
+    }
+
+    public String getCorteName() {
+        return corteName;
+    }
+
+    public void setCorteName(String corteName) {
+        this.corteName = corteName;
     }
 
     public List<Corte> getCortes() {
@@ -36,6 +47,20 @@ public class CorteListController {
 
     public void setCortes(List<Corte> cortes) {
         this.cortes = cortes;
+    }
+
+    public void search() {
+        if (StringUtils.isNotEmpty(corteName)) {
+            List<Corte> filteredCortes = new ArrayList<>();
+            for (Corte corte : cortes) {
+                if (generateCorteLabelForPanel(corte).contains(corteName)) {
+                    filteredCortes.add(corte);
+                }
+            }
+            cortes = filteredCortes;
+        } else {
+            cortes = corteService.findAllNotFinished();
+        }
     }
 
     public String generateCorteLabelForPanel(Corte corte) {
@@ -62,5 +87,10 @@ public class CorteListController {
 
     public boolean haveAttachments(Integer corteId) {
         return CollectionUtils.isNotEmpty(attachService.findByCorteId(corteId));
+    }
+
+    public class FrontEndCorte extends Corte {
+        private String frontEndLabel;
+
     }
 }

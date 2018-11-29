@@ -7,6 +7,7 @@ import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Logger;
@@ -37,7 +38,7 @@ public class CorteService {
         return findAll("DESC");
     }
 
-    public List<Corte> findAll(String orderBy) {
+    private List<Corte> findAll(String orderBy) {
         return em.createQuery("SELECT C FROM Corte C ORDER BY C.id " + orderBy, Corte.class).getResultList();
     }
 
@@ -57,5 +58,19 @@ public class CorteService {
         TypedQuery<Corte> query = em.createQuery("SELECT c FROM Corte c WHERE c.estadoId = :estadoId", Corte.class);
         query.setParameter("estadoId", Estados.CORTE_CERRADO_CON_DEUDA.getId());
         return query.getResultList();
+    }
+
+    public List<Corte> findByStatus(List<Integer> listEstadosId) {
+        TypedQuery<Corte> query = em.createQuery("SELECT c FROM Corte c WHERE c.estadoId IN :estadosId", Corte.class);
+        query.setParameter("estadosId", listEstadosId);
+        return query.getResultList();
+    }
+
+    public List<Corte> findAllNotFinished() {
+        List<Integer> estadosId = new ArrayList<>();
+        estadosId.add(Estados.CORTE_SIN_ASIGNAR.getId());
+        estadosId.add(Estados.CORTE_EN_PRODUCCION.getId());
+        estadosId.add(Estados.CORTE_CERRADO_CON_DEUDA.getId());
+        return findByStatus(estadosId);
     }
 }

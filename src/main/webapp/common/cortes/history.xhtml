@@ -5,7 +5,7 @@
                 template="/WEB-INF/templates/default.xhtml">
 
     <ui:define name="head">
-        <title>GAF - Cortes</title>
+        <title>GAF - Historial</title>
     </ui:define>
 
     <ui:define name="logo">
@@ -13,41 +13,21 @@
     </ui:define>
 
     <ui:define name="title">
-        Cortes
+        Historial
     </ui:define>
 
     <ui:define name="description">
-        Alta, Baja y Modificación de cortes
+        Listado de cortes finalizados
     </ui:define>
 
     <ui:define name="body">
         <h:form>
             <div class="box box-primary">
                 <div class="box-header with-border">
-                    <div class="row">
-                        <div class="col-sm-8"><p:inputText id="name" value="#{corteList.corteName}"/></div>
-                        <div class="col-sm-2"><p:commandButton value="Buscar" action="#{corteList.search}" update="@form" icon="fa fa-search" styleClass="btn-info"/></div>
-                        <div class="col-sm-2"><p:commandButton action="corteForm?faces-redirect=true" icon="fa fa-plus" value="Agregar" styleClass="btn-success"/></div>
-                    </div>
-
-                    <p:separator/>
-
-                    <ui:repeat value="#{corteList.cortes}" var="c">
-                        <p:panel toggleable="#{not empty corteList.getTallesOfCorte(c.id)}" collapsed="true" styleClass="panel panel-primary">
+                    <ui:repeat value="#{historyController.cortesFinalizados}" var="c" >
+                        <p:panel toggleable="#{not empty corteList.getTallesOfCorte(c.id)}" collapsed="true" styleClass="panel panel-primary margin-bottom">
                             <f:facet name="header">
                                 <span class="status-ball bg-#{corteList.getColorForCorte(c)} bg-#{corteList.getColorForCorte(c)}-gradient" title="#{commonController.getEstadoById(c.estadoId).name}"/>#{corteList.generateCorteLabelForPanel(c)}
-                            </f:facet>
-                            <f:facet name="actions">
-                                <p:link outcome="corteForm.jsf" styleClass="btn btn-primary" style="float: right" title="Editar corte">
-                                    <i class="fa fa-pencil-square-o"/>
-                                    <f:param name="id" value="#{c.id}"/>
-                                </p:link>
-                                <p:lightBox iframe="true" styleClass="btn btn-default" style="float: right" rendered="#{corteList.haveAttachments(c.id)}" width="700px" height="600px">
-                                    <h:outputLink value="common/attachments/attachmentsViewer.jsf" title="Ver adjunto del corte">
-                                        <f:param name="id" value="#{c.id}"/>
-                                        <i class="fa fa-eye"/>
-                                    </h:outputLink>
-                                </p:lightBox>
                             </f:facet>
                             <ui:fragment rendered="#{not empty corteList.getTallesOfCorte(c.id)}">
                                 <div class="row">
@@ -74,8 +54,8 @@
                                 </div>
                             </ui:repeat>
                         </p:panel>
-                        <p:spacer height="5"/>
                     </ui:repeat>
+                    <h:panelGroup rendered="#{empty historyController.cortesFinalizados}">No hay cortes en proceso</h:panelGroup>
                 </div>
             </div>
         </h:form>
