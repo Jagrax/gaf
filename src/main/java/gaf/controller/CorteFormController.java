@@ -177,6 +177,9 @@ public class CorteFormController {
 
             // Actualizo los talles del corte
             for (Talle t : talles) {
+                if (t.getEstadoId().equals(Estados.CORTE_FINALIZADO.getId())) {
+                    t.setFinalizationDate(new Date());
+                }
                 talleService.update(t);
             }
             msg = "corte.update";
