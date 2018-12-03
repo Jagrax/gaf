@@ -24,30 +24,21 @@
         <h:form>
             <div class="box box-primary">
                 <div class="box-header with-border">
-                    <div id="main-buttons" class="hidden-sm hidden-xs">
-                        <p:commandButton action="tallerForm?faces-redirect=true" icon="fa fa-plus"
-                                         value="Agregar" styleClass="btn-success"/>
-
-                        <p:spacer width="5"/>
-
-                        <p:commandButton value="Eliminar" icon="fa fa-trash" styleClass="btn-danger"
-                                         action="#{tallerList.delete}"
-                                         disabled="#{empty tallerList.talleresSeleccionados or tallerList.talleresSeleccionados.size() == 0}"
-                                         process="@this" update="@form">
-                            <p:confirm header="Confirmation" message="¿Está seguro?" icon="ui-icon-danger"/>
-                        </p:commandButton>
+                    <div id="main-buttons" class="">
+                        <div class="row">
+                            <div class="col-xs-3 col-lg-2"><p:commandButton action="tallerForm?faces-redirect=true" icon="fa fa-plus" value="Agregar" styleClass="btn-success"/></div>
+                            <div class="col-xs-3 col-lg-2">
+                                <p:commandButton value="Eliminar" icon="fa fa-trash" styleClass="btn-danger"
+                                                 action="#{tallerList.delete}"
+                                                 disabled="#{empty tallerList.talleresSeleccionados or tallerList.talleresSeleccionados.size() == 0}"
+                                                 process="@this" update="@form">
+                                    <p:confirm header="Confirmation" message="¿Está seguro?" icon="ui-icon-danger"/>
+                                </p:commandButton>
+                            </div>
+                            <div class="col-xs-3 col-lg-6"><p:inputText id="name" value="#{tallerList.tallerName}" styleClass="form-control" placeholder="Buscar taller..."/></div>
+                            <div class="col-xs-3 col-lg-2"><p:commandButton value="Buscar" action="#{tallerList.search}" update="@form" icon="fa fa-search" styleClass="btn-block btn-info"/></div>
+                        </div>
                     </div>
-
-                    <p:splitButton value="Agregar" action="tallerForm?faces-redirect=true"
-                                   icon="fa fa-plus"
-                                   styleClass="hidden-md hidden-lg btn-primary">
-                        <p:menuitem value="Eliminar" action="#{tallerList.delete}"
-                                    process="@this" update="@form"
-                                    disabled="#{empty tallerList.talleresSeleccionados or tallerList.talleresSeleccionados.size() == 0}"
-                                    icon="fa fa-trash">
-                            <p:confirm header="Confirmation" message="¿Está seguro?" icon="ui-icon-danger"/>
-                        </p:menuitem>
-                    </p:splitButton>
 
                     <p:separator/>
 

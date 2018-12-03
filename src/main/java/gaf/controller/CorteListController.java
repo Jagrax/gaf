@@ -1,6 +1,7 @@
 package gaf.controller;
 
 import gaf.entity.Corte;
+import gaf.entity.FrontEndCorte;
 import gaf.entity.Talle;
 import gaf.service.AttachService;
 import gaf.service.CorteService;
@@ -13,14 +14,16 @@ import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @ViewScoped
 @ManagedBean(name = "corteList")
 public class CorteListController {
 
-    private List<Corte> cortes;
+    private List<FrontEndCorte> cortes;
     private String corteName;
 
     @EJB private AttachService attachService;
@@ -30,7 +33,6 @@ public class CorteListController {
 
     @PostConstruct
     public void init() {
-        cortes = corteService.findAllNotFinished();
     }
 
     public String getCorteName() {
@@ -41,25 +43,32 @@ public class CorteListController {
         this.corteName = corteName;
     }
 
-    public List<Corte> getCortes() {
+    public List<FrontEndCorte> getCortes() {
+        if (cortes == null) {
+            cortes = new ArrayList<>();
+            List<Corte> cortesNotFinished = corteService.findAllNotFinished();
+            for (Corte c : cortesNotFinished) {
+                cortes.add(new FrontEndCorte(c, generateCorteLabelForPanel(c)));
+            }
+        }
         return cortes;
     }
 
-    public void setCortes(List<Corte> cortes) {
+    public void setCortes(List<FrontEndCorte> cortes) {
         this.cortes = cortes;
     }
 
     public void search() {
         if (StringUtils.isNotEmpty(corteName)) {
-            List<Corte> filteredCortes = new ArrayList<>();
-            for (Corte corte : cortes) {
-                if (generateCorteLabelForPanel(corte).contains(corteName)) {
+            List<FrontEndCorte> filteredCortes = new ArrayList<>();
+            for (FrontEndCorte corte : cortes) {
+                if (corte.getFrontEndLabel().contains(corteName)) {
                     filteredCortes.add(corte);
                 }
             }
             cortes = filteredCortes;
         } else {
-            cortes = corteService.findAllNotFinished();
+            cortes = null;
         }
     }
 
@@ -73,6 +82,9 @@ public class CorteListController {
         } else {
             label += clothesQuantity;
         }
+        Date creationDate = corte.getCreationDate();
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        label += "|F. de Alta: " + sdf.format(creationDate);
 
         return label;
     }
@@ -87,10 +99,5 @@ public class CorteListController {
 
     public boolean haveAttachments(Integer corteId) {
         return CollectionUtils.isNotEmpty(attachService.findByCorteId(corteId));
-    }
-
-    public class FrontEndCorte extends Corte {
-        private String frontEndLabel;
-
     }
 }

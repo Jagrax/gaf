@@ -33,38 +33,38 @@
                     <p:separator/>
 
                     <ui:repeat value="#{corteList.cortes}" var="c">
-                        <p:panel toggleable="#{not empty corteList.getTallesOfCorte(c.id)}" collapsed="true" styleClass="panel panel-primary">
+                        <p:panel toggleable="#{not empty corteList.getTallesOfCorte(c.corte.id)}" collapsed="true" styleClass="panel panel-primary">
                             <f:facet name="header">
-                                <span class="status-ball bg-#{corteList.getColorForCorte(c)} bg-#{corteList.getColorForCorte(c)}-gradient" title="#{commonController.getEstadoById(c.estadoId).name}"/>#{corteList.generateCorteLabelForPanel(c)}
+                                <span class="status-ball bg-#{corteList.getColorForCorte(c.corte)} bg-#{corteList.getColorForCorte(c.corte)}-gradient" title="#{commonController.getEstadoById(c.corte.estadoId).name}"/>#{c.frontEndLabel}
                             </f:facet>
                             <f:facet name="actions">
                                 <p:link outcome="corteForm.jsf" styleClass="btn btn-primary" style="float: right" title="Editar corte">
                                     <i class="fa fa-pencil-square-o"/>
-                                    <f:param name="id" value="#{c.id}"/>
+                                    <f:param name="id" value="#{c.corte.id}"/>
                                 </p:link>
-                                <p:lightBox iframe="true" styleClass="btn btn-default" style="float: right" rendered="#{corteList.haveAttachments(c.id)}" width="700px" height="600px">
+                                <p:lightBox iframe="true" styleClass="btn btn-default" style="float: right" rendered="#{corteList.haveAttachments(c.corte.id)}" width="700px" height="600px">
                                     <h:outputLink value="common/attachments/attachmentsViewer.jsf" title="Ver adjunto del corte">
-                                        <f:param name="id" value="#{c.id}"/>
+                                        <f:param name="id" value="#{c.corte.id}"/>
                                         <i class="fa fa-eye"/>
                                     </h:outputLink>
                                 </p:lightBox>
                             </f:facet>
-                            <ui:fragment rendered="#{not empty corteList.getTallesOfCorte(c.id)}">
+                            <ui:fragment rendered="#{not empty corteList.getTallesOfCorte(c.corte.id)}">
                                 <div class="row">
                                     <div class="col-sm-2 col-xs-4 text-center"><b>Taller</b></div>
-                                    <div class="col-sm-2 col-xs-2 text-center"><b>Talle</b></div>
-                                    <div class="col-sm-2 col-xs-2 text-center"><b>Cantidad</b></div>
+                                    <div class="col-sm-1 col-xs-2 text-center"><b>Talle</b></div>
+                                    <div class="col-sm-1 col-xs-2 text-center"><b>Cantidad</b></div>
                                     <div class="col-sm-2 hidden-xs text-center"><b>Vencimiento</b></div>
                                     <div class="col-sm-2 hidden-xs text-center"><b>Comentarios</b></div>
                                     <div class="col-sm-2 col-xs-2 text-center"><b>Estado</b></div>
                                     <div class="col-sm-2 col-xs-2 text-center"><b>Fecha de finalización</b></div>
                                 </div>
                             </ui:fragment>
-                            <ui:repeat value="#{corteList.getTallesOfCorte(c.id)}" var="talle">
+                            <ui:repeat value="#{corteList.getTallesOfCorte(c.corte.id)}" var="talle">
                                 <div class="row">
                                     <div class="col-sm-2 col-xs-4"><h:outputText rendered="#{not empty talle.tallerId}" value="#{commonController.getTallerById(talle.tallerId).name}"/></div>
-                                    <div class="col-sm-2 col-xs-2 text-center">#{talle.size}</div>
-                                    <div class="col-sm-2 col-xs-2 text-center">#{talle.quantity}</div>
+                                    <div class="col-sm-1 col-xs-2 text-center">#{talle.size}</div>
+                                    <div class="col-sm-1 col-xs-2 text-center">#{talle.quantity}</div>
                                     <div class="col-sm-2 hidden-xs text-center">
                                         <h:outputText value="#{talle.secondDueDate}">
                                             <f:convertDateTime pattern="dd/MM/yyyy"/>
@@ -72,7 +72,7 @@
                                     </div>
                                     <div class="col-sm-2 hidden-xs text-center">#{talle.comments}</div>
                                     <div class="col-sm-2 col-xs-2 text-center">#{commonController.getEstadoById(talle.estadoId).name}</div>
-                                    <div class="col-sm-2 col-xs-2 text-center">#{talle.finalizationDate}</div>
+                                    <div class="col-sm-2 col-xs-2 text-center"><h:outputText value="#{talle.finalizationDate}"><f:convertDateTime type="date" pattern="dd/MM/yyyy"/></h:outputText></div>
                                 </div>
                             </ui:repeat>
                         </p:panel>

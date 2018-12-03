@@ -2,12 +2,14 @@ package gaf.controller;
 
 import gaf.entity.Taller;
 import gaf.service.TallerService;
+import org.apache.commons.lang3.StringUtils;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import java.util.ArrayList;
 import java.util.List;
 
 import static gaf.util.Utils.addDetailMessage;
@@ -16,13 +18,22 @@ import static gaf.util.Utils.addDetailMessage;
 @ManagedBean(name = "tallerList")
 public class TallerListController {
 
+    private String tallerName;
     private List<Taller> talleresSeleccionados;
     private List<Taller> talleres;
     @EJB private TallerService tallerService;
 
     @PostConstruct
     public void init() {
-        talleres = tallerService.findAll();
+
+    }
+
+    public String getTallerName() {
+        return tallerName;
+    }
+
+    public void setTallerName(String tallerName) {
+        this.tallerName = tallerName;
     }
 
     public List<Taller> getTalleresSeleccionados() {
@@ -34,6 +45,9 @@ public class TallerListController {
     }
 
     public List<Taller> getTalleres() {
+        if (talleres == null) {
+            talleres = tallerService.findAll();
+        }
         return talleres;
     }
 
@@ -59,6 +73,20 @@ public class TallerListController {
             addDetailMessage("taller.delete.multiple", null, cantTalleres);
         } else if (cantTalleres == 1) {
             addDetailMessage("taller.delete", null, lastTallerName);
+        }
+    }
+    
+    public void search() {
+        if (StringUtils.isNotEmpty(tallerName)) {
+            List<Taller> filteredTalleres = new ArrayList<>();
+            for (Taller taller : talleres) {
+                if (taller.getName().contains(tallerName)) {
+                    filteredTalleres.add(taller);
+                }
+            }
+            talleres = filteredTalleres;
+        } else {
+            talleres = null;
         }
     }
 }
