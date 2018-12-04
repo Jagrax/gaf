@@ -31,3 +31,6 @@ Adjuntar imagenes al corte desde un celular
 | GAF-02 | Poder adjuntar imagenes desde el celular                                                           |PENDIENTE |
 | GAF-03 | Revisar que esten todos en español                                                                 |PENDIENTE |
 +--------+----------------------------------------------------------------------------------------------------+----------+
+
+Para hacer backups a manopla:
+mysqldump -uroot -p gafdb > "C:\MySQL Backups\gafdb.sql"
