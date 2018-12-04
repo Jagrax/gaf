@@ -7,6 +7,8 @@ import gaf.util.PasswordUtils;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
+import javax.servlet.http.HttpSession;
 
 @ViewScoped
 @ManagedBean(name = "loginForm")
@@ -24,6 +26,9 @@ public class LoginFormController {
         if (operador != null) {
             if (PasswordUtils.verifyUserPassword(password, operador.getPassword(), operador.getSalt())) {
                 System.out.println("Provided user password " + password + " is correct.");
+                FacesContext context = FacesContext.getCurrentInstance();
+                HttpSession session = (HttpSession) context.getExternalContext().getSession(true);
+                session.setAttribute("operador", operador);
             } else {
                 System.out.println("La contraseña es incorrecta");
             }

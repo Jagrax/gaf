@@ -5,44 +5,44 @@
 
     <ul class="sidebar-menu">
         <li>
-            <p:link href="/common/dashboard/dashboard.jsf" rendered="#{commonController.hasAccess('access.dashboard')}">
+            <p:link href="/common/dashboard/dashboard.jsf" rendered="#{commonController.hasAccess('ADMIN|OPERARIO')}">
                 <i class="fa fa-home"/>
                 <span>Inicio</span>
             </p:link>
         </li>
         <li class="header">General</li>
         <li>
-            <p:link href="/corteList.jsf" rendered="#{commonController.hasAccess('access.corteList')}">
+            <p:link href="/corteList.jsf" rendered="#{commonController.hasAccess('ADMIN|OPERARIO')}">
                 <i class="fa fa-list"/>
                 <span>Cortes</span>
             </p:link>
         </li>
         <li>
-            <p:link href="/common/cortes/history.jsf" rendered="#{commonController.hasAccess('access.history')}">
+            <p:link href="/common/cortes/history.jsf" rendered="#{commonController.hasAccess('ADMIN')}">
                 <i class="fa fa-history"/>
                 <span>Historial</span>
             </p:link>
         </li>
         <li>
-            <p:link href="/estadoList.jsf" rendered="#{commonController.hasAccess('access.estadoList')}">
+            <p:link href="/estadoList.jsf" rendered="#{commonController.hasAccess('ADMIN')}">
                 <i class="fa fa-tags"/>
                 <span>Estados</span>
             </p:link>
         </li>
         <li>
-            <p:link href="/tallerList.jsf" rendered="#{commonController.hasAccess('access.tallerList')}">
+            <p:link href="/tallerList.jsf" rendered="#{commonController.hasAccess('ADMIN|OPERARIO')}">
                 <i class="fa fa-industry"/>
                 <span>Talleres</span>
             </p:link>
         </li>
         <li>
-            <p:link href="/common/cortes/reposiciones.jsf" rendered="#{commonController.hasAccess('access.reposiciones')}">
+            <p:link href="/common/cortes/reposiciones.jsf" rendered="#{commonController.hasAccess('ADMIN')}">
                 <i class="fa fa-wrench"/>
                 <span>Reposiciones</span>
             </p:link>
         </li>
         <li>
-            <p:link rendered="#{commonController.hasAccess('access.calendar')}">
+            <p:link rendered="#{commonController.hasAccess('ADMIN|OPERARIO')}">
                 <i class="fa fa-calendar"/>
                 <p:commandButton value="Calendario" actionListener="#{commonController.showCalendar}"/>
             </p:link>

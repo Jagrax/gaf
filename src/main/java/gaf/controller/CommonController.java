@@ -1,14 +1,9 @@
 package gaf.controller;
 
-import gaf.entity.Corte;
-import gaf.entity.Estado;
-import gaf.entity.Talle;
-import gaf.entity.Taller;
-import gaf.service.CorteService;
-import gaf.service.EstadoService;
-import gaf.service.TalleService;
-import gaf.service.TallerService;
+import gaf.entity.*;
+import gaf.service.*;
 import gaf.util.Estados;
+import org.apache.commons.collections4.CollectionUtils;
 import org.primefaces.context.RequestContext;
 
 import javax.annotation.PostConstruct;
@@ -16,6 +11,7 @@ import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+import javax.servlet.http.HttpSession;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -27,6 +23,8 @@ import java.util.ResourceBundle;
 @ManagedBean(name = "commonController")
 public class CommonController {
 
+    @EJB private RolService rolService;
+    @EJB private AccessService accessService;
     @EJB private CorteService corteService;
     @EJB private TallerService tallerService;
     @EJB private TalleService talleService;
@@ -37,6 +35,8 @@ public class CommonController {
     private List<Estado> lstTalleresEstados;
     private List<Estado> lstCortesAllEstados;
     private List<Integer> lstClothesSizes;
+
+    private Operador operador;
 
     @PostConstruct
     public void init() {
@@ -122,20 +122,38 @@ public class CommonController {
         List<String> result = new ArrayList<>();
 
         //TODO - Recuperar las DueDate de los cortes e insertalos en la lista para marcarlos en el calendario
+        List<Corte> cortes = corteService.findAllNotFinished();
+        if (CollectionUtils.isNotEmpty(cortes)) {
+            for (Corte corte : cortes) {
+                result.add(QUOTE + sdf.format(corte.getDueDate()) + TIME_FORMAT + QUOTE);
+            }
+        }
 
-        result.add(QUOTE + sdf.format(new Date()) + TIME_FORMAT + QUOTE);
-        try {
-        result.add(QUOTE + sdf.format(sdf.parse("2018-01-01")) + TIME_FORMAT + QUOTE);
-        result.add(QUOTE + sdf.format(sdf.parse("2017-12-25")) + TIME_FORMAT + QUOTE);
-        } catch (ParseException e) {}
-
-
-        return result.toArray(new String[3]);
+        return result.toArray(new String[cortes.size()]);
     }
 
     public boolean hasAccess(String accessKey) {
-        FacesContext context = FacesContext.getCurrentInstance();
-        ResourceBundle resource = ResourceBundle.getBundle("resources", context.getViewRoot().getLocale());
-        return Boolean.valueOf(resource.getString(accessKey));
+        if (operador == null) {
+            FacesContext context = FacesContext.getCurrentInstance();
+            HttpSession session = (HttpSession) context.getExternalContext().getSession(true);
+            operador = (Operador) session.getAttribute("operador");
+        }
+
+        if (operador != null) {
+            Access access = accessService.findByOperatorId(operador.getId());
+            Rol rol = rolService.findById(access.getRolId());
+            if (rol.getName().equals("SU")) {
+                return true;
+            }
+
+            if (accessKey.contains("|")) {
+                String[] keys = accessKey.split("[|]");
+                for (String key : keys) {
+                    if (rol.getName().equals(key)) return true;
+                }
+            }
+        }
+
+        return false;
     }
 }
