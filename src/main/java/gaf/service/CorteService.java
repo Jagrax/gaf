@@ -34,34 +34,18 @@ public class CorteService {
         em.remove(em.contains(corte) ? corte : em.merge(corte));
     }
 
-    public List<Corte> findAll() {
-        return findAll("DESC");
-    }
-
-    private List<Corte> findAll(String orderBy) {
-        return em.createQuery("SELECT C FROM Corte C ORDER BY C.id " + orderBy, Corte.class).getResultList();
-    }
-
     public Corte findById(Integer id) {
         return em.find(Corte.class, id);
     }
 
-    public List<Corte> findByStatusNotFinished() {
-        TypedQuery<Corte> query = em.createQuery("SELECT c FROM Corte c WHERE c.estadoId IN (:sinAsignar, :enProduccion, :cerradoConDeuda)", Corte.class);
-        query.setParameter("sinAsignar", Estados.CORTE_SIN_ASIGNAR.getId());
-        query.setParameter("enProduccion", Estados.CORTE_EN_PRODUCCION.getId());
-        query.setParameter("cerradoConDeuda", Estados.CORTE_CERRADO_CON_DEUDA.getId());
-        return query.getResultList();
-    }
-
     public List<Corte> findByStatusCerradoConDeuda() {
-        TypedQuery<Corte> query = em.createQuery("SELECT c FROM Corte c WHERE c.estadoId = :estadoId", Corte.class);
-        query.setParameter("estadoId", Estados.CORTE_CERRADO_CON_DEUDA.getId());
-        return query.getResultList();
+        List<Integer> estadosId = new ArrayList<>();
+        estadosId.add(Estados.CORTE_CERRADO_CON_DEUDA.getId());
+        return findByStatus(estadosId);
     }
 
     public List<Corte> findByStatus(List<Integer> listEstadosId) {
-        TypedQuery<Corte> query = em.createQuery("SELECT c FROM Corte c WHERE c.estadoId IN :estadosId", Corte.class);
+        TypedQuery<Corte> query = em.createQuery("SELECT c FROM Corte c WHERE c.estadoId IN :estadosId ORDER BY c.id DESC", Corte.class);
         query.setParameter("estadosId", listEstadosId);
         return query.getResultList();
     }
