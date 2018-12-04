@@ -24,12 +24,12 @@
         <h:form>
             <div class="box box-primary">
                 <div class="box-header with-border">
-                    <ui:repeat value="#{dashboardController.cortesInProcess}" var="c" >
-                        <p:panel toggleable="#{not empty corteList.getTallesOfCorte(c.id)}" collapsed="true" styleClass="panel panel-primary margin-bottom">
+                    <ui:repeat value="#{corteList.cortes}" var="c" >
+                        <p:panel toggleable="#{not empty corteList.getTallesOfCorte(c.corte.id)}" collapsed="true" styleClass="panel panel-primary margin-bottom">
                             <f:facet name="header">
-                                <span class="status-ball bg-#{corteList.getColorForCorte(c)} bg-#{corteList.getColorForCorte(c)}-gradient" title="#{commonController.getEstadoById(c.estadoId).name}"/>#{corteList.generateCorteLabelForPanel(c)}
+                                <span class="status-ball bg-#{corteList.getColorForCorte(c.corte)} bg-#{corteList.getColorForCorte(c.corte)}-gradient" title="#{commonController.getEstadoById(c.corte.estadoId).name}"/>#{c.frontEndLabel}
                             </f:facet>
-                            <ui:fragment rendered="#{not empty corteList.getTallesOfCorte(c.id)}">
+                            <ui:fragment rendered="#{not empty corteList.getTallesOfCorte(c.corte.id)}">
                                 <div class="row">
                                     <div class="col-sm-2 col-xs-4 text-center"><b>Taller</b></div>
                                     <div class="col-sm-1 col-xs-2 text-center"><b>Talle</b></div>
@@ -40,7 +40,7 @@
                                     <div class="col-sm-2 col-xs-2 text-center"><b>Fecha de finalización</b></div>
                                 </div>
                             </ui:fragment>
-                            <ui:repeat value="#{corteList.getTallesOfCorte(c.id)}" var="talle">
+                            <ui:repeat value="#{corteList.getTallesOfCorte(c.corte.id)}" var="talle">
                                 <div class="row">
                                     <div class="col-sm-2 col-xs-4"><h:outputText rendered="#{not empty talle.tallerId}" value="#{commonController.getTallerById(talle.tallerId).name}"/></div>
                                     <div class="col-sm-1 col-xs-2 text-center">#{talle.size}</div>
@@ -57,7 +57,7 @@
                             </ui:repeat>
                         </p:panel>
                     </ui:repeat>
-                    <h:panelGroup rendered="#{empty dashboardController.cortesInProcess}">No hay cortes en proceso</h:panelGroup>
+                    <h:panelGroup rendered="#{empty corteList.cortes}">No hay cortes en proceso</h:panelGroup>
                 </div>
             </div>
         </h:form>
