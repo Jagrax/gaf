@@ -92,3 +92,9 @@ div.ui-panel .ui-panel-title {
 .ui-galleria-panel {
     text-align: center;
 }
+
+.login-page {
+    background-image: url(#{request.contextPath}/resources/gfx/login-background.png);
+    background-position: center;
+    background-size: cover;
+}

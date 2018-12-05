@@ -21,6 +21,9 @@
     </ui:define>
 
     <ui:define name="body">
+        <f:metadata>
+            <f:event listener="#{commonController.checkOperatorAccess('SU')}" type="preRenderView" />
+        </f:metadata>
         <h:form>
             <div class="box box-primary">
                 <div class="box-header with-border">

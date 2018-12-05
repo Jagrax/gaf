@@ -4,24 +4,31 @@ import gaf.entity.*;
 import gaf.service.*;
 import gaf.util.Estados;
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.log4j.Logger;
+import org.omnifaces.util.Faces;
 import org.primefaces.context.RequestContext;
+import org.primefaces.model.DefaultStreamedContent;
+import org.primefaces.model.StreamedContent;
 
+import javax.activation.MimetypesFileTypeMap;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpSession;
-import java.text.ParseException;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.ResourceBundle;
 
 @ViewScoped
 @ManagedBean(name = "commonController")
 public class CommonController {
+
+    private static final Logger log = Logger.getLogger(CommonController.class);
 
     @EJB private RolService rolService;
     @EJB private AccessService accessService;
@@ -37,6 +44,7 @@ public class CommonController {
     private List<Integer> lstClothesSizes;
 
     private Operador operador;
+    private Rol operadorRol;
 
     @PostConstruct
     public void init() {
@@ -97,6 +105,19 @@ public class CommonController {
         this.lstAllTalleres = lstAllTalleres;
     }
 
+    public Operador getOperador() {
+        if (operador == null) {
+            FacesContext context = FacesContext.getCurrentInstance();
+            HttpSession session = (HttpSession) context.getExternalContext().getSession(true);
+            operador = (Operador) session.getAttribute("operador");
+        }
+        return operador;
+    }
+
+    public Rol getOperadorRol() {
+        return operadorRol;
+    }
+
     // ----- GETTERS DE ENTITDADES POR ID -----
 
     public Corte getCorteById(Integer id) {return corteService.findById(id);}
@@ -121,7 +142,6 @@ public class CommonController {
         SimpleDateFormat sdf = new SimpleDateFormat(YEAR_MONTH_DAY_FORMAT);
         List<String> result = new ArrayList<>();
 
-        //TODO - Recuperar las DueDate de los cortes e insertalos en la lista para marcarlos en el calendario
         List<Corte> cortes = corteService.findAllNotFinished();
         if (CollectionUtils.isNotEmpty(cortes)) {
             for (Corte corte : cortes) {
@@ -133,27 +153,40 @@ public class CommonController {
     }
 
     public boolean hasAccess(String accessKey) {
-        if (operador == null) {
-            FacesContext context = FacesContext.getCurrentInstance();
-            HttpSession session = (HttpSession) context.getExternalContext().getSession(true);
-            operador = (Operador) session.getAttribute("operador");
-        }
-
-        if (operador != null) {
+        if (getOperador() != null) {
             Access access = accessService.findByOperatorId(operador.getId());
-            Rol rol = rolService.findById(access.getRolId());
-            if (rol.getName().equals("SU")) {
+            operadorRol = rolService.findById(access.getRolId());
+            if (operadorRol.getName().equals("SU")) {
                 return true;
             }
 
             if (accessKey.contains("|")) {
                 String[] keys = accessKey.split("[|]");
                 for (String key : keys) {
-                    if (rol.getName().equals(key)) return true;
+                    if (operadorRol.getName().equals(key)) return true;
                 }
             }
         }
-
         return false;
+    }
+
+    public void checkOperatorAccess(String accessKey) throws IOException {
+        if (getOperador() != null) {
+            if (!hasAccess(accessKey)) {
+                Faces.redirect("access-denied.xhtml");
+            }
+        } else {
+            Faces.redirect("login/login.xhtml");
+        }
+    }
+
+    public StreamedContent getProfileImage() throws FileNotFoundException {
+        StreamedContent img = null;
+        String baseDirectory = "C:/wildfly-14.0.1.Final/standalone/deployments/gaf/icons/";
+        if (getOperador() != null && operadorRol != null) {
+            img = new DefaultStreamedContent(new FileInputStream(baseDirectory + operadorRol.getName() + ".png"), new MimetypesFileTypeMap().getContentType(baseDirectory + operadorRol.getName() + ".png"));
+        }
+
+        return img;
     }
 }

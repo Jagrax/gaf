@@ -1,32 +1,40 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html"
-                xmlns:f="http://java.sun.com/jsf/core" xmlns:ui="http://java.sun.com/jsf/facelets"
-                xmlns:p="http://primefaces.org/ui"
-                template="/WEB-INF/templates/default.xhtml">
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core" xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui" xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+<f:view>
+    <h:head>
+        <meta charset="utf-8"/>
+        <meta http-equiv="x-ua-compatible" content="IE=edge"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=yes"/>
+        <meta name="apple-mobile-web-app-capable" content="yes"/>
+        <meta name="mobile-web-app-capable" content="yes"/>
+        <h:outputStylesheet library="css" name="screen.css"/>
+        <title>GAF - Login</title>
+    </h:head>
+    <h:body styleClass="skin-green sidebar-mini login-page">
+        <div class="login-box">
+            <div class="login-box-body">
+                <div class="login-logo"><b>GAF</b></div>
+                <h:form id="form" prependId="false">
+                    <div class="form-group has-feedback">
+                        <p:inputText id="username" value="#{loginForm.username}" styleClass="form-control" placeholder="Usuario" required="true"/>
+                    </div>
+                    <div class="form-group has-feedback">
+                        <p:password id="password" value="#{loginForm.password}" styleClass="form-control" placeholder="Contraseña" required="true"/>
+                    </div>
+                    <p:commandButton value="Ingresar" action="#{loginForm.login}" styleClass="btn btn-primary btn-block btn-flat" update="@form"/>
+                    <h:outputText value="#{loginForm.message}" rendered="#{loginForm.message != ''}"/>
+                </h:form>
+            </div>
+        </div>
 
-    <ui:define name="head">
-        <title>GAF - Iniciar sesión</title>
-    </ui:define>
-
-    <ui:define name="logo">
-        <b>GAF</b>
-    </ui:define>
-
-    <ui:define name="title">
-        Iniciar sesión
-    </ui:define>
-
-    <ui:define name="body">
-        <h:form id="form" prependId="false">
-            <p:panelGrid columns="2" layout="grid" styleClass="ui-fluid card" columnClasses="ui-grid-col-2,ui-grid-col-10">
-                <h:outputLabel for="username" value="Usuario:"/>
-                <p:inputText id="username" value="#{loginForm.username}"/>
-
-                <h:outputLabel for="password" value="Contraseña:"/>
-                <p:password id="password" value="#{loginForm.password}"/>
-
-                <p:commandButton value="Ingresar" action="#{loginForm.login}" styleClass="btn-primary"/>
-            </p:panelGrid>
-        </h:form>
-    </ui:define>
-</ui:composition>
+        <h:outputScript target="head" library="js" name="admin-lte.min.js"/>
+        <h:outputScript target="head" library="js" name="adminslide.js"/>
+        <h:outputScript target="head" library="js" name="admintemplate.js"/>
+        <h:outputScript target="head" library="js" name="bootstrap.min.js"/>
+        <h:outputScript target="head" library="js" name="slideout.min.js"/>
+    </h:body>
+</f:view>
+</html>

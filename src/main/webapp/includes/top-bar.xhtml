@@ -2,25 +2,24 @@
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
-                xmlns:p="http://primefaces.org/ui"
-                xmlns:pe="http://primefaces.org/ui/extensions">
+                xmlns:p="http://primefaces.org/ui">
 
     <ul class="nav navbar-nav">
         <li class="dropdown user user-menu">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                <pe:gravatar id="userImage" value="nonexisting" notFound="mm" style="border-radius:50px"/>
-                <span class="hidden-xs">Usuario</span></a>
+                <p:graphicImage value="#{commonController.profileImage}" stream="false" width="20" height="20"/>
+                <span class="hidden-xs">#{commonController.operador.descripcion}</span></a>
             <ul class="dropdown-menu">
                 <li class="user-header">
-                    <div class="hidden-xs"><pe:gravatar style="border-radius: 50%" value="user@mail.com" notFound="mm"/></div>
-                    <p>Usuario
-                        <small>Subtitle</small>
+                    <div class="hidden-xs"><p:graphicImage value="#{commonController.profileImage}" stream="false" width="64" height="64"/></div>
+                    <p>#{commonController.operador.descripcion}
+                        <small style="text-transform: capitalize">#{commonController.operadorRol.name}</small>
                     </p>
                 </li>
                 <li class="user-footer">
                     <h:form prependId="false">
                         <div class="pull-right">
-                            <p:commandLink id="logout" title="Cerrar sesión"><i class="fa fa-sign-out fa-2x"/></p:commandLink>
+                            <p:commandLink id="logout" title="Cerrar sesión" actionListener="#{loginForm.logout}"><i class="fa fa-sign-out fa-2x"/></p:commandLink>
                         </div>
                     </h:form>
                 </li>
