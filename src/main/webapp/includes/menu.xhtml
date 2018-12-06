@@ -5,20 +5,20 @@
 
     <ul class="sidebar-menu">
         <li>
-            <p:link href="/common/dashboard/dashboard.jsf" rendered="#{accessController.hasAccess('OPERARIO')}">
+            <p:link href="/common/dashboard/dashboard.jsf" rendered="#{accessController.hasAccess('WORKER')}">
                 <i class="fa fa-home"/>
                 <span>Inicio</span>
             </p:link>
         </li>
         <li class="header">General</li>
         <li>
-            <p:link href="/corteList.jsf" rendered="#{accessController.hasAccess('OPERARIO')}">
+            <p:link href="/corteList.jsf" rendered="#{accessController.hasAccess('WORKER')}">
                 <i class="fa fa-list"/>
                 <span>Cortes</span>
             </p:link>
         </li>
         <li>
-            <p:link href="/common/cortes/history.jsf" rendered="#{accessController.hasAccess('OPERARIO')}">
+            <p:link href="/common/cortes/history.jsf" rendered="#{accessController.hasAccess('WORKER')}">
                 <i class="fa fa-history"/>
                 <span>Historial</span>
             </p:link>
@@ -30,19 +30,19 @@
             </p:link>
         </li>
         <li>
-            <p:link href="/tallerList.jsf" rendered="#{accessController.hasAccess('OPERARIO')}">
+            <p:link href="/tallerList.jsf" rendered="#{accessController.hasAccess('WORKER')}">
                 <i class="fa fa-industry"/>
                 <span>Talleres</span>
             </p:link>
         </li>
         <li>
-            <p:link href="/common/cortes/reposiciones.jsf" rendered="#{accessController.hasAccess('ADMIN')}">
+            <p:link href="/common/cortes/reposiciones.jsf" rendered="#{accessController.hasAccess('WORKER')}">
                 <i class="fa fa-wrench"/>
                 <span>Reposiciones</span>
             </p:link>
         </li>
         <li>
-            <p:link rendered="#{accessController.hasAccess('OPERARIO')}">
+            <p:link rendered="#{accessController.hasAccess('WORKER')}">
                 <i class="fa fa-calendar"/>
                 <p:commandButton value="Calendario" actionListener="#{commonController.showCalendar}"/>
             </p:link>

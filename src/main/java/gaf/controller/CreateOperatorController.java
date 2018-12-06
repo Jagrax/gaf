@@ -1,24 +1,24 @@
 package gaf.controller;
 
-import gaf.entity.Operador;
-import gaf.service.OperadorService;
+import gaf.entity.Operator;
+import gaf.service.OperatorService;
 import gaf.util.PasswordUtils;
 
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
-import javax.faces.context.FacesContext;
-import javax.servlet.http.HttpSession;
 
 @ViewScoped
-@ManagedBean(name = "createOperador")
-public class CreateOperadorController {
+@ManagedBean(name = "createOperator")
+public class CreateOperatorController {
 
     private String username;
     private String description;
     private String password;
+    private Operator.Rol rol;
+    private String message;
 
-    @EJB private OperadorService operadorService;
+    @EJB private OperatorService operatorService;
 
     public void create() {
         // Generate Salt. The generated value can be stored in DB.
@@ -30,12 +30,18 @@ public class CreateOperadorController {
         // Print out protected password
         System.out.println("My secure password = " + mySecurePassword);
         System.out.println("Salt value = " + salt);
-        Operador op = new Operador();
+        Operator op = new Operator();
         op.setUsername(username);
-        op.setDescripcion(description);
+        op.setDescription(description);
         op.setSalt(salt);
         op.setPassword(mySecurePassword);
-        operadorService.create(op);
+        op.setRol(rol);
+        operatorService.create(op);
+        message = "Se creo al usuario " + username;
+        username = "";
+        description = "";
+        password = "";
+        rol = null;
     }
 
     public String getUsername() {
@@ -60,5 +66,21 @@ public class CreateOperadorController {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
+    public Operator.Rol getRol() {
+        return rol;
+    }
+
+    public void setRol(Operator.Rol rol) {
+        this.rol = rol;
     }
 }

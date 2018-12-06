@@ -76,8 +76,8 @@
                         <div class="ui-g-8"><p:outputLabel for="name" value="Nombre del corte"/></div>
                         <div class="ui-g-4"><p:outputLabel for="price" value="Precio"/></div>
 
-                        <div class="ui-g-8"><p:inputText id="name" value="#{corteForm.corte.name}" required="true"/></div>
-                        <div class="ui-g-4"><p:inputNumber id="price" value="#{corteForm.corte.price}" decimalPlaces="2" decimalSeparator="," thousandSeparator="." symbol="$"/></div>
+                        <div class="ui-g-8"><p:inputText id="name" value="#{corteForm.corte.name}" required="true" rendered="#{!accessController.isWorker()}"/></div>
+                        <div class="ui-g-4"><p:inputNumber id="price" value="#{corteForm.corte.price}" decimalPlaces="2" decimalSeparator="," thousandSeparator="." symbol="$" rendered="#{!accessController.isWorker()}"/></div>
 
                         <div class="ui-g-6"><p:outputLabel for="clothesQuantity" value="Cant. de prendas"/></div>
                         <div class="ui-g-2 ui-sm-6"><p:outputLabel for="firstDueDate" value="1er Fecha de vencimiento del/los proyecto(s)"/></div>

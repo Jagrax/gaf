@@ -7,19 +7,19 @@
     <ul class="nav navbar-nav">
         <li class="dropdown user user-menu">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                <p:graphicImage value="#{commonController.profileImage}" stream="false" width="20" height="20"/>
-                <span class="hidden-xs">#{commonController.operador.descripcion}</span></a>
+                <p:graphicImage value="#{request.contextPath}/resources/gfx/#{accessController.operator.rol}.png" stream="false" width="20" height="20"/>
+                <span class="hidden-xs">#{commonController.operator.description}</span></a>
             <ul class="dropdown-menu">
                 <li class="user-header">
-                    <div class="hidden-xs"><p:graphicImage value="#{commonController.profileImage}" stream="false" width="64" height="64"/></div>
-                    <p>#{commonController.operador.descripcion}
-                        <small style="text-transform: capitalize">#{commonController.operadorRol.name}</small>
+                    <div class="hidden-xs"><p:graphicImage value="#{commonController.profileImage(request)}" stream="false" width="64" height="64"/></div>
+                    <p>#{commonController.operator.description}
+                        <small style="text-transform: capitalize">#{commonController.operator.rol}</small>
                     </p>
                 </li>
                 <li class="user-footer">
                     <h:form prependId="false">
                         <div class="pull-right">
-                            <p:commandLink id="logout" title="Cerrar sesión" actionListener="#{loginForm.logout}"><i class="fa fa-sign-out fa-2x"/></p:commandLink>
+                            <p:commandLink id="logout" title="Cerrar sesión" actionListener="#{commonController.logout}"><i class="fa fa-sign-out fa-2x"/></p:commandLink>
                         </div>
                     </h:form>
                 </li>

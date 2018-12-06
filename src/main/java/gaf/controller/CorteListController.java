@@ -2,11 +2,13 @@ package gaf.controller;
 
 import gaf.entity.Corte;
 import gaf.entity.FrontEndCorte;
+import gaf.entity.Operator;
 import gaf.entity.Talle;
 import gaf.service.AttachService;
 import gaf.service.CorteService;
 import gaf.service.EstadoService;
 import gaf.service.TalleService;
+import gaf.util.OperatorRolManager;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 
@@ -14,6 +16,7 @@ import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.inject.Inject;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -21,7 +24,9 @@ import java.util.List;
 
 @ViewScoped
 @ManagedBean(name = "corteList")
-public class CorteListController extends AccessController {
+public class CorteListController {
+
+    private Operator operator;
 
     private List<FrontEndCorte> cortes;
     private String corteName;
@@ -31,8 +36,11 @@ public class CorteListController extends AccessController {
     @EJB private TalleService talleService;
     @EJB private EstadoService estadoService;
 
+    @Inject private OperatorRolManager operatorRolManager;
+
     @PostConstruct
     public void init() {
+        operator = operatorRolManager.getOperatorFromSession(operator);
     }
 
     public String getCorteName() {
@@ -74,7 +82,7 @@ public class CorteListController extends AccessController {
 
     public String generateCorteLabelForPanel(Corte corte) {
         String label = corte.getName();
-        if (hasAccess("ADMIN")) {
+        if (operatorRolManager.hasAccess(operator.getRol(), Operator.Rol.ADMINISTRATOR)) {
             if (corte.getPrice() != null) label += "|$" + corte.getPrice();
         }
         label += "|Cant. de prendas: ";
@@ -102,4 +110,6 @@ public class CorteListController extends AccessController {
     public boolean haveAttachments(Integer corteId) {
         return CollectionUtils.isNotEmpty(attachService.findByCorteId(corteId));
     }
+
+
 }

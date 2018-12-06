@@ -1,10 +1,14 @@
 package gaf.controller;
 
 import gaf.entity.*;
-import gaf.service.*;
+import gaf.manager.SecurityManager;
+import gaf.service.CorteService;
+import gaf.service.EstadoService;
+import gaf.service.TalleService;
+import gaf.service.TallerService;
 import gaf.util.Estados;
+import gaf.util.OperatorRolManager;
 import org.apache.commons.collections4.CollectionUtils;
-import org.apache.log4j.Logger;
 import org.omnifaces.util.Faces;
 import org.primefaces.context.RequestContext;
 import org.primefaces.model.DefaultStreamedContent;
@@ -15,8 +19,8 @@ import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
-import javax.faces.context.FacesContext;
-import javax.servlet.http.HttpSession;
+import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -28,14 +32,12 @@ import java.util.List;
 @ManagedBean(name = "commonController")
 public class CommonController {
 
-    private static final Logger log = Logger.getLogger(CommonController.class);
-
-    @EJB private RolService rolService;
-    @EJB private AccessService accessService;
     @EJB private CorteService corteService;
     @EJB private TallerService tallerService;
     @EJB private TalleService talleService;
     @EJB private EstadoService estadoService;
+    @Inject private SecurityManager securityManager;
+    @Inject private OperatorRolManager operatorRolManager;
 
     private List<Estado> lstAllEstados;
     private List<Taller> lstAllTalleres;
@@ -43,8 +45,7 @@ public class CommonController {
     private List<Estado> lstCortesAllEstados;
     private List<Integer> lstClothesSizes;
 
-    private Operador operador;
-    private Rol operadorRol;
+    private Operator operator;
 
     @PostConstruct
     public void init() {
@@ -80,6 +81,14 @@ public class CommonController {
         }
     }
 
+    public Operator getOperator() {
+        return operatorRolManager.getOperatorFromSession(operator);
+    }
+
+    public void setOperator(Operator operator) {
+        this.operator = operator;
+    }
+
     public List<Estado> getLstAllEstados() {
         return lstAllEstados;
     }
@@ -103,19 +112,6 @@ public class CommonController {
 
     public void setLstAllTalleres(List<Taller> lstAllTalleres) {
         this.lstAllTalleres = lstAllTalleres;
-    }
-
-    public Operador getOperador() {
-        if (operador == null) {
-            FacesContext context = FacesContext.getCurrentInstance();
-            HttpSession session = (HttpSession) context.getExternalContext().getSession(true);
-            operador = (Operador) session.getAttribute("operador");
-        }
-        return operador;
-    }
-
-    public Rol getOperadorRol() {
-        return operadorRol;
     }
 
     // ----- GETTERS DE ENTITDADES POR ID -----
@@ -145,51 +141,31 @@ public class CommonController {
         List<Corte> cortes = corteService.findAllNotFinished();
         if (CollectionUtils.isNotEmpty(cortes)) {
             for (Corte corte : cortes) {
-                result.add(QUOTE + sdf.format(corte.getDueDate()) + TIME_FORMAT + QUOTE);
+                if (corte.getDueDate() != null) {
+                    result.add(QUOTE + sdf.format(corte.getDueDate()) + TIME_FORMAT + QUOTE);
+                }
             }
         }
 
         return result.toArray(new String[cortes.size()]);
     }
 
-    public boolean hasAccess(String accessKey) {
-        if (getOperador() != null) {
-            if (operadorRol == null) {
-                Access access = accessService.findByOperatorId(operador.getId());
-                operadorRol = rolService.findById(access.getRolId());
-            }
-
-            if (operadorRol.getName().equals("SU")) {
-                return true;
-            }
-
-            if (accessKey.contains("|")) {
-                String[] keys = accessKey.split("[|]");
-                for (String key : keys) {
-                    if (operadorRol.getName().equals(key)) return true;
-                }
-            }
-        }
-        return false;
-    }
-
-    public void checkOperatorAccess(String accessKey) throws IOException {
-        if (getOperador() != null) {
-            if (!hasAccess(accessKey)) {
-                Faces.redirect("access-denied.xhtml");
-            }
-        } else {
-            Faces.redirect("login/login.xhtml");
-        }
-    }
-
-    public StreamedContent getProfileImage() throws FileNotFoundException {
+    public StreamedContent getProfileImage(HttpServletRequest request) throws FileNotFoundException {
         StreamedContent img = null;
-        String baseDirectory = "C:/wildfly-14.0.1.Final/standalone/deployments/gaf/icons/";
-        if (getOperador() != null && operadorRol != null) {
-            img = new DefaultStreamedContent(new FileInputStream(baseDirectory + operadorRol.getName() + ".png"), new MimetypesFileTypeMap().getContentType(baseDirectory + operadorRol.getName() + ".png"));
+        String baseDirectory = request.getContextPath() + "/resources/gfx/";
+        if (operator == null) {
+            operator = operatorRolManager.getOperatorFromSession(operator);
+        }
+
+        if (operator != null) {
+            img = new DefaultStreamedContent(new FileInputStream(baseDirectory + operator.getRol().name() + ".png"), new MimetypesFileTypeMap().getContentType(baseDirectory + operator.getRol().name() + ".png"));
         }
 
         return img;
+    }
+
+    public void logout() throws IOException {
+        securityManager.logout();
+        Faces.redirect("login/login.xhtml");
     }
 }

@@ -22,18 +22,18 @@
 
     <ui:define name="body">
         <f:metadata>
-            <f:event listener="#{accessController.checkAccessToPage('OPERARIO')}" type="preRenderView" />
+            <f:event listener="#{accessController.checkAccessToPage('WORKER')}" type="preRenderView" />
         </f:metadata>
         <h:form>
             <div class="box box-primary">
                 <div class="box-header with-border">
                     <div id="main-buttons" class="">
                         <div class="row">
-                            <div class="col-xs-3 col-lg-2"><p:commandButton action="tallerForm?faces-redirect=true" icon="fa fa-plus" value="Agregar" styleClass="btn-success" disabled="#{accessController.isOperario()}"/></div>
+                            <div class="col-xs-3 col-lg-2"><p:commandButton action="tallerForm?faces-redirect=true" icon="fa fa-plus" value="Agregar" styleClass="btn-success" disabled="#{accessController.isWorker}"/></div>
                             <div class="col-xs-3 col-lg-2">
                                 <p:commandButton value="Eliminar" icon="fa fa-trash" styleClass="btn-danger"
                                                  action="#{tallerList.delete}"
-                                                 disabled="#{accessController.isOperario() or empty tallerList.talleresSeleccionados or tallerList.talleresSeleccionados.size() == 0}"
+                                                 disabled="#{accessController.isWorker or empty tallerList.talleresSeleccionados or tallerList.talleresSeleccionados.size() == 0}"
                                                  process="@this" update="@form">
                                     <p:confirm header="Confirmation" message="¿Está seguro?" icon="ui-icon-danger"/>
                                 </p:commandButton>
@@ -57,12 +57,12 @@
 
                         <p:column selectionMode="multiple" width="5%" styleClass="align-center"/>
                         <p:column headerText="Taller">
-                            <p:link value="#{t.name}" outcome="tallerForm.jsf" disabled="#{accessController.isOperario()}">
+                            <p:link value="#{t.name}" outcome="tallerForm.jsf">
                                 <f:param name="id" value="#{t.id}"/>
                             </p:link>
                         </p:column>
-                        <p:column headerText="Dirección" rendered="#{!accessController.isOperario()}">#{t.address}</p:column>
-                        <p:column headerText="Cant. Empleados" rendered="#{!accessController.isOperario()}">#{t.employeesQuantity}</p:column>
+                        <p:column headerText="Dirección" rendered="#{!accessController.isWorker()}">#{t.address}</p:column>
+                        <p:column headerText="Cant. Empleados" rendered="#{!accessController.isWorker()}">#{t.employeesQuantity}</p:column>
                         <p:column headerText="Teléfono #1">#{t.primaryPhone}</p:column>
                         <p:column headerText="Teléfono #2">#{t.secondaryPhone}</p:column>
                         <p:column headerText="Estado"><span class="status-ball bg-#{commonController.getEstadoById(t.estadoId).color} bg-#{commonController.getEstadoById(t.estadoId).color}-gradient" title="#{commonController.getEstadoById(t.estadoId).name}"/></p:column>

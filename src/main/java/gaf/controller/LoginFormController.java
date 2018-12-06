@@ -1,7 +1,8 @@
 package gaf.controller;
 
-import gaf.entity.Operador;
-import gaf.service.OperadorService;
+import gaf.entity.Operator;
+import gaf.manager.SecurityManager;
+import gaf.service.OperatorService;
 import gaf.util.PasswordUtils;
 import org.apache.log4j.Logger;
 import org.omnifaces.util.Faces;
@@ -10,12 +11,13 @@ import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 @ViewScoped
 @ManagedBean(name = "loginForm")
-public class LoginFormController extends AccessController {
+public class LoginFormController {
 
     private static final Logger log = Logger.getLogger(LoginFormController.class);
 
@@ -23,16 +25,13 @@ public class LoginFormController extends AccessController {
     private String password;
     private String message = "";
 
-    @EJB private OperadorService operadorService;
+    @EJB private OperatorService operatorService;
+    @Inject private SecurityManager securityManager;
 
     public void login() throws IOException {
-        Operador operador = operadorService.findByUsername(username);
-        if (operador != null) {
-            log.info("[LOGIN] Username: " + username);
-            if (PasswordUtils.verifyUserPassword(password, operador.getPassword(), operador.getSalt())) {
-                FacesContext context = FacesContext.getCurrentInstance();
-                HttpSession session = (HttpSession) context.getExternalContext().getSession(true);
-                session.setAttribute("operador", operador);
+        Operator operator = operatorService.findByUsername(username);
+        if (operator != null) {
+            if (securityManager.login(operator, password)) {
                 Faces.redirect("common/dashboard/dashboard.jsf");
             } else {
                 message = "La contraseña es incorrecta";
@@ -40,13 +39,6 @@ public class LoginFormController extends AccessController {
         } else {
             message = "No existe el usuario " + username;
         }
-    }
-
-    public void logout() throws IOException {
-        FacesContext context = FacesContext.getCurrentInstance();
-        HttpSession session = (HttpSession) context.getExternalContext().getSession(true);
-        session.removeAttribute("operador");
-        Faces.redirect("login/login.xhtml");
     }
 
     public String getUsername() {

@@ -1,25 +1,51 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      xmlns:p="http://primefaces.org/ui"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core" xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui" xmlns:fn="http://java.sun.com/jsp/jstl/functions">
 <f:view>
-    <h:form id="form" prependId="false">
-        <p:panelGrid columns="2" layout="grid" styleClass="ui-fluid card" columnClasses="ui-grid-col-2,ui-grid-col-10">
-            <h:outputLabel for="username" value="Usuario:"/>
-            <p:inputText id="username" value="#{createOperador.username}"/>
+    <h:head>
+        <meta charset="utf-8"/>
+        <meta http-equiv="x-ua-compatible" content="IE=edge"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=yes"/>
+        <meta name="apple-mobile-web-app-capable" content="yes"/>
+        <meta name="mobile-web-app-capable" content="yes"/>
+        <h:outputStylesheet library="css" name="screen.css"/>
+        <title>GAF - Login</title>
+    </h:head>
+    <h:body styleClass="skin-green sidebar-mini login-page">
+        <div class="login-box">
+            <div class="login-box-body">
+                <div class="login-logo"><b>GAF</b></div>
+                <h:form id="form" prependId="false">
+                    <div class="form-group has-feedback">
+                        <p:inputText id="username" value="#{createOperator.username}" styleClass="form-control" placeholder="Usuario" required="true"/>
+                    </div>
+                    <div class="form-group has-feedback">
+                        <p:inputText id="description" value="#{createOperator.description}" styleClass="form-control" placeholder="Descripción"/>
+                    </div>
+                    <div class="form-group has-feedback">
+                        <p:password id="password" value="#{createOperator.password}" styleClass="form-control" placeholder="Contraseña" required="true"/>
+                    </div>
+                    <div class="form-group has-feedback">
+                        <p:selectOneMenu id="rol" value="#{createOperator.rol}" required="true">
+                            <f:selectItem itemLabel="Seleccione el rol" itemValue="#{null}" />
+                            <f:selectItem itemLabel="Administrador" itemValue="ADMINISTRATOR" />
+                            <f:selectItem itemLabel="Operario" itemValue="WORKER" />
+                            <f:selectItem itemLabel="Super Usuario" itemValue="SU" />
+                        </p:selectOneMenu>
+                    </div>
+                    <p:commandButton value="Crear" action="#{createOperator.create}" styleClass="btn btn-primary btn-block btn-flat" update="@form"/>
+                    <h:outputText value="#{createOperator.message}" rendered="#{not empty createOperator.message}"/>
+                </h:form>
+            </div>
+        </div>
 
-            <h:outputLabel for="description" value="Descripcion:"/>
-            <p:inputText id="description" value="#{createOperador.description}"/>
-
-            <h:outputLabel for="password" value="Contraseña:"/>
-            <p:password id="password" value="#{createOperador.password}"/>
-
-            <p:commandButton value="Crear" action="#{createOperador.create}" styleClass="btn-primary"/>
-        </p:panelGrid>
-    </h:form>
+        <h:outputScript target="head" library="js" name="admin-lte.min.js"/>
+        <h:outputScript target="head" library="js" name="adminslide.js"/>
+        <h:outputScript target="head" library="js" name="admintemplate.js"/>
+        <h:outputScript target="head" library="js" name="bootstrap.min.js"/>
+        <h:outputScript target="head" library="js" name="slideout.min.js"/>
+    </h:body>
 </f:view>
 </html>

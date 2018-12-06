@@ -12,7 +12,7 @@
         <f:metadata>
             <f:viewParam name="id" value="#{tallerForm.id}" converter="javax.faces.Integer"/>
             <!-- use view action if you are in a Java EE 7 server: <f:viewAction action="#{tallerForm.init()}"/>-->
-            <f:event listener="#{accessController.checkAccessToPage('ADMIN')}" type="preRenderView" />
+            <f:event listener="#{accessController.checkAccessToPage('ADMINISTRATOR')}" type="preRenderView" />
             <f:event type="preRenderView" listener="#{tallerForm.init}"/>
         </f:metadata>
 
