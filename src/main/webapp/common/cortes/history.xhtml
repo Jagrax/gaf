@@ -22,7 +22,7 @@
 
     <ui:define name="body">
         <f:metadata>
-            <f:event listener="#{commonController.checkOperatorAccess('ADMIN')}" type="preRenderView" />
+            <f:event listener="#{accessController.checkAccessToPage('OPERARIO')}" type="preRenderView" />
         </f:metadata>
         <h:form>
             <div class="box box-primary">

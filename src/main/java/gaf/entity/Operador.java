@@ -64,4 +64,13 @@ public class Operador implements Serializable {
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
     }
+
+    @Override
+    public String toString() {
+        return "Operador [" +
+                "id=" + id +
+                ", username=" + username +
+                ", descripcion=" + descripcion +
+                ']';
+    }
 }

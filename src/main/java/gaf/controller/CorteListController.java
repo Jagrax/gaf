@@ -21,7 +21,7 @@ import java.util.List;
 
 @ViewScoped
 @ManagedBean(name = "corteList")
-public class CorteListController {
+public class CorteListController extends AccessController {
 
     private List<FrontEndCorte> cortes;
     private String corteName;
@@ -74,7 +74,9 @@ public class CorteListController {
 
     public String generateCorteLabelForPanel(Corte corte) {
         String label = corte.getName();
-        if (corte.getPrice() != null) label += "|$" + corte.getPrice();
+        if (hasAccess("ADMIN")) {
+            if (corte.getPrice() != null) label += "|$" + corte.getPrice();
+        }
         label += "|Cant. de prendas: ";
         Integer clothesQuantity = corte.getClothesQuantity();
         if (clothesQuantity == null) {

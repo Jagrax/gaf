@@ -154,8 +154,11 @@ public class CommonController {
 
     public boolean hasAccess(String accessKey) {
         if (getOperador() != null) {
-            Access access = accessService.findByOperatorId(operador.getId());
-            operadorRol = rolService.findById(access.getRolId());
+            if (operadorRol == null) {
+                Access access = accessService.findByOperatorId(operador.getId());
+                operadorRol = rolService.findById(access.getRolId());
+            }
+
             if (operadorRol.getName().equals("SU")) {
                 return true;
             }

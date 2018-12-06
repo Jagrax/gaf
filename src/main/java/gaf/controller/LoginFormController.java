@@ -15,7 +15,7 @@ import java.io.IOException;
 
 @ViewScoped
 @ManagedBean(name = "loginForm")
-public class LoginFormController {
+public class LoginFormController extends AccessController {
 
     private static final Logger log = Logger.getLogger(LoginFormController.class);
 
@@ -28,7 +28,7 @@ public class LoginFormController {
     public void login() throws IOException {
         Operador operador = operadorService.findByUsername(username);
         if (operador != null) {
-            log.info("[LOGIN] Username: " + username + " Password: " + password);
+            log.info("[LOGIN] Username: " + username);
             if (PasswordUtils.verifyUserPassword(password, operador.getPassword(), operador.getSalt())) {
                 FacesContext context = FacesContext.getCurrentInstance();
                 HttpSession session = (HttpSession) context.getExternalContext().getSession(true);
