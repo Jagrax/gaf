@@ -32,6 +32,9 @@
                             <f:facet name="header">
                                 <span class="status-ball bg-#{corteList.getColorForCorte(c)} bg-#{corteList.getColorForCorte(c)}-gradient" title="#{commonController.getEstadoById(c.estadoId).name}"/>#{corteList.generateCorteLabelForPanel(c)}
                             </f:facet>
+                            <f:facet name="actions">
+                                <p:commandButton action="#{historyController.markCorteAsInProcess(c)}" update="@form" icon="fa fa-undo" styleClass="btn-block" style="float: right" title="Marcar corte como no finalizado"/>
+                            </f:facet>
                             <ui:fragment rendered="#{not empty corteList.getTallesOfCorte(c.id)}">
                                 <div class="row">
                                     <div class="col-sm-2 col-xs-4 text-center"><b>Taller</b></div>
