@@ -5,11 +5,14 @@ import gaf.service.CorteService;
 import gaf.util.Estados;
 
 import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+
+import static gaf.util.Utils.addDetailMessage;
 
 @ViewScoped
 @ManagedBean(name = "historyController")
@@ -30,5 +33,11 @@ public class HistoryController {
     public void setCortesFinalizados(List<Corte> cortesFinalizados) {
         this.cortesFinalizados = cortesFinalizados;
     }
-    
+
+    public void markCorteAsInProcess(Corte corte) {
+        corte.setEstadoId(Estados.CORTE_EN_PRODUCCION.getId());
+        corteService.update(corte);
+        addDetailMessage("corte.update.historyToCorte", null, corte.getName());
+        cortesFinalizados = null;
+    }
 }

@@ -150,9 +150,9 @@ public class CommonController {
         return result.toArray(new String[cortes.size()]);
     }
 
-    public StreamedContent getProfileImage(HttpServletRequest request) throws FileNotFoundException {
+    public StreamedContent getProfileImage(String contextPath) throws FileNotFoundException {
         StreamedContent img = null;
-        String baseDirectory = request.getContextPath() + "/resources/gfx/";
+        String baseDirectory = contextPath + "/resources/gfx/";
         if (operator == null) {
             operator = operatorRolManager.getOperatorFromSession(operator);
         }

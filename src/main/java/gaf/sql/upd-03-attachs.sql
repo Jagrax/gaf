@@ -9,17 +9,6 @@ CREATE TABLE ATTACHMENTS (
 
 ALTER TABLE TALLES ADD COLUMN finalization_date DATE NULL;
 
-CREATE TABLE ROLES (
-  id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
-  name VARCHAR(25) NOT NULL,
-  descripcion VARCHAR(125) NOT NULL
-);
-
-INSERT INTO ROLES (name, descripcion) VALUES ('SU', 'Super User. Tiene acceso a todo');
-INSERT INTO ROLES (name, descripcion) VALUES ('ADMIN', 'Visibilidad total de la aplicacion');
-INSERT INTO ROLES (name, descripcion) VALUES ('OPERARIO', 'Visibilidad de operario');
-
-
 CREATE TABLE OPERATORS (
   ID INT NOT NULL AUTO_INCREMENT,
   USERNAME VARCHAR(25) NOT NULL,
@@ -29,4 +18,3 @@ CREATE TABLE OPERATORS (
   ROL VARCHAR(25) NOT NULL,
   PRIMARY KEY (ID)
 );
-

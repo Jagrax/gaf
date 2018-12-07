@@ -20,7 +20,7 @@
         <f:metadata>
             <f:viewParam name="id" value="#{corteForm.id}" converter="javax.faces.Integer"/>
             <!-- use view action if you are in a Java EE 7 server: <f:viewAction action="#{corteForm.init()}"/>-->
-            <f:event type="preRenderView" listener="#{accessController.checkAccessToPage('ADMIN')}"/>
+            <f:event type="preRenderView" listener="#{accessController.checkAccessToPage('WORKER')}"/>
             <f:event type="preRenderView" listener="#{corteForm.init}"/>
         </f:metadata>
 

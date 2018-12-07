@@ -7,11 +7,9 @@
     <ul class="nav navbar-nav">
         <li class="dropdown user user-menu">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                <p:graphicImage value="#{request.contextPath}/resources/gfx/#{accessController.operator.rol}.png" stream="false" width="20" height="20"/>
                 <span class="hidden-xs">#{commonController.operator.description}</span></a>
             <ul class="dropdown-menu">
                 <li class="user-header">
-                    <div class="hidden-xs"><p:graphicImage value="#{commonController.profileImage(request)}" stream="false" width="64" height="64"/></div>
                     <p>#{commonController.operator.description}
                         <small style="text-transform: capitalize">#{commonController.operator.rol}</small>
                     </p>

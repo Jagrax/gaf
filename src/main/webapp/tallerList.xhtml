@@ -29,11 +29,11 @@
                 <div class="box-header with-border">
                     <div id="main-buttons" class="">
                         <div class="row">
-                            <div class="col-xs-3 col-lg-2"><p:commandButton action="tallerForm?faces-redirect=true" icon="fa fa-plus" value="Agregar" styleClass="btn-success" disabled="#{accessController.isWorker}"/></div>
+                            <div class="col-xs-3 col-lg-2"><p:commandButton action="tallerForm?faces-redirect=true" icon="fa fa-plus" value="Agregar" styleClass="btn-success" disabled="#{accessController.isWorker()}"/></div>
                             <div class="col-xs-3 col-lg-2">
                                 <p:commandButton value="Eliminar" icon="fa fa-trash" styleClass="btn-danger"
                                                  action="#{tallerList.delete}"
-                                                 disabled="#{accessController.isWorker or empty tallerList.talleresSeleccionados or tallerList.talleresSeleccionados.size() == 0}"
+                                                 disabled="#{accessController.isWorker() or empty tallerList.talleresSeleccionados or tallerList.talleresSeleccionados.size() == 0}"
                                                  process="@this" update="@form">
                                     <p:confirm header="Confirmation" message="¿Está seguro?" icon="ui-icon-danger"/>
                                 </p:commandButton>
