@@ -34,6 +34,10 @@ public class CorteService {
         em.remove(em.contains(corte) ? corte : em.merge(corte));
     }
 
+    public List<Corte> findAll() {
+        return em.createQuery("SELECT C FROM Corte C", Corte.class).getResultList();
+    }
+
     public Corte findById(Integer id) {
         return em.find(Corte.class, id);
     }
