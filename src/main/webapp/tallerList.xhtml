@@ -46,8 +46,7 @@
                     <p:separator/>
 
                     <p:dataTable widgetVar="talleresTable" var="t" value="#{tallerList.talleres}" rows="5"
-                                 rowKey="#{t.id}" lazy="true" paginator="true" paginatorPosition="bottom" reflow="true"
-                                 paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
+                                 rowKey="#{t.id}" reflow="true"
                                  selection="#{tallerList.talleresSeleccionados}" rendered="#{not empty tallerList.talleres}">
 
                         <p:ajax event="rowSelectCheckbox" update="@(.ui-button, .ui-confirm-dialog)"/>

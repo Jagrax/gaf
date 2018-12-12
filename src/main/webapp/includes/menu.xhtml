@@ -30,6 +30,12 @@
             </p:link>
         </li>
         <li>
+            <p:link href="/common/pagos/pagosList.jsf" rendered="#{accessController.hasAccess('ADMINISTRATOR')}">
+                <i class="fa fa-usd"/>
+                <span>Pagos</span>
+            </p:link>
+        </li>
+        <li>
             <p:link href="/tallerList.jsf" rendered="#{accessController.hasAccess('WORKER')}">
                 <i class="fa fa-industry"/>
                 <span>Talleres</span>

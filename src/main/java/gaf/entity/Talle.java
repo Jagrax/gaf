@@ -42,6 +42,9 @@ public class Talle implements Serializable {
     @Column(name = "finalization_date")
     private Date finalizationDate;
 
+    @Column(name = "PAYMENT_STATUS")
+    private Integer paymentStatus;
+
     public Integer getId() {
         return id;
     }
@@ -130,6 +133,14 @@ public class Talle implements Serializable {
         this.finalizationDate = finalizationDate;
     }
 
+    public Integer getPaymentStatus() {
+        return paymentStatus;
+    }
+
+    public void setPaymentStatus(Integer paymentStatus) {
+        this.paymentStatus = paymentStatus;
+    }
+
     @Override
     public String toString() {
         return "Talle [" +
@@ -144,6 +155,7 @@ public class Talle implements Serializable {
                 ", tallerId=" + tallerId +
                 ", corteId=" + corteId +
                 ", finalizationDate=" + finalizationDate +
+                ", paymentStatus=" + paymentStatus +
                 ']';
     }
 }

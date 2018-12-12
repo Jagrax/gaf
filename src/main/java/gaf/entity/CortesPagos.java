@@ -6,7 +6,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 @Entity
-@Table(name = "CORTES")
+@Table(name = "CORTES_PAGOS")
 public class CortesPagos implements Serializable {
 
     @Id

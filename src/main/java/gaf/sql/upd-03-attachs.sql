@@ -29,4 +29,8 @@ CREATE TABLE CORTES_PAGOS (
   FOREIGN KEY (CORTE_ID) REFERENCES CORTES(ID)
 );
 
--- Agregar un campo PAYMENT_STATUS a la tabla TALLES
+ALTER TABLE TALLES ADD COLUMN PAYMENT_STATUS INT NULL;
+
+INSERT INTO ESTADOS (id, name, color, entity) VALUES (9, 'Pagado', '', 'TALLE');
+INSERT INTO ESTADOS (id, name, color, entity) VALUES (10, 'No pagado', '', 'TALLE');
+INSERT INTO ESTADOS (id, name, color, entity) VALUES (11, 'Pendiente', '', 'TALLE');

@@ -5,7 +5,7 @@
                 template="/WEB-INF/templates/default.xhtml">
 
     <ui:define name="head">
-        <title>GAF - Cortes</title>
+        <title>GAF - Pagos</title>
     </ui:define>
 
     <ui:define name="logo">
@@ -13,69 +13,58 @@
     </ui:define>
 
     <ui:define name="title">
-        Cortes
+        Pagos
     </ui:define>
 
     <ui:define name="description">
-        Alta, Baja y Modificación de cortes
+        Fechas de pagos, registro y precios
     </ui:define>
 
     <ui:define name="body">
         <f:metadata>
-            <f:event listener="#{accessController.checkAccessToPage('WORKER')}" type="preRenderView" />
+            <f:event listener="#{accessController.checkAccessToPage('ADMINISTRATOR')}" type="preRenderView" />
         </f:metadata>
         <h:form>
             <div class="box box-primary">
                 <div class="box-header with-border">
                     <div class="row">
-                        <div class="col-xs-6 col-md-8 col-lg-10"><p:inputText id="name" value="#{corteList.corteName}" styleClass="form-control" placeholder="Buscar corte..."/></div>
-                        <div class="col-xs-3 col-md-2 col-lg-1"><p:commandButton value="Buscar" action="#{corteList.search}" update="@form" icon="fa fa-search" styleClass="btn-block btn-info"/></div>
-                        <div class="col-xs-3 col-md-2 col-lg-1"><p:commandButton action="corteForm?faces-redirect=true" icon="fa fa-plus" value="Agregar" styleClass="btn-block btn-success"/></div>
+                        <div class="col-xs-9 col-md-8 col-lg-10"><p:inputText id="name" value="#{pagosList.corteName}" styleClass="form-control" placeholder="Buscar corte..."/></div>
+                        <div class="col-xs-3 col-md-4 col-lg-2"><p:commandButton value="Buscar" action="#{pagosList.search}" update="@form" icon="fa fa-search" styleClass="btn-block btn-info"/></div>
                     </div>
 
                     <p:separator/>
 
-                    <ui:repeat value="#{corteList.cortes}" var="c">
+                    <ui:repeat value="#{pagosList.cortes}" var="c">
                         <p:panel toggleable="#{not empty corteList.getTallesOfCorte(c.corte.id)}" collapsed="true" styleClass="panel panel-primary">
                             <f:facet name="header">
                                 <span class="status-ball bg-#{corteList.getColorForCorte(c.corte)} bg-#{corteList.getColorForCorte(c.corte)}-gradient" title="#{commonController.getEstadoById(c.corte.estadoId).name}"/>#{c.frontEndLabel}
                             </f:facet>
                             <f:facet name="actions">
-                                <p:link outcome="corteForm.jsf" styleClass="btn btn-primary" style="float: right" title="Editar corte">
+                                <p:link outcome="pagosForm.jsf" styleClass="btn btn-primary" style="float: right" title="Editar corte">
                                     <i class="fa fa-pencil-square-o"/>
                                     <f:param name="id" value="#{c.corte.id}"/>
                                 </p:link>
-                                <p:lightBox iframe="true" styleClass="btn btn-default" style="float: right" rendered="#{corteList.haveAttachments(c.corte.id)}" width="700px" height="600px">
-                                    <h:outputLink value="common/attachments/attachmentsViewer.jsf" title="Ver adjunto del corte">
-                                        <f:param name="id" value="#{c.corte.id}"/>
-                                        <i class="fa fa-eye"/>
-                                    </h:outputLink>
-                                </p:lightBox>
                             </f:facet>
                             <ui:fragment rendered="#{not empty corteList.getTallesOfCorte(c.corte.id)}">
                                 <div class="row">
-                                    <div class="col-sm-2 col-xs-4 text-center"><b>Taller</b></div>
-                                    <div class="col-sm-1 col-xs-2 text-center"><b>Talle</b></div>
-                                    <div class="col-sm-1 col-xs-2 text-center"><b>Cantidad</b></div>
-                                    <div class="col-sm-2 hidden-xs text-center"><b>Vencimiento</b></div>
-                                    <div class="col-sm-2 hidden-xs text-center"><b>Comentarios</b></div>
-                                    <div class="col-sm-2 col-xs-2 text-center"><b>Estado</b></div>
-                                    <div class="col-sm-2 col-xs-2 text-center"><b>Fecha de finalización</b></div>
+                                    <div class="col-xs-6 col-sm-3 col-md-2"><b>Precio a cobrar al cliente</b></div>
+                                    <div class="col-xs-6 col-sm-3 col-md-2"><b>$<h:outputText value="#{pagosList.getPagosByCorteId(c.corte.id).totalAmount}"><f:convertNumber pattern="#0.00" /></h:outputText></b></div>
+                                    <div class="col-xs-6 col-sm-3 col-md-2"><b>Fecha de pago</b></div>
+                                    <div class="col-xs-6 col-sm-3 col-md-2"><h:outputText value="#{pagosList.getPagosByCorteId(c.corte.id).paymentDate}" rendered="#{pagosList.getPagosByCorteId(c.corte.id).paymentDate != null}"><f:convertDateTime pattern="dd/MM/yyyy"/></h:outputText></div>
+                                    <div class="col-xs-12 col-sm-12 col-md-4"><h:outputText value="#{pagosList.getStatusMessage(c.corte.id)}"/></div>
+                                </div>
+                                <p:separator/>
+                                <div class="row">
+                                    <div class="col-xs-4 text-center"><b>Talle</b></div>
+                                    <div class="col-xs-4 text-center"><b>Taller</b></div>
+                                    <div class="col-xs-4 text-center"><b>Estado de pago</b></div>
                                 </div>
                             </ui:fragment>
                             <ui:repeat value="#{corteList.getTallesOfCorte(c.corte.id)}" var="talle">
                                 <div class="row">
-                                    <div class="col-sm-2 col-xs-4"><h:outputText rendered="#{not empty talle.tallerId}" value="#{commonController.getTallerById(talle.tallerId).name}"/></div>
-                                    <div class="col-sm-1 col-xs-2 text-center">#{talle.size}</div>
-                                    <div class="col-sm-1 col-xs-2 text-center">#{talle.quantity}</div>
-                                    <div class="col-sm-2 hidden-xs text-center">
-                                        <h:outputText value="#{talle.secondDueDate}">
-                                            <f:convertDateTime pattern="dd/MM/yyyy"/>
-                                        </h:outputText>
-                                    </div>
-                                    <div class="col-sm-2 hidden-xs text-center">#{talle.comments}</div>
-                                    <div class="col-sm-2 col-xs-2 text-center">#{commonController.getEstadoById(talle.estadoId).name}</div>
-                                    <div class="col-sm-2 col-xs-2 text-center"><h:outputText value="#{talle.finalizationDate}"><f:convertDateTime type="date" pattern="dd/MM/yyyy"/></h:outputText></div>
+                                    <div class="col-xs-4 text-center">#{talle.size}</div>
+                                    <div class="col-xs-4 text-center"><h:outputText rendered="#{not empty talle.tallerId}" value="#{commonController.getTallerById(talle.tallerId).name}"/></div>
+                                    <div class="col-xs-4 text-center"><h:outputText rendered="#{not empty talle.paymentStatus}" value="#{commonController.getEstadoById(talle.paymentStatus).name}"/></div>
                                 </div>
                             </ui:repeat>
                         </p:panel>

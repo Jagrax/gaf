@@ -1,10 +1,12 @@
 package gaf.controller;
 
 import gaf.entity.Corte;
+import gaf.entity.CortesPagos;
 import gaf.entity.FrontEndCorte;
-import gaf.entity.Operator;
 import gaf.service.CorteService;
+import gaf.service.CortesPagosService;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.math.NumberUtils;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
@@ -19,6 +21,7 @@ import java.util.List;
 public class PagosListController {
 
     @Inject private CorteService corteService;
+    @Inject private CortesPagosService cortesPagosService;
 
     private List<FrontEndCorte> cortes;
     private String corteName;
@@ -28,7 +31,7 @@ public class PagosListController {
             cortes = new ArrayList<>();
             List<Corte> cortesNotFinished = corteService.findAll();
             for (Corte c : cortesNotFinished) {
-//                cortes.add(new FrontEndCorte(c, generateCorteLabelForPanel(c)));
+                cortes.add(new FrontEndCorte(c, generateCorteLabelForPanel(c)));
             }
         }
         return cortes;
@@ -47,7 +50,6 @@ public class PagosListController {
     }
 
     // METHODS
-    /*
     public void search() {
         if (StringUtils.isNotEmpty(corteName)) {
             List<FrontEndCorte> filteredCortes = new ArrayList<>();
@@ -64,9 +66,7 @@ public class PagosListController {
 
     public String generateCorteLabelForPanel(Corte corte) {
         String label = corte.getName();
-        if (operatorRolManager.hasAccess(operator.getRol(), Operator.Rol.ADMINISTRATOR)) {
-            if (corte.getPrice() != null) label += "|$" + corte.getPrice();
-        }
+        if (corte.getPrice() != null) label += "|$" + corte.getPrice();
         label += "|Cant. de prendas: ";
         Integer clothesQuantity = corte.getClothesQuantity();
         if (clothesQuantity == null) {
@@ -79,5 +79,22 @@ public class PagosListController {
         label += "|F. de Alta: " + sdf.format(creationDate);
 
         return label;
-    }*/
+    }
+
+    public CortesPagos getPagosByCorteId(Integer id) {
+        return cortesPagosService.findByCorteId(id);
+    }
+
+    public String getStatusMessage(Integer id) {
+        CortesPagos cortesPagos = cortesPagosService.findByCorteId(id);
+        if (cortesPagos.getSettledAmount() == 0) {
+            return "Sin pagar";
+        } else if (cortesPagos.getSettledAmount() < cortesPagos.getTotalAmount()) {
+            return "Pago parcial";
+        } else if (cortesPagos.getSettledAmount().equals(cortesPagos.getTotalAmount())) {
+            return "Todo pago";
+        } else {
+            return "Los montos ingresados estan raros";
+        }
+    }
 }

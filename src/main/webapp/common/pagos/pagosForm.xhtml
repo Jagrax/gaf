@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core" xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/templates/default.xhtml">
+
+    <ui:define name="head">
+        <title>GAF - Pagos</title>
+    </ui:define>
+
+    <ui:define name="logo">
+        <b>GAF</b>
+    </ui:define>
+
+    <ui:define name="title">
+        Formulario de pagos
+    </ui:define>
+
+    <ui:define name="body">
+        <f:metadata>
+            <f:viewParam name="id" value="#{pagosForm.id}" converter="javax.faces.Integer"/>
+            <!-- use view action if you are in a Java EE 7 server: <f:viewAction action="#{corteForm.init()}"/>-->
+            <f:event type="preRenderView" listener="#{accessController.checkAccessToPage('ADMINISTRATOR')}"/>
+            <f:event type="preRenderView" listener="#{pagosForm.init}"/>
+        </f:metadata>
+
+        <h:form id="form" prependId="false" enctype="multipart/form-data">
+            <p:focus rendered="#{empty pagosForm.id}"/>
+
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                    <div id="main-buttons">
+                        <p:commandButton value="Guardar" action="#{pagosForm.save}" update="@form" icon="fa fa-check" styleClass="btn-success"/>
+                        <p:spacer width="5"/>
+                        <p:commandButton value="Volver" immediate="true" action="pagosList?faces-redirect=true" process="@this" icon="fa fa-close"/>
+                    </div>
+
+                    <p:separator/>
+
+                    <div class="ui-g ui-fluid">
+                        <div class="ui-g-3"><b><h:outputText value="Nombre del corte"/></b></div>
+                        <div class="ui-g-9"><h:outputText value="#{pagosForm.corte.name}"/></div>
+
+                        <div class="ui-g-3"><b><h:outputText value="Precio"/></b></div>
+                        <div class="ui-g-9">$<h:outputText value="#{pagosForm.corte.price}"><f:convertNumber pattern="#0.00" /></h:outputText></div>
+
+                        <div class="ui-g-3"><p:outputLabel for="paymentDate" value="Fecha de pago"/></div>
+                        <div class="ui-g-9"><p:calendar id="paymentDate" value="#{pagosForm.cortesPagos.paymentDate}" pattern="dd/MM/yyyy" mask="true"/></div>
+
+                        <div class="ui-g-3"><p:outputLabel for="totalAmount" value="Precio a cobrar al cliente"/></div>
+                        <div class="ui-g-9"><p:inputNumber id="totalAmount" value="#{pagosForm.cortesPagos.totalAmount}" decimalPlaces="2" decimalSeparator="," thousandSeparator="." symbol="$" rendered="#{!accessController.isWorker()}"/></div>
+
+                        <div class="ui-g-3"><p:outputLabel for="settledAmount" value="Monto pagado al dia de la fecha"/></div>
+                        <div class="ui-g-9"><p:inputNumber id="settledAmount" value="#{pagosForm.cortesPagos.settledAmount}" decimalPlaces="2" decimalSeparator="," thousandSeparator="." symbol="$" rendered="#{!accessController.isWorker()}"/></div>
+
+                        <p:dataTable value="#{pagosForm.talles}" var="talle" reflow="true">
+                            <p:column headerText="Talle">
+                                <h:outputText value="#{talle.size}"/>
+                            </p:column>
+
+                            <p:column headerText="Taller">
+                                <h:outputText value="#{commonController.getTallerById(talle.tallerId).name}"/>
+                            </p:column>
+
+                            <p:column headerText="Estado de pago">
+                                <p:selectOneMenu id="tallePaymentState" value="#{talle.paymentStatus}">
+                                    <f:selectItem itemLabel="Seleccione un estado" itemValue="#{null}" />
+                                    <f:selectItems value="#{commonController.lstTallesAllEstados}" var="e" itemLabel="#{e.name}" itemValue="#{e.id}"/>
+                                </p:selectOneMenu>
+                            </p:column>
+                        </p:dataTable>
+                    </div>
+                </div>
+            </div>
+
+            <p:confirmDialog global="true" showEffect="fade" hideEffect="fade" styleClass="box-danger">
+                <p:commandButton value="Si" type="button" styleClass="btn-primary ui-confirmdialog-yes"
+                                 icon="fa fa-check"/>
+                <p:commandButton value="No" type="button" styleClass="btn-danger ui-confirmdialog-no"
+                                 icon="fa fa-close"/>
+            </p:confirmDialog>
+        </h:form>
+    </ui:define>
+</ui:composition>

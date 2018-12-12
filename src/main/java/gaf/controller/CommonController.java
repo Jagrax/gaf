@@ -43,6 +43,7 @@ public class CommonController {
     private List<Taller> lstAllTalleres;
     private List<Estado> lstTalleresEstados;
     private List<Estado> lstCortesAllEstados;
+    private List<Estado> lstTallesAllEstados;
     private List<Integer> lstClothesSizes;
 
     private Operator operator;
@@ -52,6 +53,7 @@ public class CommonController {
         lstAllEstados = new ArrayList<>();
         lstTalleresEstados = new ArrayList<>();
         lstCortesAllEstados = new ArrayList<>();
+        lstTallesAllEstados = new ArrayList<>();
         lstClothesSizes = new ArrayList<>();
 
         for (Estados estados : Estados.values()) {
@@ -61,14 +63,15 @@ public class CommonController {
             e.setColor(estados.getColor());
             e.setEntity(estados.getEntity());
             switch (e.getEntity()) {
-                case "TALLER": {
+                case "TALLER":
                     lstTalleresEstados.add(e);
                     break;
-                }
-                case "CORTE": {
+                case "CORTE":
                     lstCortesAllEstados.add(e);
                     break;
-                }
+                case "TALLE":
+                    lstTallesAllEstados.add(e);
+                    break;
                 default: {
                     System.err.println("La entity '" + e.getEntity() + "' no es valida.");
                 }
@@ -99,6 +102,10 @@ public class CommonController {
 
     public List<Estado> getLstCortesAllEstados() {
         return lstCortesAllEstados;
+    }
+
+    public List<Estado> getLstTallesAllEstados() {
+        return lstTallesAllEstados;
     }
 
     public List<Integer> getLstClothesSizes() {
