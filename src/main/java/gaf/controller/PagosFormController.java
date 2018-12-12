@@ -116,6 +116,7 @@ public class PagosFormController {
 
         addDetailMessage(msg, null, corte.getName());
         Faces.getFlash().setKeepMessages(true);
-        Faces.redirect("common/pagos/pagosList.xhtml");
+        Faces.redirect("common/pagos/pagosList.xhtml?authorized=true");
+
     }
 }

@@ -6,15 +6,17 @@ import gaf.entity.FrontEndCorte;
 import gaf.service.CorteService;
 import gaf.service.CortesPagosService;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.math.NumberUtils;
 
+import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 @ViewScoped
 @ManagedBean(name = "pagosList")
@@ -23,8 +25,19 @@ public class PagosListController {
     @Inject private CorteService corteService;
     @Inject private CortesPagosService cortesPagosService;
 
+    private boolean authorized;
+    private String pagePassword;
     private List<FrontEndCorte> cortes;
     private String corteName;
+
+    @PostConstruct
+    public void init() {
+        Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
+        String authorized = params.get("authorized");
+        if (StringUtils.isNotEmpty(authorized)) {
+            this.authorized = true;
+        }
+    }
 
     public List<FrontEndCorte> getCortes() {
         if (cortes == null) {
@@ -47,6 +60,22 @@ public class PagosListController {
 
     public void setCorteName(String corteName) {
         this.corteName = corteName;
+    }
+
+    public boolean isAuthorized() {
+        return authorized;
+    }
+
+    public void setAuthorized(boolean authorized) {
+        this.authorized = authorized;
+    }
+
+    public String getPagePassword() {
+        return pagePassword;
+    }
+
+    public void setPagePassword(String pagePassword) {
+        this.pagePassword = pagePassword;
     }
 
     // METHODS
@@ -87,7 +116,7 @@ public class PagosListController {
 
     public String getStatusMessage(Integer id) {
         CortesPagos cortesPagos = cortesPagosService.findByCorteId(id);
-        if (cortesPagos.getSettledAmount() == 0) {
+        if (cortesPagos == null || cortesPagos.getSettledAmount() == null || cortesPagos.getSettledAmount() == 0) {
             return "Sin pagar";
         } else if (cortesPagos.getSettledAmount() < cortesPagos.getTotalAmount()) {
             return "Pago parcial";
@@ -96,5 +125,9 @@ public class PagosListController {
         } else {
             return "Los montos ingresados estan raros";
         }
+    }
+
+    public void authorize() {
+        authorized = pagePassword.equals("966393");
     }
 }

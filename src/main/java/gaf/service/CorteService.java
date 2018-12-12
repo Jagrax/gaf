@@ -35,7 +35,7 @@ public class CorteService {
     }
 
     public List<Corte> findAll() {
-        return em.createQuery("SELECT C FROM Corte C", Corte.class).getResultList();
+        return em.createQuery("SELECT C FROM Corte C ORDER BY C.id DESC", Corte.class).getResultList();
     }
 
     public Corte findById(Integer id) {
