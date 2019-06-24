@@ -38,7 +38,8 @@
                     <ui:repeat value="#{corteList.cortes}" var="c">
                         <p:panel toggleable="#{not empty corteList.getTallesOfCorte(c.corte.id)}" collapsed="true" styleClass="panel panel-primary">
                             <f:facet name="header">
-                                <span class="status-ball bg-#{corteList.getColorForCorte(c.corte)} bg-#{corteList.getColorForCorte(c.corte)}-gradient" title="#{commonController.getEstadoById(c.corte.estadoId).name}"/>#{c.frontEndLabel}
+                                <span class="status-ball bg-#{corteList.getColorForCorte(c.corte)} bg-#{corteList.getColorForCorte(c.corte)}-gradient" title="#{commonController.getEstadoById(c.corte.estadoId).name}"/>
+                                <h:outputText value="#{fn:replace(c.frontEndLabel,'\\n','&lt;br/&gt;')}" escape="false"/>
                             </f:facet>
                             <f:facet name="actions">
                                 <p:link outcome="corteForm.jsf" styleClass="btn btn-primary" style="float: right" title="Editar corte">

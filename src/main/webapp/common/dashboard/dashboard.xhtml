@@ -27,6 +27,12 @@
         <h:form>
             <div class="box box-primary">
                 <div class="box-header with-border">
+                    <div class="row">
+                        <div class="col-xs-7 col-md-10 col-lg-11"><p:inputText id="name" value="#{corteList.corteName}" styleClass="form-control" placeholder="Buscar corte..."/></div>
+                        <div class="col-xs-5 col-md-2 col-lg-1"><p:commandButton value="Buscar" action="#{corteList.search}" update="@form" icon="fa fa-search" styleClass="btn-block btn-info"/></div>
+                    </div>
+
+                    <p:separator/>
                     <ui:repeat value="#{corteList.cortes}" var="c" >
                         <p:panel toggleable="#{not empty corteList.getTallesOfCorte(c.corte.id)}" collapsed="true" styleClass="panel panel-primary margin-bottom">
                             <f:facet name="header">

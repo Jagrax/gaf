@@ -50,8 +50,6 @@
                                          action="corteList?faces-redirect=true"
                                          process="@this"
                                          icon="fa fa-close"/>
-                        <p:fileUpload fileUploadListener="#{corteForm.handleFileUpload}" mode="advanced" rendered="#{corteForm.id != null}"
-                                      update="messages" auto="false" allowTypes="/(\.|\/)(gif|jpe?g|png)$/"/>
                     </div>
                     <p:splitButton value="#{corteForm.btnLabel}" action="#{corteForm.generateTalles}" update="@form"
                                    icon="fa fa-check"
@@ -76,29 +74,30 @@
                         <div class="ui-g-8"><p:outputLabel for="name" value="Nombre del corte"/></div>
                         <div class="ui-g-4"><p:outputLabel for="price" value="Precio"/></div>
 
-                        <div class="ui-g-8"><p:inputText id="name" value="#{corteForm.corte.name}" required="true" rendered="#{!accessController.isWorker()}"/></div>
-                        <div class="ui-g-4"><p:inputNumber id="price" value="#{corteForm.corte.price}" decimalPlaces="2" decimalSeparator="," thousandSeparator="." symbol="$" rendered="#{!accessController.isWorker()}"/></div>
+                        <div class="ui-g-8"><p:inputText id="name" value="#{corteForm.corte.name}" required="true" rendered="#{!accessController.isWorker()}" autocomplete="off"/></div>
+                        <div class="ui-g-4"><p:inputNumber id="price" value="#{corteForm.corte.price}" decimalPlaces="2" decimalSeparator="," thousandSeparator="." symbol="$" rendered="#{!accessController.isWorker()}" autocomplete="off"/></div>
 
                         <div class="ui-g-6"><p:outputLabel for="clothesQuantity" value="Cant. de prendas"/></div>
                         <div class="ui-g-2 ui-sm-6"><p:outputLabel for="firstDueDate" value="1er Fecha de vencimiento del/los proyecto(s)"/></div>
                         <div class="ui-g-2 ui-sm-6"><p:outputLabel for="secondDueDate" value="2da Fecha de vencimiento del/los proyecto(s)"/></div>
                         <div class="ui-g-2 ui-sm-6"><p:outputLabel for="dueDate" value="Fecha de vencimiento"/></div>
 
-                        <div class="ui-g-6"><p:inputNumber id="clothesQuantity" value="#{corteForm.corte.clothesQuantity}" decimalPlaces="0"/></div>
-                        <div class="ui-g-2 ui-sm-6"><p:calendar id="firstDueDate" value="#{corteForm.firstDueDate}" pattern="dd/MM/yyyy" mask="true"/></div>
-                        <div class="ui-g-2 ui-sm-6"><p:calendar id="secondDueDate" value="#{corteForm.secondDueDate}" pattern="dd/MM/yyyy" mask="true"/></div>
-                        <div class="ui-g-2 ui-sm-6"><p:calendar id="dueDate" value="#{corteForm.corte.dueDate}" pattern="dd/MM/yyyy" mask="true"/></div>
+                        <div class="ui-g-6"><p:inputNumber id="clothesQuantity" value="#{corteForm.corte.clothesQuantity}" decimalPlaces="0" autocomplete="off"/></div>
+                        <div class="ui-g-2 ui-sm-6"><p:calendar id="firstDueDate" value="#{corteForm.firstDueDate}" pattern="dd/MM/yyyy" mask="true" autocomplete="off"/></div>
+                        <div class="ui-g-2 ui-sm-6"><p:calendar id="secondDueDate" value="#{corteForm.secondDueDate}" pattern="dd/MM/yyyy" mask="true" autocomplete="off"/></div>
+                        <div class="ui-g-2 ui-sm-6"><p:calendar id="dueDate" value="#{corteForm.corte.dueDate}" pattern="dd/MM/yyyy" mask="true" autocomplete="off"/></div>
 
                         <div class="ui-g-6"><p:outputLabel for="corteEstado" value="Estado"/></div>
-                        <div class="ui-g-6"><p:outputLabel for="hojaDeCorte" value="Hoja de corte"/></div>
+                        <div class="ui-g-6"><p:outputLabel for="attach" value="Hoja de corte"/></div>
 
                         <div class="ui-g-6">
-                            <p:selectOneMenu id="corteEstado" value="#{corteForm.corte.estadoId}" required="true">
+                            <p:selectOneMenu id="corteEstado" value="#{corteForm.corte.estadoId}" required="true" autocomplete="off">
                                 <f:selectItem itemLabel="Seleccione un estado" itemValue="#{null}" />
                                 <f:selectItems value="#{commonController.lstCortesAllEstados}" var="e" itemLabel="#{e.name}" itemValue="#{e.id}"/>
                             </p:selectOneMenu>
                         </div>
-                        <div class="ui-g-6"><p:inputText id="hojaDeCorte" value="#{corteForm.corte.hojaDeCorte}"/></div>
+                        <div class="ui-g-6"><p:fileUpload id="attach" fileUploadListener="#{corteForm.handleFileUpload}" mode="advanced" rendered="#{corteForm.id != null}"
+                                                          update="messages" auto="false" allowTypes="/(\.|\/)(gif|jpe?g|png)$/"/></div>
 
                         <div class="ui-g-4"><p:outputLabel for="multiProyect" value="¿Cuántos proyectos va a tener?"/></div>
                         <h:panelGroup id="labelsRow" styleClass="ui-g-8 no-padding">
@@ -115,9 +114,9 @@
                             </p:selectOneRadio>
                         </div>
                         <h:panelGroup id="inputsRow" styleClass="ui-g-6 no-padding">
-                            <h:panelGroup layout="block" rendered="#{not corteForm.multiProyect}" styleClass="ui-g-12"><p:inputNumber id="tallesQuantity" value="#{corteForm.cantTalles}" decimalPlaces="0" required="true"/></h:panelGroup>
-                            <h:panelGroup layout="block" rendered="#{corteForm.multiProyect}" styleClass="ui-g-6"><p:inputNumber id="fromSize" value="#{corteForm.corte.fromSize}" decimalPlaces="0" required="true"/></h:panelGroup>
-                            <h:panelGroup layout="block" rendered="#{corteForm.multiProyect}" styleClass="ui-g-6"><p:inputNumber id="toSize" value="#{corteForm.corte.toSize}" decimalPlaces="0" required="true"/></h:panelGroup>
+                            <h:panelGroup layout="block" rendered="#{not corteForm.multiProyect}" styleClass="ui-g-12"><p:inputNumber id="tallesQuantity" value="#{corteForm.cantTalles}" decimalPlaces="0" required="true" autocomplete="off"/></h:panelGroup>
+                            <h:panelGroup layout="block" rendered="#{corteForm.multiProyect}" styleClass="ui-g-6"><p:inputNumber id="fromSize" value="#{corteForm.corte.fromSize}" decimalPlaces="0" required="true" autocomplete="off"/></h:panelGroup>
+                            <h:panelGroup layout="block" rendered="#{corteForm.multiProyect}" styleClass="ui-g-6"><p:inputNumber id="toSize" value="#{corteForm.corte.toSize}" decimalPlaces="0" required="true" autocomplete="off"/></h:panelGroup>
                         </h:panelGroup>
                         <div class="ui-g-2">
                             <p:commandButton value="Generar talles" action="#{corteForm.generateTalles}" update="@form" icon="fa fa-check" styleClass="btn-success"/>
@@ -128,20 +127,20 @@
 
                         <p:dataTable value="#{corteForm.talles}" var="talle" rendered="#{not empty corteForm.talles or corteForm.talles.size() > 0}" reflow="true">
                             <p:column headerText="Talle" width="10%">
-                                <p:inputNumber id="talle#{talle.id}Size" value="#{talle.size}" required="true" decimalPlaces="0"/>
+                                <p:inputNumber id="talle#{talle.id}Size" value="#{talle.size}" required="true" decimalPlaces="0" autocomplete="off"/>
                             </p:column>
 
                             <p:column headerText="Cantidad" width="10%">
                                 <p:inputNumber id="talle#{talle.id}Quantity" value="#{talle.quantity}" required="true"
-                                               decimalPlaces="0" thousandSeparator="." decimalSeparator=","/>
+                                               decimalPlaces="0" thousandSeparator="." decimalSeparator="," autocomplete="off"/>
                             </p:column>
 
                             <p:column headerText="Cantidad entregada" width="10%">
                                 <p:inputNumber id="talle#{talle.id}ClothesDelivered" value="#{talle.clothesDelivered}" required="true"
-                                               thousandSeparator="." decimalPlaces="0" decimalSeparator=","/>
+                                               thousandSeparator="." decimalPlaces="0" decimalSeparator="," autocomplete="off"/>
                             </p:column>
 
-                            <p:column headerText="Comentarios" width="10%"><p:inputText id="talle#{talle.id}Comments" value="#{talle.comments}"/></p:column>
+                            <p:column headerText="Comentarios" width="10%"><p:inputText id="talle#{talle.id}Comments" value="#{talle.comments}" autocomplete="off"/></p:column>
                             <p:column headerText="Estado" width="20%">
                                 <p:selectOneMenu id="talle#{talle.id}Estado" value="#{talle.estadoId}" required="true">
                                     <f:selectItem itemLabel="Seleccione un estado" itemValue="#{null}" />

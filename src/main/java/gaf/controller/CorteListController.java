@@ -68,9 +68,12 @@ public class CorteListController {
 
     public void search() {
         if (StringUtils.isNotEmpty(corteName)) {
+            if (cortes.size() == 0) {
+                cortes = null;
+            }
             List<FrontEndCorte> filteredCortes = new ArrayList<>();
-            for (FrontEndCorte corte : cortes) {
-                if (corte.getFrontEndLabel().contains(corteName)) {
+            for (FrontEndCorte corte : getCortes()) {
+                if (StringUtils.containsIgnoreCase(corte.getFrontEndLabel(), corteName)) {
                     filteredCortes.add(corte);
                 }
             }
@@ -83,18 +86,18 @@ public class CorteListController {
     public String generateCorteLabelForPanel(Corte corte) {
         String label = corte.getName();
         if (operatorRolManager.hasAccess(operator.getRol(), Operator.Rol.ADMINISTRATOR)) {
-            if (corte.getPrice() != null) label += "|$" + corte.getPrice();
+            if (corte.getPrice() != null) label += " ($" + corte.getPrice() + ")";
         }
-        label += "|Cant. de prendas: ";
+        label += "\nCant. de prendas: ";
         Integer clothesQuantity = corte.getClothesQuantity();
         if (clothesQuantity == null) {
             label += "No asignadas";
         } else {
             label += clothesQuantity;
         }
-        Date creationDate = corte.getCreationDate();
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-        label += "|F. de Alta: " + sdf.format(creationDate);
+        label += "\nF. de Alta: " + sdf.format(corte.getCreationDate());
+        label += " - F. de Vencimiento: " + sdf.format(corte.getDueDate());
 
         return label;
     }
