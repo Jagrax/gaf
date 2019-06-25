@@ -1,6 +1,8 @@
 package gaf.controller;
 
+import gaf.entity.Talle;
 import gaf.entity.Taller;
+import gaf.service.TalleService;
 import gaf.service.TallerService;
 import org.apache.commons.lang3.StringUtils;
 import org.primefaces.context.RequestContext;
@@ -22,7 +24,9 @@ public class TallerListController {
     private String tallerName;
     private List<Taller> talleresSeleccionados;
     private List<Taller> talleres;
+    private List<Talle> tallesInTaller;
     @EJB private TallerService tallerService;
+    @EJB private TalleService talleService;
     private Taller dialogTaller;
 
     @PostConstruct
@@ -63,8 +67,18 @@ public class TallerListController {
 
     public void setDialogTaller(Taller dialogTaller) {
         this.dialogTaller = dialogTaller;
-        RequestContext context = RequestContext.getCurrentInstance();
-        context.execute("PF('dlgTallerProfile').show();");
+        this.tallesInTaller = null;
+    }
+
+    public List<Talle> getTallesInTaller() {
+        if (tallesInTaller == null && dialogTaller != null) {
+            tallesInTaller = talleService.findTallesInTaller(dialogTaller.getId());
+        }
+        return tallesInTaller;
+    }
+
+    public void setTallesInTaller(List<Talle> tallesInTaller) {
+        this.tallesInTaller = tallesInTaller;
     }
 
     public void delete() {
@@ -90,9 +104,10 @@ public class TallerListController {
     
     public void search() {
         if (StringUtils.isNotEmpty(tallerName)) {
+            talleres = null;
             List<Taller> filteredTalleres = new ArrayList<>();
-            for (Taller taller : talleres) {
-                if (taller.getName().contains(tallerName)) {
+            for (Taller taller : getTalleres()) {
+                if (StringUtils.containsIgnoreCase(taller.getName(), tallerName)) {
                     filteredTalleres.add(taller);
                 }
             }

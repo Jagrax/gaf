@@ -68,9 +68,7 @@ public class CorteListController {
 
     public void search() {
         if (StringUtils.isNotEmpty(corteName)) {
-            if (cortes.size() == 0) {
-                cortes = null;
-            }
+            cortes = null;
             List<FrontEndCorte> filteredCortes = new ArrayList<>();
             for (FrontEndCorte corte : getCortes()) {
                 if (StringUtils.containsIgnoreCase(corte.getFrontEndLabel(), corteName)) {

@@ -43,4 +43,10 @@ public class TalleService {
         query.setParameter("corteId", id);
         return query.getResultList();
     }
+
+    public List<Talle> findTallesInTaller(Integer id) {
+        TypedQuery<Talle> query = em.createQuery("SELECT T FROM Talle T WHERE T.tallerId = :tallerId", Talle.class);
+        query.setParameter("tallerId", id);
+        return query.getResultList();
+    }
 }
