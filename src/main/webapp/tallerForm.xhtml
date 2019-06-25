@@ -84,9 +84,9 @@
                         <div class="ui-g-6"><p:inputText id="secondaryPhone" value="#{tallerForm.taller.secondaryPhone}"/></div>
                     </div>
 
-                    <p:separator/>
+                    <p:separator rendered="#{not empty tallerForm.cortes}"/>
 
-                    <h3>Perfil</h3>
+                    <h:outputText style="font-size:2rem" rendered="#{not empty tallerForm.cortes}" value="Perfil"/>
 
                     <ui:repeat value="#{tallerForm.cortes}" var="c">
                         <p:panel toggleable="#{not empty corteList.getTallesOfCorte(c.corte.id)}" collapsed="true" styleClass="panel panel-primary">
