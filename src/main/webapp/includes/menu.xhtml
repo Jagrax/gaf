@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-                xmlns:p="http://primefaces.org/ui">
+                xmlns:p="http://primefaces.org/ui" xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:h="http://xmlns.jcp.org/jsf/html">
 
     <ul class="sidebar-menu">
         <li>
@@ -48,10 +48,10 @@
             </p:link>
         </li>
         <li>
-            <p:link rendered="#{accessController.hasAccess('WORKER')}">
-                <i class="fa fa-calendar"/>
-                <p:commandButton value="Calendario" actionListener="#{commonController.showCalendar}"/>
-            </p:link>
+            <p:commandLink rendered="#{accessController.hasAccess('WORKER')}" action="#{commonController.showCalendar}">
+                <i class="fa fa-calendar"></i>
+                <h:outputText value="Calendario"/>
+            </p:commandLink>
         </li>
     </ul>
 

@@ -69,7 +69,6 @@
                         <p:column headerText="Teléfono #1">#{t.primaryPhone}</p:column>
                         <p:column headerText="Teléfono #2">#{t.secondaryPhone}</p:column>
                         <p:column headerText="Estado"><span class="status-ball bg-#{commonController.getEstadoById(t.estadoId).color} bg-#{commonController.getEstadoById(t.estadoId).color}-gradient" title="#{commonController.getEstadoById(t.estadoId).name}"/></p:column>
-                        <p:column headerText="Cortes asociados"><p:commandButton icon="fa fa-eye" action="#{tallerList.setDialogTaller(t)}" update=":detail" oncomplete="PF('detail').show()" /></p:column>
                     </p:dataTable>
                 </div>
             </div>
@@ -81,16 +80,6 @@
                                  icon="fa fa-close"/>
             </p:confirmDialog>
         </h:form>
-
-        <p:dialog id="detail" widgetVar="detail" style="max-width:750px">
-            <h:form>
-                <p:dataTable widgetVar="tallesTable" var="talle" value="#{tallerList.tallesInTaller}" rowKey="#{talle.id}" rendered="#{not empty tallerList.talleres}">
-                    <p:column headerText="Corte">#{commonController.getCorteById(talle.corteId).name}</p:column>
-                    <p:column headerText="Talle">#{talle.size}</p:column>
-                    <p:column headerText="Cantidad">#{talle.quantity}</p:column>
-                </p:dataTable>
-            </h:form>
-        </p:dialog>
     </ui:define>
 
 </ui:composition>
