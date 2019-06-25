@@ -69,6 +69,7 @@
                         <p:column headerText="Teléfono #1">#{t.primaryPhone}</p:column>
                         <p:column headerText="Teléfono #2">#{t.secondaryPhone}</p:column>
                         <p:column headerText="Estado"><span class="status-ball bg-#{commonController.getEstadoById(t.estadoId).color} bg-#{commonController.getEstadoById(t.estadoId).color}-gradient" title="#{commonController.getEstadoById(t.estadoId).name}"/></p:column>
+                        <p:column headerText="Cortes asociados"><p:commandButton action="#{tallerList.setDialogTaller(t)}" update="tallerProfile" icon="fa fa-eye"/></p:column>
                     </p:dataTable>
                 </div>
             </div>
@@ -80,6 +81,9 @@
                                  icon="fa fa-close"/>
             </p:confirmDialog>
 
+            <p:dialog id="tallerProfile" header="#{tallerList.getDialogTitle()}" widgetVar="dlgTallerProfile" modal="true">
+
+            </p:dialog>
         </h:form>
     </ui:define>
 

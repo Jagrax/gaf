@@ -3,6 +3,7 @@ package gaf.controller;
 import gaf.entity.Taller;
 import gaf.service.TallerService;
 import org.apache.commons.lang3.StringUtils;
+import org.primefaces.context.RequestContext;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -22,6 +23,7 @@ public class TallerListController {
     private List<Taller> talleresSeleccionados;
     private List<Taller> talleres;
     @EJB private TallerService tallerService;
+    private Taller dialogTaller;
 
     @PostConstruct
     public void init() {
@@ -53,6 +55,16 @@ public class TallerListController {
 
     public void setTalleres(List<Taller> talleres) {
         this.talleres = talleres;
+    }
+
+    public Taller getDialogTaller() {
+        return dialogTaller;
+    }
+
+    public void setDialogTaller(Taller dialogTaller) {
+        this.dialogTaller = dialogTaller;
+        RequestContext context = RequestContext.getCurrentInstance();
+        context.execute("PF('dlgTallerProfile').show();");
     }
 
     public void delete() {
@@ -88,5 +100,13 @@ public class TallerListController {
         } else {
             talleres = null;
         }
+    }
+
+    public String getDialogTitle() {
+        String dialogTallerName = "";
+        if (dialogTaller != null) {
+            dialogTallerName = dialogTaller.getName();
+        }
+        return "Cortes y talles asignados a " + dialogTallerName;
     }
 }

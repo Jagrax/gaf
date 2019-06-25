@@ -96,8 +96,11 @@ public class CorteListController {
             label += clothesQuantity;
         }
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-        label += "\nF. de Alta: " + sdf.format(corte.getCreationDate());
-        label += " - F. de Vencimiento: " + sdf.format(corte.getDueDate());
+        Date creationDate = corte.getCreationDate();
+        label += "\nF. de Alta: " + (creationDate != null ? sdf.format(creationDate) : "no establecida");
+
+        Date dueDate = corte.getDueDate();
+        label += " - F. de Vencimiento: " + (dueDate != null ? sdf.format(dueDate) : "no establecida");
 
         return label;
     }

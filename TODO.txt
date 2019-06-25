@@ -41,9 +41,9 @@ PENDIENTES DEL 10/04/2019
     la idea seria que, por ejemplo, solo con poner "12" me salten todas las cosas que tengan "12" en la composición del titulo,
     sin discriminar mayúsculas o minusculas, simil buscador de google. Y ademas pone buscador en el inicio que no esta, sino tengo que entrar siempre a cortes
 
-*Perfil de los talleres, esto es algo que habíamos hablado allá cuando arranco el proyecto en el siglo XVI, que era que cuando entrara a un taller, dentro de la pestaña Talleres, se me abriera un "perfil" del taller como ahora, pero que ademas de decirme los datos que cargue manualmente para cada taller, me diga que cortes tiene en produccion, según los talles que le asigne a cada uno, en cada corte.
-Por Ejemplo: entro a Alberto y me aparece la linea de asignado de talle de cada corte que el tenga.
-No se si fui muy claro pero creo que se entiende cualquier cosa preguntame.
+*   Perfil de los talleres
+    Agregar un pop-up con los cortes que tiene en produccion dicho taller, según los talles que le asigne a cada uno, en cada corte.
+    Por Ejemplo: entro a Alberto y me aparece la linea de asignado de talle de cada corte que el tenga.
 
 (/) BORRAR SUGERENCIAS DE TEXTO son re molestas. sobre todo cuando quiero cargar un corte, cuando apreto precio me aparecen para abajo precios que le puse a otros cortes,
     o lo peor es con la fecha, porque cuando se abre el calendario las sugerencias de texto me lo tapa y tengo que volver a hacer click en el campo para que se salga
