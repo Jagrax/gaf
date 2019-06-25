@@ -67,7 +67,7 @@ public class TallerFormController {
             cortes = new ArrayList<>();
             List<Talle> talles = talleService.findTallesInTaller(id);
             if (CollectionUtils.isNotEmpty(talles)) {
-                Map<Integer, FrontEndCorte> idFrontEndCortes = new HashMap<>();
+                Map<Integer, FrontEndCorte> idFrontEndCortes = new TreeMap<>(Comparator.reverseOrder());
                 for (Talle talle : talles) {
                     Corte c = corteService.findById(talle.getCorteId());
                     if (!idFrontEndCortes.containsKey(c.getId())) {

@@ -36,7 +36,8 @@
                     <ui:repeat value="#{corteList.cortes}" var="c" >
                         <p:panel toggleable="#{not empty corteList.getTallesOfCorte(c.corte.id)}" collapsed="true" styleClass="panel panel-primary margin-bottom">
                             <f:facet name="header">
-                                <span class="status-ball bg-#{corteList.getColorForCorte(c.corte)} bg-#{corteList.getColorForCorte(c.corte)}-gradient" title="#{commonController.getEstadoById(c.corte.estadoId).name}"/>#{c.frontEndLabel}
+                                <span class="status-ball bg-#{corteList.getColorForCorte(c.corte)} bg-#{corteList.getColorForCorte(c.corte)}-gradient" title="#{commonController.getEstadoById(c.corte.estadoId).name}"/>
+                                <h:outputText value="#{fn:replace(c.frontEndLabel,'\\n','&lt;br/&gt;')}" escape="false"/>
                             </f:facet>
                             <ui:fragment rendered="#{not empty corteList.getTallesOfCorte(c.corte.id)}">
                                 <div class="row">

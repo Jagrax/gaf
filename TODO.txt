@@ -41,7 +41,7 @@ PENDIENTES DEL 10/04/2019
     la idea seria que, por ejemplo, solo con poner "12" me salten todas las cosas que tengan "12" en la composición del titulo,
     sin discriminar mayúsculas o minusculas, simil buscador de google. Y ademas pone buscador en el inicio que no esta, sino tengo que entrar siempre a cortes
 
-*   Perfil de los talleres
+(/) Perfil de los talleres
     Agregar un pop-up con los cortes que tiene en produccion dicho taller, según los talles que le asigne a cada uno, en cada corte.
     Por Ejemplo: entro a Alberto y me aparece la linea de asignado de talle de cada corte que el tenga.
 
@@ -53,9 +53,16 @@ Mejorar cuadro superior de edición de corte, no se como decirle pero esa parte 
 aparecen algunas lineas en el aire que quedan mal, revisalo es una cosa de diseño sobre todo,
 en el usuario de deposito es aun peor que en el que manejamos mi viejo y yo, habría que terminar de estetizar un toque la pagina en general,
 pero sobre todo esas lineas que quedan mal y los campos que quedan en ingles también.
+CONCREATAMENTE PARA EL USUARIO DEPOSITO (SE ven los labels pero no los inputs)
 
-*Cuando se crea un corte, la parte que pregunta la cantidad de proyectos esta mal, hay que cambiarla, en lugar de eso dame una opción directa que cree la cantidad de talles que yo quiero, en lugar de hacer el calculo de 2 en 2. Por ejemplo: Cuantos talles tiene el corte? y yo pongo directamente 6, GENERAR TALLES. Después cada campo se edita manualmente, lo que se llenaria automaticamente seria la cantidad, haciendo una division automatica segun la cantidad ya cargada y el estado, si esta en producción que se ponga GAF genericamente como taller, despues lo cambio cualquier cosa, y si se pone sin asignar, nada.
+*Cuando se crea un corte, la parte que pregunta la cantidad de proyectos esta mal, hay que cambiarla, en lugar de eso dame una opción directa que cree la cantidad de talles que yo quiero,
+en lugar de hacer el calculo de 2 en 2.
+Por ejemplo: Cuantos talles tiene el corte? y yo pongo directamente 6, GENERAR TALLES.
+Después cada campo se edita manualmente, lo que se llenaria automaticamente seria la cantidad, haciendo una division automatica segun la cantidad ya cargada y el estado,
+si esta en producción que se ponga GAF genericamente como taller, despues lo cambio cualquier cosa, y si se pone sin asignar, nada.
 A esto también hay que agregar una opción para sacar talles, porque hoy por hoy si llego a tener que sacar un talle tengo que borrar todo y volver a agregar el corte desde Cero.
+
+* Por defecto, si el corte esta "En Produccion", asignar automaticamente los talles a GAF
 
 (/) Titulo de los cortes
     Para que se vea mejor estaría bueno que se separe en 2 renglones:
@@ -63,6 +70,13 @@ A esto también hay que agregar una opción para sacar talles, porque hoy por ho
     - El segundo con la cantidad de prendas, fecha de alta, y fecha de ultimo vencimiento (esto ultimo un poco mas alejado para que las fechas no esten pegadas y sea facil de leer).
     (?) Preguntarle a Fran si la propuesta que hice le parece bien
 
-(/) Lo de Hoja de corte que era para adjuntar un archivo a cada corte, hay que terminarlo.
+* Lo de Hoja de corte que era para adjuntar un archivo a cada corte, hay que terminarlo.
+  Los archivso van a ser generalmente Excels -> Ver de abrirlos en vistaprevia tipo Gmail o Hotmail
+  Que se puedan adjuntar mas de 1
 
 (?) Cuando se crean cortes hay algunos errores y en la parte de pagos también hay varios. Si tenes tiempo después revisalo, aunque seguramente necesites que te los especifique, lo puedo hacer después con mas tiempo.
+
+25/06
+En el buscador, al limpiarlo (value = '') hacer que busque nuevamente asi vuelve a mostrar todos los datos
+
+Poner el calendario en uan seccion OTROS

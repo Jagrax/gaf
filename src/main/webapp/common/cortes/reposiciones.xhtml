@@ -30,7 +30,8 @@
                     <ui:repeat value="#{reposicionesController.cortesCerradosConDeuda}" var="c" >
                         <p:panel toggleable="#{not empty corteList.getTallesOfCorte(c.id)}" collapsed="true" styleClass="panel panel-primary margin-bottom">
                             <f:facet name="header">
-                                <span class="status-ball bg-#{corteList.getColorForCorte(c)} bg-#{corteList.getColorForCorte(c)}-gradient" title="#{commonController.getEstadoById(c.estadoId).name}"/>#{corteList.generateCorteLabelForPanel(c)}
+                                <span class="status-ball bg-#{corteList.getColorForCorte(c)} bg-#{corteList.getColorForCorte(c)}-gradient" title="#{commonController.getEstadoById(c.estadoId).name}"/>
+                                <h:outputText value="#{fn:replace(corteList.generateCorteLabelForPanel(c),'\\n','&lt;br/&gt;')}" escape="false"/>
                             </f:facet>
                             <f:facet name="actions">
                                 <p:commandButton action="#{historyController.markCorteAsInProcess(c)}" update="@form" icon="fa fa-undo" styleClass="btn-block" style="float: right" title="Marcar corte como no finalizado"/>
