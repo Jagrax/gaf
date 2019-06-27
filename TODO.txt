@@ -80,3 +80,10 @@ A esto también hay que agregar una opción para sacar talles, porque hoy por ho
 En el buscador, al limpiarlo (value = '') hacer que busque nuevamente asi vuelve a mostrar todos los datos
 
 Poner el calendario en uan seccion OTROS
+
+27/06 - OBSERVACIONES DE EMI
+1) Ver de colocar en vez de un botón "Buscar", el componente de Prime Faces: AutoComplete utilizando 'queryDelay' para que busque a partir de los 1000 ms desde que dejo de escribir
+2) Migrar la sección de listado de Cortes un archivo (JsfCommonCorteList.xhtml) y:
+   - Mostrar o no los botones correspondiente al contexto dependiendo del parametro pasado en el tag '<ui:include src=".../JsfCommonCorteList.xhtml"><ui:param name="showEditButton" value="true"/></ui:include>'
+   - Para lo anterio mirar: https://stackoverflow.com/questions/5291181/jsf-1-2-uiinclude-with-parameters
+   - Para incluirlo, el archivo debe ser un <ui:composition/>
