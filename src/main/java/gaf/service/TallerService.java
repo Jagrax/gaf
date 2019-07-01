@@ -5,6 +5,7 @@ import gaf.entity.Taller;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
+import javax.persistence.TypedQuery;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -34,5 +35,11 @@ public class TallerService {
 
     public Taller findById(Integer id) {
         return em.find(Taller.class, id);
+    }
+
+    public Taller findByName(String name) {
+        TypedQuery<Taller> query = em.createQuery("SELECT t FROM Taller t WHERE t.name = :name", Taller.class);
+        query.setParameter("name", name);
+        return query.getSingleResult();
     }
 }

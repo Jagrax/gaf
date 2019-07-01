@@ -62,7 +62,7 @@ Después cada campo se edita manualmente, lo que se llenaria automaticamente ser
 si esta en producción que se ponga GAF genericamente como taller, despues lo cambio cualquier cosa, y si se pone sin asignar, nada.
 A esto también hay que agregar una opción para sacar talles, porque hoy por hoy si llego a tener que sacar un talle tengo que borrar todo y volver a agregar el corte desde Cero.
 
-* Por defecto, si el corte esta "En Produccion", asignar automaticamente los talles a GAF
+(/) Por defecto, si el corte esta "En Produccion", asignar automaticamente los talles a GAF
 
 (/) Titulo de los cortes
     Para que se vea mejor estaría bueno que se separe en 2 renglones:
@@ -71,19 +71,19 @@ A esto también hay que agregar una opción para sacar talles, porque hoy por ho
     (?) Preguntarle a Fran si la propuesta que hice le parece bien
 
 * Lo de Hoja de corte que era para adjuntar un archivo a cada corte, hay que terminarlo.
-  Los archivso van a ser generalmente Excels -> Ver de abrirlos en vistaprevia tipo Gmail o Hotmail
+  Los archivos van a ser generalmente Excels -> Ver de abrirlos en vistaprevia tipo Gmail o Hotmail
   Que se puedan adjuntar mas de 1
 
 (?) Cuando se crean cortes hay algunos errores y en la parte de pagos también hay varios. Si tenes tiempo después revisalo, aunque seguramente necesites que te los especifique, lo puedo hacer después con mas tiempo.
 
 25/06
-En el buscador, al limpiarlo (value = '') hacer que busque nuevamente asi vuelve a mostrar todos los datos
+(/) En el buscador, al limpiarlo (value = '') hacer que busque nuevamente asi vuelve a mostrar todos los datos
 
-Poner el calendario en uan seccion OTROS
+(/) Poner el calendario en una seccion: OTROS
 
 27/06 - OBSERVACIONES DE EMI
-1) Ver de colocar en vez de un botón "Buscar", el componente de Prime Faces: AutoComplete utilizando 'queryDelay' para que busque a partir de los 1000 ms desde que dejo de escribir
-2) Migrar la sección de listado de Cortes un archivo (JsfCommonCorteList.xhtml) y:
+1) (/) Ver de colocar en vez de un botón "Buscar", el componente de Prime Faces: AutoComplete utilizando 'queryDelay' para que busque a partir de los 1000 ms desde que dejo de escribir
+2) (/) Migrar la sección de listado de Cortes un archivo (JsfCommonCorteList.xhtml) y:
    - Mostrar o no los botones correspondiente al contexto dependiendo del parametro pasado en el tag '<ui:include src=".../JsfCommonCorteList.xhtml"><ui:param name="showEditButton" value="true"/></ui:include>'
    - Para lo anterio mirar: https://stackoverflow.com/questions/5291181/jsf-1-2-uiinclude-with-parameters
    - Para incluirlo, el archivo debe ser un <ui:composition/>

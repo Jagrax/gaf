@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets"
-                xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:f="http://xmlns.jcp.org/jsf/core"
-                xmlns:p="http://primefaces.org/ui"
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
                 template="/WEB-INF/templates/default.xhtml">
 
     <ui:define name="head">
@@ -25,51 +26,10 @@
             <f:event listener="#{accessController.checkAccessToPage('WORKER')}" type="preRenderView" />
         </f:metadata>
         <h:form>
-            <div class="box box-primary">
-                <div class="box-header with-border">
-                    <div class="row">
-                        <div class="col-xs-7 col-md-10 col-lg-11"><p:inputText id="name" value="#{corteList.corteName}" styleClass="form-control" placeholder="Buscar corte..."/></div>
-                        <div class="col-xs-5 col-md-2 col-lg-1"><p:commandButton value="Buscar" action="#{corteList.search}" update="@form" icon="fa fa-search" styleClass="btn-block btn-info"/></div>
-                    </div>
-
-                    <p:separator/>
-                    <ui:repeat value="#{corteList.cortes}" var="c" >
-                        <p:panel toggleable="#{not empty corteList.getTallesOfCorte(c.corte.id)}" collapsed="true" styleClass="panel panel-primary margin-bottom">
-                            <f:facet name="header">
-                                <span class="status-ball bg-#{corteList.getColorForCorte(c.corte)} bg-#{corteList.getColorForCorte(c.corte)}-gradient" title="#{commonController.getEstadoById(c.corte.estadoId).name}"/>
-                                <h:outputText value="#{fn:replace(c.frontEndLabel,'\\n','&lt;br/&gt;')}" escape="false"/>
-                            </f:facet>
-                            <ui:fragment rendered="#{not empty corteList.getTallesOfCorte(c.corte.id)}">
-                                <div class="row">
-                                    <div class="col-sm-2 col-xs-4 text-center"><b>Taller</b></div>
-                                    <div class="col-sm-1 col-xs-2 text-center"><b>Talle</b></div>
-                                    <div class="col-sm-1 col-xs-2 text-center"><b>Cantidad</b></div>
-                                    <div class="col-sm-2 hidden-xs text-center"><b>Vencimiento</b></div>
-                                    <div class="col-sm-2 hidden-xs text-center"><b>Comentarios</b></div>
-                                    <div class="col-sm-2 col-xs-2 text-center"><b>Estado</b></div>
-                                    <div class="col-sm-2 col-xs-2 text-center"><b>Fecha de finalización</b></div>
-                                </div>
-                            </ui:fragment>
-                            <ui:repeat value="#{corteList.getTallesOfCorte(c.corte.id)}" var="talle">
-                                <div class="row">
-                                    <div class="col-sm-2 col-xs-4"><h:outputText rendered="#{not empty talle.tallerId}" value="#{commonController.getTallerById(talle.tallerId).name}"/></div>
-                                    <div class="col-sm-1 col-xs-2 text-center">#{talle.size}</div>
-                                    <div class="col-sm-1 col-xs-2 text-center">#{talle.quantity}</div>
-                                    <div class="col-sm-2 hidden-xs text-center">
-                                        <h:outputText value="#{talle.secondDueDate}">
-                                            <f:convertDateTime pattern="dd/MM/yyyy"/>
-                                        </h:outputText>
-                                    </div>
-                                    <div class="col-sm-2 hidden-xs text-center">#{talle.comments}</div>
-                                    <div class="col-sm-2 col-xs-2 text-center">#{commonController.getEstadoById(talle.estadoId).name}</div>
-                                    <div class="col-sm-2 col-xs-2 text-center"><h:outputText value="#{talle.finalizationDate}"><f:convertDateTime type="date" pattern="dd/MM/yyyy"/></h:outputText></div>
-                                </div>
-                            </ui:repeat>
-                        </p:panel>
-                    </ui:repeat>
-                    <h:panelGroup rendered="#{empty corteList.cortes}">No hay cortes en proceso</h:panelGroup>
-                </div>
-            </div>
+            <ui:include src="../cortes/CommonCorteList.xhtml">
+                <ui:param name="showFilter" value="true"/>
+                <ui:param name="showCortesNotFinished" value="true"/>
+            </ui:include>
         </h:form>
     </ui:define>
 

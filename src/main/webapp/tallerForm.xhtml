@@ -5,8 +5,8 @@
                 template="/WEB-INF/templates/default.xhtml">
 
     <ui:define name="title">
-        Taller form
-    </ui:define>
+        Edición de Taller
+    </ui:define>gene
 
     <ui:define name="body">
         <f:metadata>
@@ -84,45 +84,14 @@
                         <div class="ui-g-6"><p:inputText id="secondaryPhone" value="#{tallerForm.taller.secondaryPhone}"/></div>
                     </div>
 
-                    <p:separator rendered="#{not empty tallerForm.cortes}"/>
+                    <p:separator rendered="#{not empty cortesController.getCortesWithTallesInTaller(tallerForm.id)}"/>
 
-                    <h:outputText style="font-size:2rem" rendered="#{not empty tallerForm.cortes}" value="Perfil"/>
+                    <h:outputText style="font-size:2rem" rendered="#{not empty cortesController.getCortesWithTallesInTaller(tallerForm.id)}" value="Perfil"/>
 
-                    <ui:repeat value="#{tallerForm.cortes}" var="c">
-                        <p:panel toggleable="#{not empty corteList.getTallesOfCorte(c.corte.id)}" collapsed="true" styleClass="panel panel-primary">
-                            <f:facet name="header">
-                                <span class="status-ball bg-#{corteList.getColorForCorte(c.corte)} bg-#{corteList.getColorForCorte(c.corte)}-gradient" title="#{commonController.getEstadoById(c.corte.estadoId).name}"/>
-                                <h:outputText value="#{fn:replace(c.frontEndLabel,'\\n','&lt;br/&gt;')}" escape="false"/>
-                            </f:facet>
-                            <ui:fragment rendered="#{not empty corteList.getTallesOfCorte(c.corte.id)}">
-                                <div class="row">
-                                    <div class="col-sm-2 col-xs-4 text-center"><b>Taller</b></div>
-                                    <div class="col-sm-1 col-xs-2 text-center"><b>Talle</b></div>
-                                    <div class="col-sm-1 col-xs-2 text-center"><b>Cantidad</b></div>
-                                    <div class="col-sm-2 hidden-xs text-center"><b>Vencimiento</b></div>
-                                    <div class="col-sm-2 hidden-xs text-center"><b>Comentarios</b></div>
-                                    <div class="col-sm-2 col-xs-2 text-center"><b>Estado</b></div>
-                                    <div class="col-sm-2 col-xs-2 text-center"><b>Fecha de finalización</b></div>
-                                </div>
-                            </ui:fragment>
-                            <ui:repeat value="#{corteList.getTallesOfCorte(c.corte.id)}" var="talle">
-                                <div class="row">
-                                    <div class="col-sm-2 col-xs-4"><h:outputText rendered="#{not empty talle.tallerId}" value="#{commonController.getTallerById(talle.tallerId).name}"/></div>
-                                    <div class="col-sm-1 col-xs-2 text-center">#{talle.size}</div>
-                                    <div class="col-sm-1 col-xs-2 text-center">#{talle.quantity}</div>
-                                    <div class="col-sm-2 hidden-xs text-center">
-                                        <h:outputText value="#{talle.secondDueDate}">
-                                            <f:convertDateTime pattern="dd/MM/yyyy"/>
-                                        </h:outputText>
-                                    </div>
-                                    <div class="col-sm-2 hidden-xs text-center">#{talle.comments}</div>
-                                    <div class="col-sm-2 col-xs-2 text-center">#{commonController.getEstadoById(talle.estadoId).name}</div>
-                                    <div class="col-sm-2 col-xs-2 text-center"><h:outputText value="#{talle.finalizationDate}"><f:convertDateTime type="date" pattern="dd/MM/yyyy"/></h:outputText></div>
-                                </div>
-                            </ui:repeat>
-                        </p:panel>
-                        <p:spacer height="5"/>
-                    </ui:repeat>
+                    <ui:include src="common/cortes/CommonCorteList.xhtml">
+                        <ui:param name="showCortesWithTallesInThisTaller" value="true"/>
+                        <ui:param name="tallerFormTallerId" value="#{tallerForm.id}"/>
+                    </ui:include>
                 </div>
             </div>
 
@@ -133,8 +102,5 @@
                                  icon="fa fa-close"/>
             </p:confirmDialog>
         </h:form>
-
-
     </ui:define>
-
 </ui:composition>

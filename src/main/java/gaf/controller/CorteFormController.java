@@ -214,9 +214,9 @@ public class CorteFormController {
     }
 
     public void generateTalles() {
-        log.info("Entrando a generarTalles()");
         calcularCantTalles();
         if (isValidaData()) {
+            Taller gaf = tallerService.findByName("GAF");
             if (isMultiProyect) {
                 // Si no tengo talles aun, los genero desde cero
                 if (CollectionUtils.isEmpty(talles)) {
@@ -230,6 +230,7 @@ public class CorteFormController {
                         talle.setEstadoId(corte.getEstadoId());
                         talle.setFirstDueDate(firstDueDate);
                         talle.setSecondDueDate(secondDueDate);
+                        if (corte.getEstadoId().equals(Estados.CORTE_EN_PRODUCCION.getId()) && gaf != null) talle.setTallerId(gaf.getId());
                         talles.add(talle);
                     }
                 } else {
@@ -247,6 +248,7 @@ public class CorteFormController {
                             talle.setEstadoId(corte.getEstadoId());
                             talle.setFirstDueDate(firstDueDate);
                             talle.setSecondDueDate(secondDueDate);
+                            if (corte.getEstadoId().equals(Estados.CORTE_EN_PRODUCCION.getId()) && gaf != null) talle.setTallerId(gaf.getId());
                             talles.add(talle);
                         }
                     }
