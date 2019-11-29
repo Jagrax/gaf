@@ -32,7 +32,7 @@ public class LoginFormController {
         Operator operator = operatorService.findByUsername(username);
         if (operator != null) {
             if (securityManager.login(operator, password)) {
-                Faces.redirect("common/dashboard/dashboard.jsf");
+                Faces.redirect("corteList.jsf");
             } else {
                 message = "La contraseña es incorrecta";
             }

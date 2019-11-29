@@ -27,16 +27,29 @@
         <h:form>
             <div class="box box-primary">
                 <div class="box-header with-border">
+                    <div class="row">
+                        <div class="col-xs-6 col-sm-10">
+                            <p:inputText id="name" value="#{historyController.searchValue}" styleClass="form-control" placeholder="Buscar corte...">
+                                <p:ajax event="keyup" delay="1000" listener="#{historyController.search}" update="@form" process="@this"/>
+                            </p:inputText>
+                        </div>
+                        <div class="col-xs-6 col-sm-2">
+                            <p:commandButton action="#{historyController.search}" update="@form" icon="fa fa-search" value="Buscar" styleClass="btn-block btn-info"/>
+                        </div>
+                    </div>
+
+                    <p:separator/>
+
                     <ui:repeat value="#{historyController.cortesFinalizados}" var="c" >
-                        <p:panel toggleable="#{not empty corteList.getTallesOfCorte(c.id)}" collapsed="true" styleClass="panel panel-primary margin-bottom">
+                        <p:panel toggleable="#{not empty cortesController.getTallesOfCorte(c.corte.id)}" collapsed="true" styleClass="panel panel-primary margin-bottom">
                             <f:facet name="header">
-                                <span class="status-ball bg-#{corteList.getColorForCorte(c)} bg-#{corteList.getColorForCorte(c)}-gradient" title="#{commonController.getEstadoById(c.estadoId).name}"/>
-                                <h:outputText value="#{fn:replace(cortesController.generateCorteLabelForPanel(c),'\\n','&lt;br/&gt;')}" escape="false"/>
+                                <span class="status-ball bg-#{cortesController.getColorForCorte(c.corte)} bg-#{cortesController.getColorForCorte(c.corte)}-gradient" title="#{commonController.getEstadoById(c.corte.estadoId).name}"/>
+                                <h:outputText value="#{fn:replace(cortesController.generateCorteLabelForPanel(c.corte),'\\n','&lt;br/&gt;')}" escape="false"/>
                             </f:facet>
                             <f:facet name="actions">
-                                <p:commandButton action="#{historyController.markCorteAsInProcess(c)}" update="@form" icon="fa fa-undo" styleClass="btn-block" style="float: right" title="Marcar corte como no finalizado"/>
+                                <p:commandButton action="#{historyController.markCorteAsInProcess(c.corte)}" update="@form" icon="fa fa-undo" styleClass="btn-block" style="float: right" title="Marcar corte como no finalizado"/>
                             </f:facet>
-                            <ui:fragment rendered="#{not empty corteList.getTallesOfCorte(c.id)}">
+                            <ui:fragment rendered="#{not empty cortesController.getTallesOfCorte(c.corte.id)}">
                                 <div class="row">
                                     <div class="col-sm-2 col-xs-4 text-center"><b>Taller</b></div>
                                     <div class="col-sm-2 col-xs-2 text-center"><b>Talle</b></div>
@@ -46,7 +59,7 @@
                                     <div class="col-sm-2 col-xs-4 text-center"><b>Estado</b></div>
                                 </div>
                             </ui:fragment>
-                            <ui:repeat value="#{corteList.getTallesOfCorte(c.id)}" var="talle">
+                            <ui:repeat value="#{cortesController.getTallesOfCorte(c.corte.id)}" var="talle">
                                 <div class="row">
                                     <div class="col-sm-2 col-xs-4"><h:outputText rendered="#{not empty talle.tallerId}" value="#{commonController.getTallerById(talle.tallerId).name}"/></div>
                                     <div class="col-sm-2 col-xs-2 text-center">#{talle.size}</div>
