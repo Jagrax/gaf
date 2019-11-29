@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>ar.com.gaf</groupId>
     <artifactId>gaf</artifactId>
-    <version>1.2</version>
+    <version>1.2.1</version>
     <packaging>war</packaging>
     <name>GAF</name>
     <description>Sistema para la gestion de talleres y cortes para la empresa GAF de Francisco Saccomano</description>
@@ -69,6 +69,14 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
+
+    <repositories>
+        <repository>
+            <id>GroupDocsJavaAPI</id>
+            <name>GroupDocs Java API</name>
+            <url>http://repository.groupdocs.com/repo/</url>
+        </repository>
+    </repositories>
 
     <dependencies>
 
@@ -229,7 +237,11 @@
             <scope>provided</scope>
         </dependency>
 
-
+        <dependency>
+            <groupId>com.groupdocs</groupId>
+            <artifactId>groupdocs-viewer</artifactId>
+            <version>19.11</version>
+        </dependency>
     </dependencies>
 
     <build>

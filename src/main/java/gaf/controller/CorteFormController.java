@@ -1,9 +1,6 @@
 package gaf.controller;
 
-import gaf.entity.Attachment;
-import gaf.entity.Corte;
-import gaf.entity.Talle;
-import gaf.entity.Taller;
+import gaf.entity.*;
 import gaf.service.AttachService;
 import gaf.service.CorteService;
 import gaf.service.TalleService;
@@ -398,6 +395,12 @@ public class CorteFormController {
 
             FacesMessage message = new FacesMessage("Listo!", "El archivo " + fileUploadName + " se cargo correctamente");
             FacesContext.getCurrentInstance().addMessage(null, message);
+        }
+    }
+
+    public void checkTalleStatus(Talle talle) {
+        if (talle.getTallerId() != null && talle.getEstadoId().equals(Estados.CORTE_SIN_ASIGNAR.getId())) {
+            talle.setEstadoId(Estados.CORTE_EN_PRODUCCION.getId());
         }
     }
 }

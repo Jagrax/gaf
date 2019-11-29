@@ -142,13 +142,14 @@
 
                             <p:column headerText="Comentarios" width="10%"><p:inputText id="talle#{talle.id}Comments" value="#{talle.comments}" autocomplete="off"/></p:column>
                             <p:column headerText="Estado" width="20%">
-                                <p:selectOneMenu id="talle#{talle.id}Estado" value="#{talle.estadoId}" required="true">
+                                <p:selectOneMenu id="talleEstado" value="#{talle.estadoId}" required="true">
                                     <f:selectItem itemLabel="Seleccione un estado" itemValue="#{null}" />
                                     <f:selectItems value="#{commonController.lstCortesAllEstados}" var="e" itemLabel="#{e.name}" itemValue="#{e.id}"/>
                                 </p:selectOneMenu>
                             </p:column>
                             <p:column headerText="Taller" width="20%">
-                                <p:selectOneMenu id="talle#{talle.id}Taller" value="#{talle.tallerId}">
+                                <p:selectOneMenu id="talle#{talle.id}Taller" value="#{talle.tallerId}" filter="true" filterMatchMode="contains">
+                                    <p:ajax listener="#{corteForm.checkTalleStatus(talle)}" process="@this" update="talleEstado"/>
                                     <f:selectItem itemLabel="Seleccione un taller" itemValue="#{null}" />
                                     <f:selectItems value="#{commonController.lstAllTalleres}" var="t" itemLabel="#{t.name}" itemValue="#{t.id}"/>
                                 </p:selectOneMenu>
