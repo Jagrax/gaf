@@ -46,6 +46,7 @@ public class CorteFormController {
     private Integer id;
     private Corte corte;
     private List<Talle> talles;
+    private List<Talle> tallesToRemove;
     private int cantTalles;
 
     private Date firstDueDate;
@@ -71,6 +72,7 @@ public class CorteFormController {
         }
 
         isMultiProyect = corte.getFromSize() != null && corte.getToSize() != null;
+        tallesToRemove = new ArrayList<>();
     }
 
     public Integer getId() {
@@ -179,6 +181,10 @@ public class CorteFormController {
                 }
                 talleService.update(t);
             }
+
+            for (Talle t : tallesToRemove) {
+                talleService.delete(t);
+            }
             msg = "corte.update";
         }
         updateTalleresStatus();
@@ -211,16 +217,18 @@ public class CorteFormController {
     }
 
     public void generateTalles() {
+        calcularCantTalles();
         if (isValidaData()) {
             Taller gaf = tallerService.findByName("GAF");
             if (isMultiProyect) {
                 // Si no tengo talles aun, los genero desde cero
                 if (CollectionUtils.isEmpty(talles)) {
                     // Tengo que calcular la cantidad de proyectos a generar
-                    for (int n = 0; n < cantTalles; n++) {
+                    for (Integer n = corte.getFromSize().intValue(); n <= corte.getToSize(); n += 2) {
                         Talle talle = new Talle();
                         talle.setQuantity(corte.getClothesQuantity() / cantTalles);
                         talle.setClothesDelivered(0);
+                        talle.setSize(n.toString());
                         talle.setCorteId(corte.getId());
                         talle.setEstadoId(corte.getEstadoId());
                         talle.setFirstDueDate(firstDueDate);
@@ -325,7 +333,6 @@ public class CorteFormController {
         }
 
         if (isMultiProyect) {
-            /*
             if (corte.getFromSize() == null || corte.getFromSize() < 1) {
                 addDetailMessage("corte.error.fromSizeInvalid", FacesMessage.SEVERITY_ERROR);
                 isValidData = false;
@@ -334,7 +341,6 @@ public class CorteFormController {
                 addDetailMessage("corte.error.toSizeInvalid", FacesMessage.SEVERITY_ERROR);
                 isValidData = false;
             }
-             */
         }
 
         // VALIDACION DE PROYECTOS/TALLES
@@ -402,5 +408,10 @@ public class CorteFormController {
         if (talle.getTallerId() != null && talle.getEstadoId().equals(Estados.CORTE_SIN_ASIGNAR.getId())) {
             talle.setEstadoId(Estados.CORTE_EN_PRODUCCION.getId());
         }
+    }
+
+    public void deleteTalle(Talle talle) {
+        tallesToRemove.add(talle);
+        talles.remove(talle);
     }
 }

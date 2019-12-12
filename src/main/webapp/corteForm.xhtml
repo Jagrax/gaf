@@ -38,7 +38,7 @@
                                          update="@form" rendered="#{corteForm.isNew()}" resetValues="true"/>
                         <p:spacer width="5" rendered="#{not corteForm.isNew()}"/>
 
-                        <p:commandButton value="Eliminar taller" action="#{corteForm.remove}" process="@this"
+                        <p:commandButton value="Eliminar corte" action="#{corteForm.remove}" process="@this"
                                          rendered="#{not corteForm.isNew()}" icon="fa fa-trash"
                                          styleClass="btn-danger">
                             <f:setPropertyActionListener value="true"
@@ -101,7 +101,9 @@
 
                         <div class="ui-g-4"><p:outputLabel for="multiProyect" value="¿Cuántos proyectos va a tener?"/></div>
                         <h:panelGroup id="labelsRow" styleClass="ui-g-8 no-padding">
-                            <h:panelGroup layout="block" styleClass="ui-g-12"><p:outputLabel for="tallesQuantity" value="Cantidad de talles"/></h:panelGroup>
+                            <h:panelGroup layout="block" rendered="#{not corteForm.multiProyect}" styleClass="ui-g-12"><p:outputLabel for="tallesQuantity" value="Cantidad de talles"/></h:panelGroup>
+                            <h:panelGroup layout="block" rendered="#{corteForm.multiProyect}" styleClass="ui-g-6"><p:outputLabel for="fromSize" value="Desde el talle"/></h:panelGroup>
+                            <h:panelGroup layout="block" rendered="#{corteForm.multiProyect}" styleClass="ui-g-6"><p:outputLabel for="toSize" value="Hasta el talle"/></h:panelGroup>
                         </h:panelGroup>
 
                         <div class="ui-g-4">
@@ -112,7 +114,9 @@
                             </p:selectOneRadio>
                         </div>
                         <h:panelGroup id="inputsRow" styleClass="ui-g-6 no-padding">
-                            <h:panelGroup layout="block" styleClass="ui-g-12"><p:inputNumber id="tallesQuantity" value="#{corteForm.cantTalles}" decimalPlaces="0" required="true" autocomplete="off"/></h:panelGroup>
+                            <h:panelGroup layout="block" rendered="#{not corteForm.multiProyect}" styleClass="ui-g-12"><p:inputNumber id="tallesQuantity" value="#{corteForm.cantTalles}" decimalPlaces="0" required="true" autocomplete="off"/></h:panelGroup>
+                            <h:panelGroup layout="block" rendered="#{corteForm.multiProyect}" styleClass="ui-g-6"><p:inputNumber id="fromSize" value="#{corteForm.corte.fromSize}" decimalPlaces="0" required="true" autocomplete="off"/></h:panelGroup>
+                            <h:panelGroup layout="block" rendered="#{corteForm.multiProyect}" styleClass="ui-g-6"><p:inputNumber id="toSize" value="#{corteForm.corte.toSize}" decimalPlaces="0" required="true" autocomplete="off"/></h:panelGroup>
                         </h:panelGroup>
                         <div class="ui-g-2">
                             <p:commandButton value="Generar talles" action="#{corteForm.generateTalles}" update="@form" icon="fa fa-check" styleClass="btn-success"/>
@@ -121,7 +125,15 @@
                         <div class="ui-g-12"><p:outputLabel for="comments" value="Comentarios"/></div>
                         <div class="ui-g-12"><p:inputTextarea id="comments" value="#{corteForm.corte.comments}" rows="3"/></div>
 
-                        <p:dataTable value="#{corteForm.talles}" var="talle" rendered="#{not empty corteForm.talles or corteForm.talles.size() > 0}" reflow="true">
+                        <p:dataTable value="#{corteForm.talles}" var="talle" rendered="#{not empty corteForm.talles or corteForm.talles.size() > 0}" reflow="true" id="tallesTable">
+                            <p:column width="5%">
+                                <p:commandButton action="#{corteForm.deleteTalle(talle)}" update="tallesTable" icon="fa fa-trash" title="Eliminar talle" styleClass="btn-danger">
+                                    <f:setPropertyActionListener value="true"
+                                                                 target="#{facesContext.externalContext.flash.keepMessages}"/>
+                                    <p:confirm header="Usted esta a punto elimiar el talle" message="¿Está seguro?" icon="ui-icon-danger"/>
+                                </p:commandButton>
+                            </p:column>
+
                             <p:column headerText="Talle" width="10%">
                                 <p:inputNumber id="talle#{talle.id}Size" value="#{talle.size}" required="true" decimalPlaces="0" autocomplete="off"/>
                             </p:column>
