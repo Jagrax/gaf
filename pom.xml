@@ -4,10 +4,10 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>ar.com.gaf</groupId>
     <artifactId>gaf</artifactId>
-    <version>1.2.1</version>
+    <version>1.2.2</version>
     <packaging>war</packaging>
     <name>GAF</name>
-    <description>Sistema para la gestion de talleres y cortes para la empresa GAF de Francisco Saccomano</description>
+    <description>Sistema para la gestion de talleres y cortes para la empresa GAF de Francisco Daniel Saccomano</description>
 
     <url>http://wildfly.org</url>
     <licenses>
@@ -271,6 +271,7 @@
                     <source>8</source>
                     <target>8</target>
                 </configuration>
+                <version>3.1</version>
             </plugin>
         </plugins>
     </build>
